@@ -1,0 +1,24 @@
+{
+  "name": "@jable/deprecated",
+  "version": "1.0.1",
+  "description": "",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpamp/jable-deprecated.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cpamp/jable-deprecated/issues"
+  },
+  "homepage": "https://github.com/cpamp/jable-deprecated#readme",
+  "devDependencies": {
+    "@types/node": "^7.0.29"
+  }
+}
