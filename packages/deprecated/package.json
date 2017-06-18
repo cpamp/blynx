@@ -1,23 +1,25 @@
 {
   "name": "@jable/deprecated",
   "version": "1.0.1",
-  "description": "",
+  "description": "Deprecated class and method decorators",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable-deprecated.git"
+    "url": "git+https://github.com/cpamp/jable.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "deprecated", "warning", "log", "loggin", "class", "method", "decorator", "@DeprecatedClass", "@DeprecatedMethod"
+  ],
+  "author": "Clint Pamperin",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable-deprecated/issues"
+    "url": "https://github.com/cpamp/jable/issues"
   },
-  "homepage": "https://github.com/cpamp/jable-deprecated#readme",
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/#readme",
   "devDependencies": {
     "@types/node": "^7.0.29"
   }

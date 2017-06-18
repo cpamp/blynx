@@ -5,20 +5,21 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "prepublish": "tsc"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable-test.git"
+    "url": "git+https://github.com/cpamp/jable.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "test", "decorator", "testing", "@TestClass", "@TestMethod"
+  ],
+  "author": "Clint Pamperin",
+  "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable-test/issues"
+    "url": "https://github.com/cpamp/jable/issues"
   },
-  "homepage": "https://github.com/cpamp/jable-test#readme",
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/test#readme",
   "devDependencies": {
     "@types/node": "^7.0.29"
   },

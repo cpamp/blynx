@@ -1,6 +1,6 @@
 {
-  "name": "@jable/logging",
-  "version": "1.0.2",
+  "name": "@jable/strict-types",
+  "version": "1.0.0",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -12,18 +12,15 @@
     "url": "git+https://github.com/cpamp/jable.git"
   },
   "keywords": [
-    "decorator", "logging", "log", "error", "@Log", "@LogError"
+    "type", "safe", "strict", "runtime", "safety", "@StrictTypes", "decorator"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cpamp/jable/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/logging#readme",
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/strict-types#readme",
   "devDependencies": {
     "@types/node": "^7.0.31"
-  },
-  "dependencies": {
-    "reflect-metadata": "^0.1.10"
   }
 }
