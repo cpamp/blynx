@@ -1,18 +1,24 @@
 {
   "name": "@jable/strict-types",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepublish": "tsc"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cpamp/jable.git"
   },
   "keywords": [
-    "type", "safe", "strict", "runtime", "safety", "@StrictTypes", "decorator"
+    "type",
+    "safe",
+    "strict",
+    "runtime",
+    "safety",
+    "@StrictTypes",
+    "decorator"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",

@@ -1,18 +1,23 @@
 {
   "name": "@jable/inject",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepublish": "tsc"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cpamp/jable.git"
   },
   "keywords": [
-    "inject", "injectable", "dependency", "injection", "decorator", "@Injectable"
+    "inject",
+    "injectable",
+    "dependency",
+    "injection",
+    "decorator",
+    "@Injectable"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",

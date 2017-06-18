@@ -1,18 +1,23 @@
 {
   "name": "@jable/logging",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
-    "prepublish": "tsc"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cpamp/jable.git"
   },
   "keywords": [
-    "decorator", "logging", "log", "error", "@Log", "@LogError"
+    "decorator",
+    "logging",
+    "log",
+    "error",
+    "@Log",
+    "@LogError"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",
