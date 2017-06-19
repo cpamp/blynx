@@ -1,12 +1,17 @@
 (function() {
+    const ease = "ease-in-out";
+    const duration = "0.25s";
+    const marginUnfocused = "1px";
+    const borderUnfocused = "lightgrey solid 1px";
+
     function createTextbox(jbTextbox: HTMLElement) {
         var wrapper = setupWrapper();
         var label = setupLabel(jbTextbox);
         var input = setupInput(jbTextbox, label);
 
         wrapper.appendChild(input);
-        input.insertAdjacentElement('beforeBegin', label);
-        jbTextbox.insertAdjacentElement('beforeBegin', wrapper);
+        input.parentNode.insertBefore(label, input);
+        jbTextbox.parentNode.insertBefore(wrapper, jbTextbox);
     }
 
     function setupWrapper(): HTMLElement {
@@ -32,9 +37,10 @@
         input.onblur = function(e) { blurred(e, label, jbTextbox); };
         input.style.border = "none";
         input.style.background = "transparent";
-        input.style.borderBottom = "lightgrey solid 2px";
-        input.style.marginBottom = "2px";
+        input.style.borderBottom = borderUnfocused;
+        input.style.marginBottom = marginUnfocused;
         input.style.outline = "none";
+        input.style.transition = `border-color ${duration} ${ease}`;
         return input
     }
 
@@ -46,13 +52,14 @@
         label.style.left = "2px";
         label.style.top = "0px";
         label.style.fontSize = "1em";
-        label.style.transition = "all 0.2s ease-in-out";
+        label.style.transition = `all ${duration} ${ease}`;
         return label;
     }
 
     function focused(e: FocusEvent, label: HTMLElement, jbBox: HTMLElement) {
         var target = <HTMLInputElement>e.target;
         target.style.borderBottom = `solid ${jbBox.getAttribute('color') || 'black'} 2px`;
+        target.style.marginBottom = "0px";
         if (target.value === '') {
             label.style.top = "-19px";
             label.style.fontSize = ".85em";
@@ -61,7 +68,8 @@
 
     function blurred(e: FocusEvent, label: HTMLElement, jbBox: HTMLElement) {
         var target = <HTMLInputElement>e.target;
-        target.style.borderBottom = "lightgrey solid 2px";
+        target.style.borderBottom = borderUnfocused;
+        target.style.marginBottom = marginUnfocused;
         if (target.value === '') {
             label.style.top = "0px";
             label.style.fontSize = "1em";
