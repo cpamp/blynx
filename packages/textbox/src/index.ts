@@ -12,7 +12,7 @@
     function setupWrapper(): HTMLElement {
         var wrapper = document.createElement('div');
         wrapper.style.position = "relative";
-        wrapper.style.marginTop = "15px";
+        wrapper.style.marginTop = "20px";
         return wrapper;
     }
 
@@ -43,7 +43,7 @@
         label.appendChild(document.createTextNode(jbTextbox.getAttribute('placeholder') || ''));
         label.style.color = jbTextbox.getAttribute('color') || "black";
         label.style.position = "absolute";
-        label.style.left = "0px";
+        label.style.left = "2px";
         label.style.top = "0px";
         label.style.fontSize = "1em";
         label.style.transition = "all 0.2s ease-in-out";
@@ -54,8 +54,8 @@
         var target = <HTMLInputElement>e.target;
         target.style.borderBottom = `solid ${jbBox.getAttribute('color') || 'black'} 2px`;
         if (target.value === '') {
-            label.style.top = "-14px";
-            label.style.fontSize = ".8em";
+            label.style.top = "-19px";
+            label.style.fontSize = ".85em";
         }
     }
 
