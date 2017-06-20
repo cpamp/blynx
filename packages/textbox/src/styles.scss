@@ -1,0 +1,74 @@
+$defaultColor: #2196F3;
+$lightGrey: #878787;
+$red: #FF1744;
+$inputColor: #1E1E1E;
+$ease: ease-in-out;
+$duration: 0.25s;
+$marginUnfocused: 1px;
+$borderUnfocused: $lightGrey solid 1px;
+$borderError: $red solid 2px;
+$labelTextSize: .85em;
+$helperTextSize: .75em;
+$labelTopFocused: -16px;
+
+.jb-textbox {
+    position: relative;
+    margin-top: 32px;
+
+    .jb-helper {
+        padding-top: 8px;
+        color: $lightGrey;
+        font-size: $helperTextSize;
+    }
+
+    .jb-input {
+        border: none;
+        background: transparent;
+        border-bottom: $borderUnfocused;
+        margin-bottom: $marginUnfocused;
+        outline: none;
+        padding-bottom: 8px;
+        transition: border-color $duration $ease;
+        color: $inputColor;
+    }
+
+    .jb-label {
+        color: $lightGrey;
+        position: absolute;
+        left: 0px;
+        top: 0px;
+        font-size: 1em;
+        transition: all $duration $ease;
+    }
+
+    &.jb-has-value {
+        .jb-label {
+            top: $labelTopFocused;
+            font-size: $labelTextSize;
+        }
+    }
+
+    &.jb-focused {
+        .jb-input {
+            margin-bottom: 0px;
+            border-bottom: solid $defaultColor 2px;
+        }
+
+        .jb-label {
+            top: $labelTopFocused;
+            font-size: $labelTextSize;
+            color: $defaultColor;
+        }
+    }
+
+    &.jb-error {
+        .jb-input {
+            border-bottom: $borderError;
+            margin-bottom: 0px;
+        }
+
+        .jb-helper {
+            color: $red;
+        }
+    }
+}
