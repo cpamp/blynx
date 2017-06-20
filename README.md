@@ -13,3 +13,5 @@ Jable.
 [strict-types](packages/strict-types#readme)
 
 [test](packages/test#readme)
+
+[textbox](packages/textbox#readme)
