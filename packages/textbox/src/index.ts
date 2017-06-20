@@ -1,21 +1,9 @@
 (function() {
-    const defaultColor = '#2196F3';
-    const lightGrey = '#878787';
-    const inputColor = "#1E1E1E";
-    const red = "#FF1744";
-    const ease = "ease-in-out";
-    const duration = "0.25s";
-    const marginUnfocused = "1px";
-    const borderUnfocused = `${lightGrey} solid 1px`;
-    const borderError = `${red} solid 2px`;
-    const labelTextSize = ".85em";
-    const helperTextSize = ".75em";
-
     function createTextbox(jbTextbox: HTMLElement) {
         var wrapper = setupWrapper();
         var label = setupLabel(jbTextbox);
         var helper = setupHelper(jbTextbox);
-        var input = setupInput(jbTextbox, label, helper);
+        var input = setupInput(jbTextbox, label, helper, wrapper);
 
         wrapper.appendChild(input);
         input.parentNode.insertBefore(label, input);
@@ -25,12 +13,11 @@
 
     function setupWrapper(): HTMLElement {
         var wrapper = document.createElement('div');
-        wrapper.style.position = "relative";
-        wrapper.style.marginTop = "28px";
+        wrapper.className = "jb-textbox";
         return wrapper;
     }
 
-    const ignoreAttrs = ['color', 'placeholder'];
+    const ignoreAttrs = ['placeholder'];
 
     function copyAttributes(from: HTMLElement, to: HTMLElement) {
         for (var i = 0; i < from.attributes.length; i++) {
@@ -41,78 +28,56 @@
 
     function setupHelper(jbTextbox: HTMLElement): HTMLElement {
         var helper = document.createElement('div');
-        helper.style.paddingTop = "8px";
-        helper.style.color = lightGrey;
-        helper.style.fontSize = helperTextSize;
+        helper.className = "jb-helper";
         var jbHelper = jbTextbox.getElementsByTagName('helper');
         helper.innerHTML = jbHelper.length > 0 ? jbHelper[0].innerHTML : '&nbsp;';
         return helper;
     }
 
-    function setupInput(jbTextbox: HTMLElement, label: HTMLElement, helper: HTMLElement): HTMLElement {
+    function setupInput(jbTextbox: HTMLElement, label: HTMLElement, helper: HTMLElement, wrapper: HTMLElement): HTMLElement {
         var input = document.createElement('input');
         copyAttributes(jbTextbox, input);
-        input.onfocus = function(e) { focused(e, label, helper, jbTextbox); };
-        input.onblur = function(e) { blurred(e, label, helper, jbTextbox); };
-        input.style.border = "none";
-        input.style.background = "transparent";
-        input.style.borderBottom = borderUnfocused;
-        input.style.marginBottom = marginUnfocused;
-        input.style.outline = "none";
-        input.style.paddingBottom = "8px";
-        input.style.transition = `border-color ${duration} ${ease}`;
-        input.style.color = inputColor;
+        input.onfocus = function(e) { focused(e, wrapper); };
+        input.onblur = function(e) { blurred(e, label, helper, wrapper, jbTextbox); };
+        input.classList.add("jb-input");
         return input
     }
 
     function setupLabel(jbTextbox: HTMLElement): HTMLElement {
         var label = document.createElement('label');
         label.appendChild(document.createTextNode(jbTextbox.getAttribute('placeholder') || ''));
-        label.style.color = lightGrey;
-        label.style.position = "absolute";
-        label.style.left = "0px";
-        label.style.top = "0px";
-        label.style.fontSize = "1em";
-        label.style.transition = `all ${duration} ${ease}`;
+        label.className = "jb-label";
         return label;
     }
 
-    function focused(e: FocusEvent, label: HTMLElement, helper: HTMLElement, jbBox: HTMLElement) {
+    function focused(e: FocusEvent, wrapper: HTMLElement) {
         var target = <HTMLInputElement>e.target;
-        var color = jbBox.getAttribute('color') || defaultColor;
-        target.style.borderBottom = `solid ${color} 2px`;
-        target.style.marginBottom = "0px";
-        label.style.color = color;
-        label.style.top = "-19px";
-        label.style.fontSize = labelTextSize;
+        wrapper.classList.add('jb-focused');
     }
 
-    function blurred(e: FocusEvent, label: HTMLElement, helper: HTMLElement, jbBox: HTMLElement) {
+    function blurred(e: FocusEvent, label: HTMLElement, helper: HTMLElement, wrapper: HTMLElement, jbBox: HTMLElement) {
         var target = <HTMLInputElement>e.target;
-        target.style.borderBottom = borderUnfocused;
-        target.style.marginBottom = marginUnfocused;
+        wrapper.classList.remove('jb-focused');
         if (target.value === '') {
-            label.style.color = lightGrey;
-            label.style.top = "0px";
-            label.style.fontSize = "1em";
+            wrapper.classList.remove('jb-has-value');
+        } else {
+            wrapper.classList.add('jb-has-value');
         }
-        validate(jbBox, target, helper);
+        validate(jbBox, target, helper, wrapper);
     }
 
     function getError(jbTextbox: HTMLElement, type: string) {
         return <HTMLElement>jbTextbox.querySelector(`error[${type}]`);
     }
 
-    function error(jbBox: HTMLElement, input: HTMLInputElement, helper: HTMLElement, type: string) {
+    function error(jbBox: HTMLElement, helper: HTMLElement, wrapper: HTMLElement, type: string) {
         var err = getError(jbBox, type);
         helper.innerHTML = err ? err.innerHTML : 'Invalid Input';
-        input.style.borderBottom = borderError;
-        input.style.marginBottom = "0px";
-        helper.style.color = red;
+        wrapper.classList.add('jb-error');
     }
 
-    function validate(jbBox: HTMLElement, input: HTMLInputElement, helper: HTMLElement) {
-        function e(type: string) { error(jbBox, input, helper, type) }
+    function validate(jbBox: HTMLElement, input: HTMLInputElement, helper: HTMLElement, wrapper: HTMLElement) {
+        function e(type: string) { error(jbBox, helper, wrapper, type) }
         if (input.validity.badInput) {
             return e('bad');
         } else if (input.validity.customError) {
@@ -134,11 +99,16 @@
         } else {
             var jbHelper = jbBox.getElementsByTagName('helper');
             helper.innerHTML = jbHelper.length > 0 ? jbHelper[0].innerHTML : '&nbsp;';
-            helper.style.color = lightGrey;
+            wrapper.classList.remove('jb-error');
         }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
+        var css = '$jb-css-styles';
+        var style = document.createElement('style');
+        style.appendChild(document.createTextNode(css));
+        document.head.appendChild(style);
+
         var jbTextboxes = document.getElementsByTagName('jb-textbox');
         console.log(jbTextboxes.length);
         for (var i = jbTextboxes.length - 1; i >= 0; i--) {
