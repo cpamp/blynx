@@ -4,7 +4,8 @@
   "description": "Fancy Textbox",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc && gulp js:uglify",
+    "prepare": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -19,5 +20,10 @@
   "bugs": {
     "url": "https://github.com/cpamp/jable/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/textbox#readme"
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/textbox#readme",
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^3.0.0"
+  }
 }
