@@ -78,23 +78,24 @@
 
     function validate(jbBox: HTMLElement, input: HTMLInputElement, helper: HTMLElement, wrapper: HTMLElement) {
         function e(type: string) { error(jbBox, helper, wrapper, type) }
-        if (input.validity.badInput) {
+        var v = input.validity;
+        if (v.badInput) {
             return e('bad');
-        } else if (input.validity.customError) {
+        } else if (v.customError) {
             return e('custom');
-        } else if (input.validity.valueMissing) {
+        } else if (v.valueMissing) {
             return e('required');
-        } else if (input.validity.patternMismatch) {
+        } else if (v.patternMismatch) {
             return e('pattern');
-        } else if (input.validity.rangeOverflow) {
+        } else if (v.rangeOverflow) {
             return e('max');
-        } else if (input.validity.rangeUnderflow) {
+        } else if (v.rangeUnderflow) {
             return e('min');
-        } else if (input.validity.stepMismatch) {
+        } else if (v.stepMismatch) {
             return e('step');
-        } else if (input.validity.tooLong) {
+        } else if (v.tooLong) {
             return e('maxlength');
-        } else if (input.validity.typeMismatch) {
+        } else if (v.typeMismatch) {
             return e('type');
         } else {
             var jbHelper = jbBox.getElementsByTagName('helper');

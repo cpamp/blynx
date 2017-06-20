@@ -1,3 +1,7 @@
 body {
     background-color: black;
 }
+
+.jb-textbox input.jb-input {
+    background: blue;
+}

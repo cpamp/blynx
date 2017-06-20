@@ -9,10 +9,11 @@ $borderUnfocused: $lightGrey solid 1px;
 $borderError: $red solid 2px;
 $labelTextSize: .85em;
 $helperTextSize: .75em;
+$labelTopFocused: -16px;
 
 .jb-textbox {
     position: relative;
-    margin-top: 28px;
+    margin-top: 32px;
 
     .jb-helper {
         padding-top: 8px;
@@ -42,7 +43,7 @@ $helperTextSize: .75em;
 
     &.jb-has-value {
         .jb-label {
-            top: -19px;
+            top: $labelTopFocused;
             font-size: $labelTextSize;
         }
     }
@@ -54,7 +55,7 @@ $helperTextSize: .75em;
         }
 
         .jb-label {
-            top: -19px;
+            top: $labelTopFocused;
             font-size: $labelTextSize;
             color: $defaultColor;
         }
