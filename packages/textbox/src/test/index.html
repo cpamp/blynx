@@ -15,7 +15,13 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <jb-textbox type="password" color="red" placeholder="Password" required></jb-textbox>
-        <jb-textbox type="text" color="#1E90FF" placeholder="Email" pattern="a-zA-Z"></jb-textbox>
+        <jb-textbox type="password" color="red" placeholder="Password" required>
+            <helper>Enter secret password</helper>
+            <error required>Password is required</error>
+        </jb-textbox>
+        <jb-textbox type="text" color="#1E90FF" placeholder="Email" pattern="a-zA-Z">
+            <helper>Enter your email here</helper>
+            <error required></error>
+        </jb-textbox>
     </body>
 </html>
