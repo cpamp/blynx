@@ -47,6 +47,9 @@
         var label = document.createElement('label');
         label.appendChild(document.createTextNode(jbTextbox.getAttribute('placeholder') || ''));
         label.className = "jb-label";
+
+        var name = jbTextbox.getAttribute('name');
+        if (name) label.setAttribute('for', name);
         return label;
     }
 
