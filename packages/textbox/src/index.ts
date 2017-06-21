@@ -37,8 +37,8 @@
     function setupInput(jbTextbox: HTMLElement, label: HTMLElement, helper: HTMLElement, wrapper: HTMLElement): HTMLElement {
         var input = document.createElement('input');
         copyAttributes(jbTextbox, input);
-        input.onfocus = function(e) { focused(e, wrapper); };
-        input.onblur = function(e) { blurred(e, label, helper, wrapper, jbTextbox); };
+        input.addEventListener('focus', function(e) { focused(e, wrapper); });
+        input.addEventListener('blur', function(e) { blurred(e, label, helper, wrapper, jbTextbox); });
         input.classList.add("jb-input");
         return input
     }
