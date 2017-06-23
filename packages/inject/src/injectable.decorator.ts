@@ -46,7 +46,7 @@ function setupNewConstructorPrototype(originalConstructor: Function, newConstruc
  * @param {Function} constructor Constructor to inject into
  * @returns {Function} New constructor
  */
-export function Inject(options: IInjectableOptions, constructor: Function) {
+function Inject(options: IInjectableOptions, constructor: Function) {
     var metadata = Reflect.getMetadata(ParamTypes, constructor);
     if (metadata != null) {
         var params = getParams(options.exclude, metadata);
