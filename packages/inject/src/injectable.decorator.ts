@@ -53,6 +53,14 @@ function Inject(options: IInjectableOptions, constructor: Function) {
         var newConstructor = getNewConstructor(constructor, params);
         setupNewConstructorPrototype(constructor, newConstructor);
 
+        var newMetadata = [];
+        for (let meta of metadata) {
+            if ((<any>options.exclude)[getName(meta)] === true) {
+                newMetadata.push(meta);
+            }
+        }
+        Reflect.defineMetadata(ParamTypes, newMetadata, newConstructor);
+
         return <any>newConstructor;
     } else {
         return <any>constructor;
