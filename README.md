@@ -16,4 +16,4 @@ Jable.
 
 [test](packages/test#readme)
 
-[textbox](packages/textbox#readme)
+[web-components](packages/web-components#readme)

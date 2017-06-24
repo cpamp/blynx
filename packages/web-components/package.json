@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/cpamp/jable/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/textbox#readme",
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/web-components#readme",
   "devDependencies": {
     "@types/node": "^8.0.2",
     "awesome-typescript-loader": "^3.1.3",
