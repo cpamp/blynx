@@ -2,6 +2,7 @@ var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
+    devtool: 'source-map',
     output: {
         path: __dirname + '/dist/bundle',
         filename: '[name].bundle.js',
@@ -38,9 +39,10 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['app']
         }),
-        //new webpack.optimize.UglifyJsPlugin(),
+        //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
+        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
-            template: 'src/test/index.html'
+            template: 'src/example.html'
         })
     ]
 };

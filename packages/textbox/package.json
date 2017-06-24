@@ -1,10 +1,10 @@
 {
   "name": "@jable/textbox",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Fancy Textbox",
   "main": "./dist/index.js",
   "scripts": {
-    "build": "tsc && gulp js:uglify",
+    "build": "webpack",
     "prepare": "npm run build"
   },
   "repository": {
@@ -30,7 +30,8 @@
     "sass-loader": "^6.0.6",
     "to-string-loader": "^1.1.5",
     "typescript": "^2.3.4",
-    "webpack": "^3.0.0"
+    "webpack": "^3.0.0",
+    "webpack-bundle-analyzer": "^2.8.2"
   },
   "dependencies": {
     "@jable/browser-component": "^1.0.4"
