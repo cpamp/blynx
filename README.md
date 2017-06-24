@@ -4,6 +4,8 @@ Jable.
 
 ## Packages
 
+[browser-component](packages/browser-component#readme)
+
 [deprecated](packages/deprecated#readme)
 
 [inject](packages/inject#readme)
