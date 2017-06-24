@@ -1,0 +1,29 @@
+{
+  "name": "@jable/browser-component",
+  "version": "1.0.0",
+  "description": "Browser Components",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "prepare": "tsc"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpamp/jable.git"
+  },
+  "keywords": [],
+  "author": "Clint Pamperin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cpamp/jable/issues"
+  },
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/browser-component#readme",
+  "devDependencies": {
+    "@types/node": "^8.0.1"
+  },
+  "dependencies": {
+    "@jable/inject": "^1.0.5",
+    "es6-symbol": "^3.1.1",
+    "reflect-metadata": "^0.1.10"
+  }
+}
