@@ -11,17 +11,23 @@ $labelTextSize: .85em;
 $helperTextSize: .75em;
 $labelTopFocused: -16px;
 
-.jb-textbox {
+jb-textbox {
+    display: block;
     position: relative;
     margin-top: 32px;
 
-    .jb-helper {
+    jb-error {
+        display: none;
+    }
+
+    jb-helper {
+        display: block;
         padding-top: 8px;
         color: $lightGrey;
         font-size: $helperTextSize;
     }
 
-    .jb-input {
+    input {
         border: none;
         background: transparent;
         border-bottom: $borderUnfocused;
@@ -32,7 +38,7 @@ $labelTopFocused: -16px;
         color: $inputColor;
     }
 
-    .jb-label {
+    label {
         color: $lightGrey;
         position: absolute;
         left: 0px;
@@ -42,19 +48,19 @@ $labelTopFocused: -16px;
     }
 
     &.jb-has-value {
-        .jb-label {
+        label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
         }
     }
 
     &.jb-focused {
-        .jb-input {
+        input {
             margin-bottom: 0px;
             border-bottom: solid $defaultColor 2px;
         }
 
-        .jb-label {
+        label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
             color: $defaultColor;
@@ -62,12 +68,12 @@ $labelTopFocused: -16px;
     }
 
     &.jb-error {
-        .jb-input {
+        input {
             border-bottom: $borderError;
             margin-bottom: 0px;
         }
 
-        .jb-helper {
+        jb-helper {
             color: $red;
         }
     }

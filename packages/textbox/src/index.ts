@@ -1,124 +1,101 @@
-(function() {
-    function createTextbox(jbTextbox: HTMLElement) {
-        var wrapper = setupWrapper();
-        var label = setupLabel(jbTextbox);
-        var helper = setupHelper(jbTextbox);
-        var input = setupInput(jbTextbox, label, helper, wrapper);
 
-        wrapper.appendChild(input);
-        input.parentNode.insertBefore(label, input);
-        input.parentNode.insertBefore(helper, input.nextSibling);
-        jbTextbox.parentNode.insertBefore(wrapper, jbTextbox);
+import { Component } from '@jable/browser-component';
+
+@Component({
+    selector: 'jb-textbox',
+    styles: require('./styles.scss')
+})
+export class JbTextbox {
+    protected jbHelper: HTMLElement;
+    protected jbErrors: NodeListOf<HTMLElement>;
+    protected jbLabel: HTMLElement;
+    protected jbInput: HTMLInputElement;
+    protected helperHtml: string;
+
+    constructor(protected jbTextbox: HTMLElement) {
+        this.jbHelper = <HTMLElement>jbTextbox.querySelector('jb-helper');
+        this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
+        this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
+        this.jbInput = <HTMLInputElement>jbTextbox.querySelector('input');
+        this.setupLabel();
+        this.setupHelper();
+        this.setupInput();
     }
 
-    function setupWrapper(): HTMLElement {
-        var wrapper = document.createElement('div');
-        wrapper.className = "jb-textbox";
-        return wrapper;
+    setupHelper() {
+        if (this.jbHelper == null) {
+            this.jbHelper = document.createElement('jb-helper');
+        }
+        this.jbHelper.innerHTML = this.jbHelper.innerHTML == '' ? '&nbsp;' : this.jbHelper.innerHTML;
+        this.helperHtml = this.jbHelper.innerHTML;
     }
 
-    const ignoreAttrs = ['placeholder'];
+    setupInput() {
+        this.jbInput.addEventListener('focus', (e) => { this.focused(e); });
+        this.jbInput.addEventListener('blur', (e) => { this.blurred(e); });
+    }
 
-    function copyAttributes(from: HTMLElement, to: HTMLElement) {
-        for (var i = 0; i < from.attributes.length; i++) {
-            let attr = from.attributes.item(i);
-            if (ignoreAttrs.indexOf(attr.nodeName) === -1) to.setAttribute(attr.nodeName, attr.nodeValue);
+    setupLabel() {
+        if (this.jbLabel == null) {
+            this.jbLabel = document.createElement('label');
+            this.jbLabel.appendChild(document.createTextNode(this.jbTextbox.getAttribute('placeholder') || ''));
+            var name = this.jbTextbox.getAttribute('name');
+            if (name) this.jbLabel.setAttribute('for', name);
         }
     }
 
-    function setupHelper(jbTextbox: HTMLElement): HTMLElement {
-        var helper = document.createElement('div');
-        helper.className = "jb-helper";
-        var jbHelper = jbTextbox.getElementsByTagName('helper');
-        helper.innerHTML = jbHelper.length > 0 ? jbHelper[0].innerHTML : '&nbsp;';
-        return helper;
-    }
-
-    function setupInput(jbTextbox: HTMLElement, label: HTMLElement, helper: HTMLElement, wrapper: HTMLElement): HTMLElement {
-        var input = document.createElement('input');
-        copyAttributes(jbTextbox, input);
-        input.addEventListener('focus', function(e) { focused(e, wrapper); });
-        input.addEventListener('blur', function(e) { blurred(e, label, helper, wrapper, jbTextbox); });
-        input.classList.add("jb-input");
-        return input
-    }
-
-    function setupLabel(jbTextbox: HTMLElement): HTMLElement {
-        var label = document.createElement('label');
-        label.appendChild(document.createTextNode(jbTextbox.getAttribute('placeholder') || ''));
-        label.className = "jb-label";
-
-        var name = jbTextbox.getAttribute('name');
-        if (name) label.setAttribute('for', name);
-        return label;
-    }
-
-    function focused(e: FocusEvent, wrapper: HTMLElement) {
+    focused(e: FocusEvent) {
         var target = <HTMLInputElement>e.target;
-        wrapper.classList.add('jb-focused');
+        this.jbTextbox.classList.add('jb-focused');
     }
 
-    function blurred(e: FocusEvent, label: HTMLElement, helper: HTMLElement, wrapper: HTMLElement, jbBox: HTMLElement) {
+    blurred(e: FocusEvent) {
         var target = <HTMLInputElement>e.target;
-        wrapper.classList.remove('jb-focused');
+        this.jbTextbox.classList.remove('jb-focused');
         if (target.value === '') {
-            wrapper.classList.remove('jb-has-value');
+            this.jbTextbox.classList.remove('jb-has-value');
         } else {
-            wrapper.classList.add('jb-has-value');
+            this.jbTextbox.classList.add('jb-has-value');
         }
-        validate(jbBox, target, helper, wrapper);
+        this.validate();
     }
 
-    function getError(jbTextbox: HTMLElement, type: string) {
-        return <HTMLElement>jbTextbox.querySelector(`error[${type}]`);
+    getError(type: string): HTMLElement {
+        for (var i = 0; i < this.jbErrors.length; i++) {
+            if (this.jbErrors.item(i).hasAttribute(type)) return this.jbErrors.item(i);
+        }
+        return null;
     }
 
-    function error(jbBox: HTMLElement, helper: HTMLElement, wrapper: HTMLElement, type: string) {
-        var err = getError(jbBox, type);
-        helper.innerHTML = err ? err.innerHTML : 'Invalid Input';
-        wrapper.classList.add('jb-error');
+    error(type: string) {
+        var err = this.getError(type);
+        this.jbHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
+        this.jbTextbox.classList.add('jb-error');
     }
 
-    function validate(jbBox: HTMLElement, input: HTMLInputElement, helper: HTMLElement, wrapper: HTMLElement) {
-        function e(type: string) { error(jbBox, helper, wrapper, type) }
-        var v = input.validity;
+    validate() {
+        var v = this.jbInput.validity;
         if (v.badInput) {
-            return e('bad');
+            return this.error('bad');
         } else if (v.customError) {
-            return e('custom');
+            return this.error('custom');
         } else if (v.valueMissing) {
-            return e('required');
+            return this.error('required');
         } else if (v.patternMismatch) {
-            return e('pattern');
+            return this.error('pattern');
         } else if (v.rangeOverflow) {
-            return e('max');
+            return this.error('max');
         } else if (v.rangeUnderflow) {
-            return e('min');
+            return this.error('min');
         } else if (v.stepMismatch) {
-            return e('step');
+            return this.error('step');
         } else if (v.tooLong) {
-            return e('maxlength');
+            return this.error('maxlength');
         } else if (v.typeMismatch) {
-            return e('type');
+            return this.error('type');
         } else {
-            var jbHelper = jbBox.getElementsByTagName('helper');
-            helper.innerHTML = jbHelper.length > 0 ? jbHelper[0].innerHTML : '&nbsp;';
-            wrapper.classList.remove('jb-error');
+            this.jbHelper.innerHTML = this.helperHtml;
+            this.jbTextbox.classList.remove('jb-error');
         }
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-        var css = '$jb-css-styles';
-        var style = document.createElement('style');
-        style.appendChild(document.createTextNode(css));
-        document.head.appendChild(style);
-
-        var jbTextboxes = document.getElementsByTagName('jb-textbox');
-        console.log(jbTextboxes.length);
-        for (var i = jbTextboxes.length - 1; i >= 0; i--) {
-            let jb = <HTMLElement>jbTextboxes[i];
-            createTextbox(jb);
-            jb.parentNode.removeChild(<any>jb);
-        }
-    });
-})();
+}
