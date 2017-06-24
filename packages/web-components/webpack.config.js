@@ -15,7 +15,7 @@ module.exports = {
     },
 
     entry: {
-        'app': './src/index.ts'
+        'components': './src/index.ts'
     },
 
     resolve: {
@@ -37,7 +37,7 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['app']
+            name: ['components']
         }),
         //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
         new webpack.optimize.UglifyJsPlugin(),

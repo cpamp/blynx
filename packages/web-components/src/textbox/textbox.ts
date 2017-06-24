@@ -6,13 +6,13 @@ import { Component } from '@jable/browser-component';
     styles: require('./styles.scss')
 })
 export class JbTextbox {
-    protected jbHelper: HTMLElement;
-    protected jbErrors: NodeListOf<HTMLElement>;
-    protected jbLabel: HTMLElement;
-    protected jbInput: HTMLInputElement;
-    protected helperHtml: string;
+    private jbHelper: HTMLElement;
+    private jbErrors: NodeListOf<HTMLElement>;
+    private jbLabel: HTMLElement;
+    private jbInput: HTMLInputElement;
+    private helperHtml: string;
 
-    constructor(protected jbTextbox: HTMLElement) {
+    constructor(private jbTextbox?: HTMLElement) {
         this.jbHelper = <HTMLElement>jbTextbox.querySelector('jb-helper');
         this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
         this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
@@ -22,7 +22,7 @@ export class JbTextbox {
         this.setupInput();
     }
 
-    setupHelper() {
+    private setupHelper() {
         if (this.jbHelper == null) {
             this.jbHelper = document.createElement('jb-helper');
         }
@@ -30,12 +30,12 @@ export class JbTextbox {
         this.helperHtml = this.jbHelper.innerHTML;
     }
 
-    setupInput() {
+    private setupInput() {
         this.jbInput.addEventListener('focus', (e) => { this.focused(e); });
         this.jbInput.addEventListener('blur', (e) => { this.blurred(e); });
     }
 
-    setupLabel() {
+    private setupLabel() {
         if (this.jbLabel == null) {
             this.jbLabel = document.createElement('label');
             this.jbLabel.appendChild(document.createTextNode(this.jbTextbox.getAttribute('placeholder') || ''));
@@ -44,12 +44,12 @@ export class JbTextbox {
         }
     }
 
-    focused(e: FocusEvent) {
+    private focused(e: FocusEvent) {
         var target = <HTMLInputElement>e.target;
         this.jbTextbox.classList.add('jb-focused');
     }
 
-    blurred(e: FocusEvent) {
+    private blurred(e: FocusEvent) {
         var target = <HTMLInputElement>e.target;
         this.jbTextbox.classList.remove('jb-focused');
         if (target.value === '') {
@@ -60,20 +60,20 @@ export class JbTextbox {
         this.validate();
     }
 
-    getError(type: string): HTMLElement {
+    private getError(type: string): HTMLElement {
         for (var i = 0; i < this.jbErrors.length; i++) {
             if (this.jbErrors.item(i).hasAttribute(type)) return this.jbErrors.item(i);
         }
         return null;
     }
 
-    error(type: string) {
+    private error(type: string) {
         var err = this.getError(type);
         this.jbHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
         this.jbTextbox.classList.add('jb-error');
     }
 
-    validate() {
+    private validate() {
         var v = this.jbInput.validity;
         if (v.badInput) {
             return this.error('bad');

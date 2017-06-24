@@ -1,10 +1,11 @@
 {
-  "name": "@jable/textbox",
+  "name": "@jable/web-components",
   "version": "1.0.0",
-  "description": "Fancy Textbox",
-  "main": "./dist/index.js",
+  "description": "Fancy jable web components",
+  "main": "./dist/packages/index.js",
+  "types": "./dist/packages/index.d.ts",
   "scripts": {
-    "build": "webpack",
+    "build": "tsc && webpack",
     "prepare": "npm run build"
   },
   "repository": {
