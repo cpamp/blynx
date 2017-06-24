@@ -3,6 +3,6 @@ import { ComponentRegistry } from "./ComponentRegistry";
 
 export { Component }
 
-document.addEventListener('DOMConentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
     ComponentRegistry.init();
 });

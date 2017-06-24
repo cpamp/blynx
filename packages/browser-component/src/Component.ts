@@ -28,11 +28,9 @@ export function Component(options: IOptions) {
             var elements: NodeListOf<Element> = document.getElementsByTagName(options.selector);
             
             var params: any[] = [];
-            for (let element in elements) {
-                (() => {
-                    params[htmlElementIndex] = element;
-                    constructor.apply(this, params);
-                })();
+            for (var i = 0; i < elements.length; i++) {
+                params[htmlElementIndex] = elements.item(i);
+                new (Function.prototype.bind.apply(constructor, [null, ...params]))();
             }
         }
 
