@@ -35,6 +35,6 @@
     "webpack-bundle-analyzer": "^2.8.2"
   },
   "dependencies": {
-    "@jable/browser-component": "^1.0.4"
+    "@jable/browser-component": "^1.0.5"
   }
 }
