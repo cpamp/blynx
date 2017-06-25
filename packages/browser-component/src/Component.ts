@@ -25,7 +25,7 @@ export function Component(options: IOptions) {
         }
 
         var newConstructor = function() {
-            var elements: NodeListOf<Element> = document.getElementsByTagName(options.selector);
+            var elements: NodeListOf<Element> = document.querySelectorAll(options.selector);
             
             var params: any[] = [];
             for (var i = 0; i < elements.length; i++) {
