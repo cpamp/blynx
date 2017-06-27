@@ -40,7 +40,7 @@ module.exports = {
             name: ['components']
         }),
         //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
+        //new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
             template: 'src/example.html'
         })

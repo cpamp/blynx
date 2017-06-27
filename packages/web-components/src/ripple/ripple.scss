@@ -1,0 +1,40 @@
+$ripple-duration: 1000ms;
+$ripple-color: #FFF;
+[jb-ripple] {
+    position: relative;
+    overflow: hidden;
+    .jb-ripple-container {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+
+        -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
+
+        .jb-ripple {
+            position: absolute;
+            border-radius: 100%;
+            background-color: $ripple-color;
+            opacity: 0.2;
+            width: 0;
+            height: 0;
+
+            -webkit-transition: -webkit-transform $ripple-duration ease-out, opacity $ripple-duration ease-out;
+            transition: transform $ripple-duration ease-out, opacity $ripple-duration ease-out;
+
+            -webkit-transform: scale(0);
+            transform: scale(0);
+
+            &.jb-ripple-held {
+                opacity: 0.2;
+                -webkit-transform: scale(1);
+                transform: scale(1);
+            }
+
+            &.jb-ripple-done {
+                opacity: 0.0;
+            }
+        }
+    }
+}
