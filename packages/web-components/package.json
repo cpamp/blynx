@@ -1,6 +1,6 @@
 {
   "name": "@jable/web-components",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Fancy jable web components",
   "main": "./dist/packages/index.js",
   "types": "./dist/packages/index.d.ts",
@@ -35,6 +35,6 @@
     "webpack-bundle-analyzer": "^2.8.2"
   },
   "dependencies": {
-    "@jable/browser-component": "^1.0.5"
+    "@jable/browser-component": "^1.0.6"
   }
 }
