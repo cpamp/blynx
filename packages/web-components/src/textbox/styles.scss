@@ -1,12 +1,12 @@
-$defaultColor: #2196F3;
-$lightGrey: #878787;
-$red: #FF1744;
-$inputColor: #1E1E1E;
-$ease: ease-in-out;
-$duration: 0.25s;
+$jb-textbox-focused-color: #2196F3 !default;
+$jb-textbox-label-color: #878787 !default;
+$jb-textbox-error: #FF1744 !default;
+$jb-textbox-color: #1E1E1E !default;
+$jb-textbox-label-ease: ease-in-out !default;
+$jb-textbox-ease: 0.25s !default;
 $marginUnfocused: 1px;
-$borderUnfocused: $lightGrey solid 1px;
-$borderError: $red solid 2px;
+$borderUnfocused: $jb-textbox-label-color solid 1px;
+$borderError: $jb-textbox-error solid 2px;
 $labelTextSize: .85em;
 $helperTextSize: .75em;
 $labelTopFocused: -16px;
@@ -23,7 +23,7 @@ jb-textbox {
     jb-helper {
         display: block;
         padding-top: 8px;
-        color: $lightGrey;
+        color: $jb-textbox-label-color;
         font-size: $helperTextSize;
     }
 
@@ -34,17 +34,17 @@ jb-textbox {
         margin-bottom: $marginUnfocused;
         outline: none;
         padding-bottom: 8px;
-        transition: border-color $duration $ease;
-        color: $inputColor;
+        transition: border-color $jb-textbox-ease $jb-textbox-label-ease;
+        color: $jb-textbox-color;
     }
 
     label {
-        color: $lightGrey;
+        color: $jb-textbox-label-color;
         position: absolute;
         left: 0px;
         top: 0px;
         font-size: 1em;
-        transition: all $duration $ease;
+        transition: all $jb-textbox-ease $jb-textbox-label-ease;
     }
 
     &.jb-has-value {
@@ -57,13 +57,13 @@ jb-textbox {
     &.jb-focused {
         input {
             margin-bottom: 0px;
-            border-bottom: solid $defaultColor 2px;
+            border-bottom: solid $jb-textbox-focused-color 2px;
         }
 
         label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
-            color: $defaultColor;
+            color: $jb-textbox-focused-color;
         }
     }
 
@@ -74,7 +74,7 @@ jb-textbox {
         }
 
         jb-helper {
-            color: $red;
+            color: $jb-textbox-error;
         }
     }
 }
