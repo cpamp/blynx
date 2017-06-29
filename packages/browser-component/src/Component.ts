@@ -26,13 +26,16 @@ export function Component(options: IOptions) {
 
         var newConstructor = function() {
             var elements: NodeListOf<Element> = document.querySelectorAll(options.selector);
-            
+
             var params: any[] = [];
             for (var i = 0; i < elements.length; i++) {
-                params[htmlElementIndex] = elements.item(i);
-                new (Function.prototype.bind.apply(constructor, [null, ...params]))();
+                if (ComponentRegistry.componentElements.indexOf(elements[i]) === -1) {
+                    params[htmlElementIndex] = elements.item(i);
+                    new (Function.prototype.bind.apply(constructor, [null, ...params]))();
+                    ComponentRegistry.componentElements.push(elements[i]);
+                }
             }
-        }
+        };
 
         newConstructor.prototype = Object.create(constructor.prototype);
         newConstructor.prototype.constructor = constructor;
