@@ -1,11 +1,13 @@
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
 
+const min = process.env.NODE_ENV === 'production';
+
 module.exports = {
     devtool: 'source-map',
     output: {
         path: __dirname + '/dist/bundle',
-        filename: '[name].bundle.js',
+        filename: min ? '[name].bundle.min.js' : '[name].bundle.js',
         chunkFilename: '[id].chunk.js'
     },
 
@@ -15,7 +17,7 @@ module.exports = {
     },
 
     entry: {
-        'components': './src/index.ts'
+        'jable-components': './src/index.ts'
     },
 
     resolve: {
@@ -37,12 +39,11 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['components']
+            name: ['jable-components']
         }),
         //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
-        new webpack.optimize.UglifyJsPlugin(),
         new HtmlWebpackPlugin({
-            template: 'src/example.html'
+            template: 'src/example.html',
         })
-    ]
+    ].concat(min ? [new webpack.optimize.UglifyJsPlugin()] : [])
 };
