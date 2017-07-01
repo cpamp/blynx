@@ -31,9 +31,11 @@ export class ComponentRegistry {
     public static init() {
         for (let component of this.components) {
             var css = component[StyleSymbol];
-            var style = document.createElement('style');
-            style.appendChild(document.createTextNode(css));
-            document.head.appendChild(style);
+            if (css) {
+                var style = document.createElement('style');
+                style.appendChild(document.createTextNode(css));
+                document.head.appendChild(style);
+            }
         }
         this.componentInit();
         this.observe();

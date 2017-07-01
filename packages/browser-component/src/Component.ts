@@ -7,7 +7,7 @@ const inject = Injectable({exclude: {HTMLElement: true, Element: true}})
 
 export type IOptions = {
     selector: string;
-    styles: string;
+    styles?: string;
 }
 
 export function Component(options: IOptions) {
