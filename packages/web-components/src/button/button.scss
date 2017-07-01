@@ -1,0 +1,56 @@
+$jb-button-raised-background: #4DD0E1 !default;
+$jb-button-raised-color: #FFF !default;
+$jb-button-raised-background-focus: #00ACC1 !default;
+$jb-button-raised-disabled-background: rgba(0, 0, 0, 0.12) !default;
+$jb-button-raised-disabled-color: rgba(0, 0, 0, 0.3) !default;
+
+[jb-button] {
+    padding-left: 16px;
+    padding-right: 16px;
+    border: none;
+    height: 36px;
+    font-size: 14px;
+    margin: 8px;
+    text-transform: uppercase;
+
+    &:active, &:focus {
+        outline: none;
+    }
+
+    &[jb-button="flat"] {
+
+    }
+
+    &[jb-button="raised"] {
+        box-shadow: 0px 2px 3px #888888;
+        min-width: 88px;
+        border-radius: 2px;
+        background-color: $jb-button-raised-background;
+        color: $jb-button-raised-color;
+        transition: background 250ms ease-in-out, box-shadow 250ms ease-in-out;
+
+        &:hover {
+            cursor: pointer;
+            &:not(.jb-button-active):not([disabled]) {
+                background-color: $jb-button-raised-background-focus;
+            }
+            &[disabled] {
+                cursor: not-allowed;
+            }
+        }
+
+        &.jb-button-active {
+            box-shadow: 0px 6px 10px #888888;
+        }
+
+        &.jb-button-focus:not(.jb-button-active) {
+            background-color: $jb-button-raised-background-focus;
+        }
+
+        &[disabled] {
+            background: $jb-button-raised-disabled-background;
+            color: $jb-button-raised-disabled-color;
+            box-shadow: none;
+        }
+    }
+}
