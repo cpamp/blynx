@@ -45,6 +45,7 @@ jb-textbox {
         top: 0px;
         font-size: 1em;
         transition: all $jb-textbox-ease $jb-textbox-label-ease;
+        cursor: text;
     }
 
     &.jb-has-value {

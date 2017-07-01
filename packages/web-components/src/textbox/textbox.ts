@@ -13,6 +13,7 @@ export class JbTextbox {
         this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
         this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
         this.jbInput = <HTMLInputElement>jbTextbox.querySelector('input');
+        this.jbLabel.addEventListener('click', () => this.jbInput.focus());
         this.setupLabel();
         this.setupHelper();
         this.setupInput();
