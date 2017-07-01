@@ -1,6 +1,8 @@
-$jb-textbox-focused-color: #2196F3 !default;
+@import '../_defaults.scss';
+
+$jb-textbox-focused-color: $jb-primary-color !default;
 $jb-textbox-label-color: #878787 !default;
-$jb-textbox-error: #FF1744 !default;
+$jb-textbox-error: $jb-error-color !default;
 $jb-textbox-color: #1E1E1E !default;
 $jb-textbox-label-ease: ease-in-out !default;
 $jb-textbox-ease: 0.25s !default;
@@ -65,6 +67,12 @@ jb-textbox {
             top: $labelTopFocused;
             font-size: $labelTextSize;
             color: $jb-textbox-focused-color;
+        }
+
+        &.jb-error {
+            label {
+                color: $jb-textbox-error;
+            }
         }
     }
 

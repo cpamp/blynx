@@ -99,7 +99,7 @@ export class JbTextbox {
 
 @Component({
     selector: 'jb-textbox',
-    styles: require('./styles.scss')
+    styles: require('./textbox.scss')
 })
 export class JbTextboxComponent extends JbTextbox {
     constructor(el: HTMLElement) {
