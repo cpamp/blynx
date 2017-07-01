@@ -1,10 +1,6 @@
 
 import { Component } from '@jable/browser-component';
 
-@Component({
-    selector: 'jb-textbox',
-    styles: require('./styles.scss')
-})
 export class JbTextbox {
     private jbHelper: HTMLElement;
     private jbErrors: NodeListOf<HTMLElement>;
@@ -12,7 +8,7 @@ export class JbTextbox {
     private jbInput: HTMLInputElement;
     private helperHtml: string;
 
-    constructor(private jbTextbox?: HTMLElement) {
+    constructor(private jbTextbox: HTMLElement) {
         this.jbHelper = <HTMLElement>jbTextbox.querySelector('jb-helper');
         this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
         this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
@@ -97,5 +93,15 @@ export class JbTextbox {
             this.jbHelper.innerHTML = this.helperHtml;
             this.jbTextbox.classList.remove('jb-error');
         }
+    }
+}
+
+@Component({
+    selector: 'jb-textbox',
+    styles: require('./styles.scss')
+})
+export class JbTextboxComponent extends JbTextbox {
+    constructor(el: HTMLElement) {
+        super(el);
     }
 }

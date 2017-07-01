@@ -1,9 +1,5 @@
 import { Component } from "@jable/browser-component";
 
-@Component({
-    selector: '[jb-ripple]',
-    styles: require('./ripple.scss')
-})
 export class JbRipple {
     private rippleContainer: HTMLElement;
 
@@ -37,6 +33,7 @@ export class JbRipple {
     }
 
     private showRipple(e: MouseEvent) {
+        if (this.jbRipple.hasAttribute('disabled')) return;
         var ripple = this.createRipple(e);
         this.rippleContainer.appendChild(ripple);
         window.setTimeout(function() {
@@ -53,5 +50,15 @@ export class JbRipple {
             }, 650);
         };
         document.addEventListener(releaseEvent, release);
+    }
+}
+
+@Component({
+    selector: '[jb-ripple]',
+    styles: require('./ripple.scss')
+})
+export class JbRippleComponent extends JbRipple {
+    constructor(el: HTMLElement) {
+        super(el)
     }
 }
