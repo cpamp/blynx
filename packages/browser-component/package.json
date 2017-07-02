@@ -1,6 +1,6 @@
 {
   "name": "@jable/browser-component",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "Browser Components",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
@@ -19,10 +19,11 @@
   },
   "homepage": "https://github.com/cpamp/jable/tree/master/packages/browser-component#readme",
   "devDependencies": {
-    "@types/node": "^8.0.1"
+    "@types/node": "^8.0.1",
+    "@types/reflect-metadata": "0.0.5"
   },
   "dependencies": {
-    "@jable/inject": "^1.0.5",
+    "@jable/inject": "^1.0.7",
     "es6-symbol": "^3.1.1",
     "reflect-metadata": "^0.1.10"
   }

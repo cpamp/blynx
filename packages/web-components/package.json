@@ -7,8 +7,10 @@
   "scripts": {
     "build:unbundled": "webpack --config ./webpack.unbundled.config.js",
     "build:bundle": "webpack --config ./webpack.bundle.config.js",
-    "build:package": "tsc -p ./tsconfig.main.json && gulp move-sass",
-    "build:prod": "set NODE_ENV=production&& npm run build:bundle && npm run build:unbundled",
+    "build:unbundled:prod": "webpack --config ./webpack.unbundled.config.js -p",
+    "build:bundle:prod": "webpack --config ./webpack.bundle.config.js -p",
+    "build:package": "gulp move-sass",
+    "build:prod": "set NODE_ENV=production&& npm run build:bundle:prod && npm run build:unbundled:prod",
     "build:all": "npm run build:bundle && npm run build:unbundled && npm run build:package && npm run build:prod",
     "prepare": "npm run build:all"
   },

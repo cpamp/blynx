@@ -4,7 +4,6 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 const min = process.env.NODE_ENV === 'production';
 
 module.exports = {
-    devtool: 'source-map',
     output: {
         path: __dirname + '/dist/bundle',
         filename: min ? '[name].bundle.min.js' : '[name].bundle.js',
@@ -28,7 +27,7 @@ module.exports = {
     module: {
         loaders: [{
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader']
+                loaders: ['awesome-typescript-loader'],
             },
             {
                 test: /\.scss$/,
@@ -46,5 +45,5 @@ module.exports = {
             template: 'src/example.html',
             filename: min ? 'example.bundle.min.html' : 'example.bundle.html'
         })
-    ].concat(min ? [new webpack.optimize.UglifyJsPlugin()] : [])
+    ]
 };

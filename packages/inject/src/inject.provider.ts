@@ -1,4 +1,4 @@
-var Symbol = require('es6-symbol/polyfill');
+var Symbol = require('es6-symbol');
 import { getName } from "./getName";
 import { NameProperty } from "./constants";
 

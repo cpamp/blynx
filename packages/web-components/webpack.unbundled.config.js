@@ -7,7 +7,6 @@ const min = process.env.NODE_ENV === 'production';
 var extractCss = new ExtractTextPlugin('[name].css');
 
 module.exports = {
-    devtool: 'source-map',
     output: {
         path: __dirname + '/dist/bundle',
         filename: min ? '[name].min.js' : '[name].js',
@@ -31,7 +30,7 @@ module.exports = {
     module: {
         loaders: [{
                 test: /\.ts$/,
-                loaders: ['awesome-typescript-loader']
+                loaders: ['awesome-typescript-loader'],
             },
             {
                 test: /\.scss$/,
@@ -50,5 +49,5 @@ module.exports = {
             filename: min ? 'example.min.html' : 'example.html'
         }),
         extractCss
-    ].concat(min ? [new webpack.optimize.UglifyJsPlugin()] : [])
+    ]
 };
