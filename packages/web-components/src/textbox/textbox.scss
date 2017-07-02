@@ -1,17 +1,21 @@
 @import '../_defaults.scss';
 
 $jb-textbox-focused-color: $jb-primary !default;
-$jb-textbox-label-color: #878787 !default;
+$jb-textbox-label-color: $jb-dark-grey-color !default;
 $jb-textbox-error: $jb-error-color !default;
 $jb-textbox-color: #1E1E1E !default;
 $jb-textbox-label-ease: ease-in-out !default;
 $jb-textbox-ease: 0.25s !default;
-$marginUnfocused: 1px;
+$marginUnfocused: -1px;
 $borderUnfocused: $jb-textbox-label-color solid 1px;
 $borderError: $jb-textbox-error solid 2px;
 $labelTextSize: .85em;
 $helperTextSize: .75em;
 $labelTopFocused: -16px;
+
+@mixin getBorder($color) {
+    border-bottom: $color solid 2px;
+}
 
 jb-textbox {
     display: block;
@@ -36,8 +40,18 @@ jb-textbox {
         margin-bottom: $marginUnfocused;
         outline: none;
         padding-bottom: 8px;
-        transition: border-color $jb-textbox-ease $jb-textbox-label-ease;
         color: $jb-textbox-color;
+    }
+
+    .jb-input-border-bottom {
+        display: inline-block;
+        &:after {
+            display: block;
+            content: '';
+            transform: scaleX(0);
+            transition: transform 250ms ease-in-out;
+            @include getBorder($jb-primary);
+        }
     }
 
     label {
@@ -58,11 +72,6 @@ jb-textbox {
     }
 
     &.jb-focused {
-        input {
-            margin-bottom: 0px;
-            border-bottom: solid $jb-textbox-focused-color 2px;
-        }
-
         label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
@@ -74,12 +83,18 @@ jb-textbox {
                 color: $jb-textbox-error;
             }
         }
+
+        .jb-input-border-bottom {
+            &:after, &:before {
+                transform: scaleX(1);
+            }
+        }
     }
 
     &.jb-error {
-        input {
-            border-bottom: $borderError;
-            margin-bottom: 0px;
+        .jb-input-border-bottom:after {
+            @include getBorder($jb-textbox-error);
+            transform: scaleX(1);
         }
 
         jb-helper {

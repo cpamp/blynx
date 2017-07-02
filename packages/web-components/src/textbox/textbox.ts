@@ -25,6 +25,11 @@ export class JbTextbox {
     }
 
     private setupInput() {
+        this.jbTextbox.removeChild(this.jbInput);
+        var borderBottom = document.createElement('span');
+        borderBottom.classList.add('jb-input-border-bottom');
+        borderBottom.appendChild(this.jbInput);
+        this.jbTextbox.insertBefore(borderBottom, this.jbTextbox.firstChild);
         this.jbInput.addEventListener('focus', (e) => { this.focused(e); });
         this.jbInput.addEventListener('blur', (e) => { this.blurred(e); });
     }
