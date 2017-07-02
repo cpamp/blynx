@@ -1,11 +1,11 @@
 {
   "name": "@jable/inject",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "",
-  "main": "./dist/index.js",
-  "types": "./dist/index.d.ts",
+  "main": "./dist/es2015/index.js",
+  "types": "./dist/es2015/index.d.ts",
   "scripts": {
-    "prepare": "tsc"
+    "prepare": "tsc && tsc -p ./tsconfig.commonjs.json"
   },
   "repository": {
     "type": "git",
