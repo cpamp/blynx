@@ -1,5 +1,3 @@
-import { Component } from "@jable/browser-component";
-
 export class JbRipple {
     private rippleContainer: HTMLElement;
 
@@ -50,15 +48,5 @@ export class JbRipple {
             }, 650);
         };
         document.addEventListener(releaseEvent, release);
-    }
-}
-
-@Component({
-    selector: '[jb-ripple]',
-    styles: require('./ripple.scss')
-})
-export class JbRippleComponent extends JbRipple {
-    constructor(el: HTMLElement) {
-        super(el)
     }
 }

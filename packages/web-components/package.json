@@ -2,11 +2,15 @@
   "name": "@jable/web-components",
   "version": "1.0.1",
   "description": "Fancy jable web components",
-  "main": "./dist/main/index.js",
-  "types": "./dist/main/index.d.ts",
+  "main": "./dist/main/main.js",
+  "types": "./dist/main/main.d.ts",
   "scripts": {
-    "build": "webpack && tsc && gulp move-sass && set NODE_ENV=production&& webpack",
-    "prepare": "npm run build"
+    "build:unbundled": "webpack --config ./webpack.unbundled.config.js",
+    "build:bundle": "webpack --config ./webpack.bundle.config.js",
+    "build:package": "tsc -p ./tsconfig.main.json && gulp move-sass",
+    "build:prod": "set NODE_ENV=production&& npm run build:bundle && npm run build:unbundled",
+    "build:all": "npm run build:bundle && npm run build:unbundled && npm run build:package && npm run build:prod",
+    "prepare": "npm run build:all"
   },
   "repository": {
     "type": "git",
@@ -26,6 +30,7 @@
     "@types/node": "^8.0.2",
     "awesome-typescript-loader": "^3.1.3",
     "css-loader": "^0.28.4",
+    "extract-text-webpack-plugin": "^2.1.2",
     "gulp": "^3.9.1",
     "html-webpack-plugin": "^2.28.0",
     "node-sass": "^4.5.3",
@@ -36,6 +41,6 @@
     "webpack-bundle-analyzer": "^2.8.2"
   },
   "dependencies": {
-    "@jable/browser-component": "^1.0.6"
+    "@jable/browser-component": "^1.0.7"
   }
 }

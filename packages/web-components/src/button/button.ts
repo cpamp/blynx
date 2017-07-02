@@ -1,12 +1,10 @@
-import { Component } from "@jable/browser-component/dist";
-import { JbRipple } from "../index";
+import { JbRipple } from "../ripple/ripple";
 
 enum ButtonType {
     Fab,
     Raised,
     Flat
 }
-
 
 export class JbButton {
     private type: ButtonType;
@@ -48,15 +46,5 @@ export class JbButton {
                 break;
         }
         this.jbButton.setAttribute('jb-button', ButtonType[this.type].toLowerCase());
-    }
-}
-
-@Component({
-    selector: '[jb-button]',
-    styles: require('./button.scss')
-})
-export class JbButtonComponent extends JbButton {
-    constructor(el: HTMLElement) {
-        super(el);
     }
 }

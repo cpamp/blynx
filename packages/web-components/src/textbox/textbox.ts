@@ -1,6 +1,3 @@
-
-import { Component } from '@jable/browser-component';
-
 export class JbTextbox {
     private jbHelper: HTMLElement;
     private jbErrors: NodeListOf<HTMLElement>;
@@ -94,15 +91,5 @@ export class JbTextbox {
             this.jbHelper.innerHTML = this.helperHtml;
             this.jbTextbox.classList.remove('jb-error');
         }
-    }
-}
-
-@Component({
-    selector: 'jb-textbox',
-    styles: require('./textbox.scss')
-})
-export class JbTextboxComponent extends JbTextbox {
-    constructor(el: HTMLElement) {
-        super(el);
     }
 }
