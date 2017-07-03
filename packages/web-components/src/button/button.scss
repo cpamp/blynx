@@ -82,6 +82,8 @@ $jb-button-min-width: 88px;
             min-height: 56px;
             max-height: 56px;
             border-radius: 50%;
+            padding: 0;
+            text-align: center;
         }
 
         &:hover:not([disabled]) {
