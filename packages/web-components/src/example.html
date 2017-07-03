@@ -20,7 +20,7 @@
         <!-- Textbox -->
         <jb-textbox>
             <label>Email</label>
-            <input type="email" required>
+            <input type="email" placeholder="example@domain.com" required>
             <jb-helper>Enter your email</jb-helper>
             <jb-error required>Email is required</jb-error>
             <jb-error type>Not a valid email!</jb-error>
@@ -28,9 +28,10 @@
         <div class="jb-dark dark">
             <jb-textbox>
                 <label>Password</label>
-                <input type="password" required>
+                <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" minlength="8" required>
                 <jb-helper>Enter secret password</jb-helper>
                 <jb-error required>Password is required</jb-error>
+                <jb-error minlength>Password must be 8 characters!</jb-error>
             </jb-textbox>
         </div>
         <br>

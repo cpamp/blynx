@@ -10,8 +10,7 @@ export class JbTextbox {
         this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
         this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
         this.jbInput = <HTMLInputElement>jbTextbox.querySelector('input');
-        this.jbLabel.addEventListener('click', () => this.jbInput.focus());
-        this.setupLabel();
+        if (this.jbLabel) this.jbLabel.addEventListener('click', () => this.jbInput.focus());
         this.setupHelper();
         this.setupInput();
     }
@@ -34,24 +33,13 @@ export class JbTextbox {
         this.jbInput.addEventListener('blur', (e) => { this.blurred(e); });
     }
 
-    private setupLabel() {
-        if (this.jbLabel == null) {
-            this.jbLabel = document.createElement('label');
-            this.jbLabel.appendChild(document.createTextNode(this.jbTextbox.getAttribute('placeholder') || ''));
-            var name = this.jbTextbox.getAttribute('name');
-            if (name) this.jbLabel.setAttribute('for', name);
-        }
-    }
-
     private focused(e: FocusEvent) {
-        var target = <HTMLInputElement>e.target;
-        this.jbTextbox.classList.add('jb-focused');
+        this.jbTextbox.classList.add('jb-input-focused');
     }
 
     private blurred(e: FocusEvent) {
-        var target = <HTMLInputElement>e.target;
-        this.jbTextbox.classList.remove('jb-focused');
-        if (target.value === '') {
+        this.jbTextbox.classList.remove('jb-input-focused');
+        if (this.jbInput.value === '') {
             this.jbTextbox.classList.remove('jb-has-value');
         } else {
             this.jbTextbox.classList.add('jb-has-value');
@@ -69,7 +57,7 @@ export class JbTextbox {
     private error(type: string) {
         var err = this.getError(type);
         this.jbHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
-        this.jbTextbox.classList.add('jb-error');
+        this.jbTextbox.classList.add('jb-input-error');
     }
 
     private validate() {
@@ -94,7 +82,7 @@ export class JbTextbox {
             return this.error('type');
         } else {
             this.jbHelper.innerHTML = this.helperHtml;
-            this.jbTextbox.classList.remove('jb-error');
+            this.jbTextbox.classList.remove('jb-input-error');
         }
     }
 }

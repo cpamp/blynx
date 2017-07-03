@@ -1,11 +1,12 @@
 @import '../_defaults.scss';
 
-$jb-textbox-focused-color: $jb-primary !default;
+$jb-textbox-active-color: $jb-primary !default;
 $jb-textbox-label-color: $jb-dark-grey-color !default;
 $jb-textbox-error: $jb-danger !default;
 $jb-textbox-color: #1E1E1E !default;
-$jb-textbox-label-ease: ease-in-out !default;
-$jb-textbox-ease: 0.25s !default;
+$jb-textbox-transition-ease: ease-in-out !default;
+$jb-textbox-transition-duration: 250ms !default;
+
 $marginUnfocused: -1px;
 $borderUnfocused: $jb-textbox-label-color solid 1px;
 $borderError: $jb-textbox-error solid 2px;
@@ -15,6 +16,22 @@ $labelTopFocused: -16px;
 
 @mixin getBorder($color) {
     border-bottom: $color solid 2px;
+}
+
+@mixin placeholderOpacity($opacity) {
+    input::-webkit-input-placeholder {opacity: $opacity}
+    input::-moz-placeholder {opacity: $opacity}
+    input:-moz-placeholder {opacity: $opacity}
+    input:-ms-input-placeholder  {opacity: $opacity}
+    input::placeholder  {opacity: $opacity}
+}
+
+@mixin placeholderTransition($transition) {
+    input::-webkit-input-placeholder {transition: $transition}
+    input::-moz-placeholder {transition: $transition}
+    input:-moz-placeholder {transition: $transition}
+    input:-ms-input-placeholder  {transition: $transition}
+    input::placeholder  {transition: $transition}
 }
 
 jb-textbox {
@@ -33,6 +50,9 @@ jb-textbox {
         font-size: $helperTextSize;
     }
 
+    @include placeholderOpacity(0);
+    @include placeholderTransition(opacity $jb-textbox-transition-duration $jb-textbox-transition-ease);
+
     input {
         border: none;
         background: transparent;
@@ -49,7 +69,7 @@ jb-textbox {
             display: block;
             content: '';
             transform: scaleX(0);
-            transition: transform 250ms ease-in-out;
+            transition: transform $jb-textbox-transition-duration $jb-textbox-transition-ease;
             @include getBorder($jb-primary);
         }
     }
@@ -60,7 +80,7 @@ jb-textbox {
         left: 0px;
         top: 0px;
         font-size: 1em;
-        transition: all $jb-textbox-ease $jb-textbox-label-ease;
+        transition: all $jb-textbox-transition-duration $jb-textbox-transition-ease;
         cursor: text;
     }
 
@@ -71,14 +91,16 @@ jb-textbox {
         }
     }
 
-    &.jb-focused {
+    &.jb-input-focused {
+        @include placeholderOpacity(1);
+
         label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
-            color: $jb-textbox-focused-color;
+            color: $jb-textbox-active-color;
         }
 
-        &.jb-error {
+        &.jb-input-error {
             label {
                 color: $jb-textbox-error;
             }
@@ -91,7 +113,7 @@ jb-textbox {
         }
     }
 
-    &.jb-error {
+    &.jb-input-error {
         .jb-input-border-bottom:after {
             @include getBorder($jb-textbox-error);
             transform: scaleX(1);
