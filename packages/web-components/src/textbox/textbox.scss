@@ -82,6 +82,9 @@ jb-textbox {
         font-size: 1em;
         transition: all $jb-textbox-transition-duration $jb-textbox-transition-ease;
         cursor: text;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     &.jb-has-value {

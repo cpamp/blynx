@@ -13,6 +13,7 @@ export class JbTextbox {
         if (this.jbLabel) this.jbLabel.addEventListener('click', () => this.jbInput.focus());
         this.setupHelper();
         this.setupInput();
+        this.setWidth();
     }
 
     private setupHelper() {
@@ -21,6 +22,12 @@ export class JbTextbox {
         }
         this.jbHelper.innerHTML = this.jbHelper.innerHTML == '' ? '&nbsp;' : this.jbHelper.innerHTML;
         this.helperHtml = this.jbHelper.innerHTML;
+    }
+
+    private setWidth() {
+        console.log(this.jbInput.offsetWidth);
+        if (this.jbLabel) this.jbLabel.style.width = this.jbInput.offsetWidth + 'px';
+        this.jbHelper.style.width = this.jbInput.offsetWidth + 'px';
     }
 
     private setupInput() {
@@ -62,6 +69,11 @@ export class JbTextbox {
 
     private validate() {
         var v = this.jbInput.validity;
+        if ((<any>v).tooShort === void 0) {
+            (<any>v).tooShort = false;
+            if (this.jbInput.hasAttribute('minlength')) (<any>v).tooShort = this.jbInput.value.length < parseInt(this.jbInput.getAttribute('minlength'));
+        }
+
         if (v.badInput) {
             return this.error('bad');
         } else if (v.customError) {
@@ -76,6 +88,8 @@ export class JbTextbox {
             return this.error('min');
         } else if (v.stepMismatch) {
             return this.error('step');
+        } else if ((<any>v).tooShort) {
+            return this.error('minlength')
         } else if (v.tooLong) {
             return this.error('maxlength');
         } else if (v.typeMismatch) {
