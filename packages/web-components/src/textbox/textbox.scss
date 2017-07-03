@@ -19,19 +19,19 @@ $labelTopFocused: -16px;
 }
 
 @mixin placeholderOpacity($opacity) {
-    input::-webkit-input-placeholder {opacity: $opacity}
-    input::-moz-placeholder {opacity: $opacity}
-    input:-moz-placeholder {opacity: $opacity}
-    input:-ms-input-placeholder  {opacity: $opacity}
-    input::placeholder  {opacity: $opacity}
+    &:-moz-placeholder {opacity: $opacity}
+    &:-ms-input-placeholder  {opacity: $opacity}
+    &::-webkit-input-placeholder {opacity: $opacity}
+    &::-moz-placeholder {opacity: $opacity}
+    &::placeholder  {opacity: $opacity}
 }
 
 @mixin placeholderTransition($transition) {
-    input:-moz-placeholder {@include transition($transition);}
-    input:-ms-input-placeholder  {@include transition($transition);}
-    input::-webkit-input-placeholder {@include transition($transition);}
-    input::-moz-placeholder {@include transition($transition);}
-    input::placeholder  {@include transition($transition);}
+    &:-moz-placeholder {@include transition($transition);}
+    &:-ms-input-placeholder  {@include transition($transition);}
+    &::-webkit-input-placeholder {@include transition($transition);}
+    &::-moz-placeholder {@include transition($transition);}
+    &::placeholder  {@include transition($transition);}
 }
 
 jb-textbox {
@@ -50,8 +50,7 @@ jb-textbox {
         font-size: $helperTextSize;
     }
 
-    @include placeholderOpacity(0);
-    @include placeholderTransition(opacity $jb-textbox-transition-duration $jb-textbox-transition-ease);
+    
 
     input {
         border: none;
@@ -61,6 +60,8 @@ jb-textbox {
         outline: none;
         padding-bottom: 8px;
         color: $jb-textbox-color;
+        @include placeholderOpacity(0);
+        @include placeholderTransition(opacity $jb-textbox-transition-duration $jb-textbox-transition-ease);
     }
 
     .jb-input-border-bottom {
@@ -95,7 +96,9 @@ jb-textbox {
     }
 
     &.jb-input-focused {
-        @include placeholderOpacity(1);
+        input {
+            @include placeholderOpacity(1);
+        }
 
         label {
             top: $labelTopFocused;
