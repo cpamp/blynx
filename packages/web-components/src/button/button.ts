@@ -7,10 +7,10 @@ enum ButtonType {
 }
 
 export class JbButton {
-    private type: ButtonType;
+    // private type: ButtonType;
 
     constructor(private jbButton: HTMLElement) {
-        this.setType();
+        // this.setType();
         this.jbButton.setAttribute('jb-ripple', '');
         this.setupButton();
         new JbRipple(this.jbButton);
@@ -32,19 +32,19 @@ export class JbButton {
         });
     }
 
-    private setType() {
-        switch (this.jbButton.getAttribute('jb-button').toLowerCase()) {
-            case ButtonType[ButtonType.Fab].toLowerCase():
-                this.type = ButtonType.Fab;
-                break;
-            case ButtonType[ButtonType.Flat].toLowerCase():
-                this.type = ButtonType.Flat;
-                break;
-            case ButtonType[ButtonType.Raised].toLowerCase():
-            default:
-                this.type = ButtonType.Raised;
-                break;
-        }
-        this.jbButton.setAttribute('jb-button', ButtonType[this.type].toLowerCase());
-    }
+    // private setType() {
+    //     switch (this.jbButton.getAttribute('jb-button').toLowerCase()) {
+    //         case ButtonType[ButtonType.Fab].toLowerCase():
+    //             this.type = ButtonType.Fab;
+    //             break;
+    //         case ButtonType[ButtonType.Flat].toLowerCase():
+    //             this.type = ButtonType.Flat;
+    //             break;
+    //         case ButtonType[ButtonType.Raised].toLowerCase():
+    //         default:
+    //             this.type = ButtonType.Raised;
+    //             break;
+    //     }
+    //     this.jbButton.setAttribute('jb-button', ButtonType[this.type].toLowerCase());
+    // }
 }

@@ -12,6 +12,8 @@ $jb-theme-dark-button-flat-ripple-color: rgba(255, 255, 255, 0.25);
 
 $jb-button-min-width: 88px;
 
+$jb-button-transition-background: background 250ms ease-in-out;
+
 [jb-button] {
     padding-left: 16px;
     padding-right: 16px;
@@ -37,7 +39,7 @@ $jb-button-min-width: 88px;
         background-color: transparent;
         color: $jb-default-color;
         border-radius: 2px;
-        transition: background 250ms ease-in-out;
+        @include transition($jb-button-transition-background);
 
         &:hover:not([disabled]) {
             background-color: $jb-button-flat-active-background;
@@ -68,13 +70,13 @@ $jb-button-min-width: 88px;
         }
     }
 
-    &[jb-button="raised"], &[jb-button="fab"] {
+    &[jb-button="raised"], &[jb-button="fab"], &[jb-button=""] {
         box-shadow: 0px 2px 5px 0 $jb-shadow-color;
         min-width: $jb-button-min-width;
         border-radius: 2px;
         background-color: $jb-default-background;
         color: $jb-default-color;
-        transition: background 250ms ease-in-out, box-shadow 100ms ease-in-out;
+        @include transition($jb-button-transition-background, box-shadow 100ms ease-in-out);
 
         &[jb-button="fab"] {
             min-width: 56px;
@@ -186,7 +188,7 @@ $jb-button-min-width: 88px;
                 color: $jb-theme-dark-disabled-color;
             }
 
-            &[jb-button="raised"], &[jb-button="fab"] {
+            &[jb-button="raised"], &[jb-button="fab"], &[jb-button=""] {
                 background-color: $jb-theme-dark-disabled-background;
                 color: $jb-theme-dark-disabled-color;
             }
