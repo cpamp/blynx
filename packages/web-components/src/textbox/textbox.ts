@@ -25,7 +25,6 @@ export class JbTextbox {
     }
 
     private setWidth() {
-        console.log(this.jbInput.offsetWidth);
         if (this.jbLabel) this.jbLabel.style.width = this.jbInput.offsetWidth + 'px';
         this.jbHelper.style.width = this.jbInput.offsetWidth + 'px';
     }
