@@ -8,9 +8,7 @@ var es2015 = JSON.stringify({presets: [['es2015', {modules: false}]]})
 module.exports = {
     output: {
         path: __dirname + '/dist/bundle',
-        filename: min ? '[name].bundle.min.js' : '[name].bundle.js',
         chunkFilename: '[id].chunk.js',
-        
     },
 
     devServer: {
