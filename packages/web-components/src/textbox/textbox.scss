@@ -2,7 +2,7 @@
 
 $jb-textbox-focused-color: $jb-primary !default;
 $jb-textbox-label-color: $jb-dark-grey-color !default;
-$jb-textbox-error: $jb-error-color !default;
+$jb-textbox-error: $jb-danger !default;
 $jb-textbox-color: #1E1E1E !default;
 $jb-textbox-label-ease: ease-in-out !default;
 $jb-textbox-ease: 0.25s !default;
@@ -20,7 +20,7 @@ $labelTopFocused: -16px;
 jb-textbox {
     display: block;
     position: relative;
-    margin-top: 32px;
+    margin: 32px 8px 8px 8px;
 
     jb-error {
         display: none;
@@ -99,6 +99,14 @@ jb-textbox {
 
         jb-helper {
             color: $jb-textbox-error;
+        }
+    }
+}
+
+.jb-dark {
+    jb-textbox {
+        input {
+            color: $jb-light-grey-color;
         }
     }
 }

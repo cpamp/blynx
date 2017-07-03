@@ -1,15 +1,14 @@
 @import '../_defaults.scss';
 
-$jb-button-raised-background: $jb-primary-background !default;
-$jb-button-raised-color: #FFF !default;
-$jb-button-raised-background-focus: $jb-primary-active-background !default;
 $jb-button-raised-disabled-background: rgba(0, 0, 0, 0.12) !default;
 $jb-button-raised-disabled-color: rgba(0, 0, 0, 0.3) !default;
 
-$jb-button-flat-color: $jb-primary !default;
 $jb-button-flat-disabled-color: rgba(0, 0, 0, 0.3) !default;
-$jb-button-flat-focus-background: $jb-light-grey-color !default;
+$jb-button-flat-active-background: $jb-light-grey-color !default;
 $jb-button-flat-ripple-color: $jb-dark-grey-color !default;
+
+$jb-theme-dark-button-flat-active-background: rgba(255, 255, 255, 0.15);
+$jb-theme-dark-button-flat-ripple-color: rgba(255, 255, 255, 0.25);
 
 $jb-button-min-width: 88px;
 
@@ -36,46 +35,57 @@ $jb-button-min-width: 88px;
     &[jb-button="flat"] {
         min-width: $jb-button-min-width;
         background-color: transparent;
-        color: $jb-button-flat-color;
+        color: $jb-default-color;
         border-radius: 2px;
         transition: background 250ms ease-in-out;
 
         &:hover:not([disabled]) {
-            background-color: $jb-button-flat-focus-background;
+            background-color: $jb-button-flat-active-background;
         }
 
         &.jb-button-focus {
-            background-color: $jb-button-flat-focus-background;
+            background-color: $jb-button-flat-active-background;
         }
 
         &[disabled], &:disabled {
             color: $jb-button-flat-disabled-color;
-            &[jb-dark] {
-                color: $jb-theme-dark-disabled-color;
-            }
         }
 
         .jb-ripple {
             background-color: $jb-button-flat-ripple-color;
         }
-        
-        &[jb-dark] {
-            .jb-ripple {
-                background-color: $jb-theme-dark-ripple-color;
-            }
+
+        &.jb-primary {
+            color: $jb-primary
+        }
+
+        &.jb-warn {
+            color: $jb-warn;
+        }
+
+        &.jb-danger {
+            color: $jb-danger;
         }
     }
 
-    &[jb-button="raised"] {
+    &[jb-button="raised"], &[jb-button="fab"] {
         box-shadow: 0px 2px 5px 0 $jb-shadow-color;
         min-width: $jb-button-min-width;
         border-radius: 2px;
-        background-color: $jb-button-raised-background;
-        color: $jb-button-raised-color;
+        background-color: $jb-default-background;
+        color: $jb-default-color;
         transition: background 250ms ease-in-out, box-shadow 100ms ease-in-out;
 
+        &[jb-button="fab"] {
+            min-width: 56px;
+            max-width: 56px;
+            min-height: 56px;
+            max-height: 56px;
+            border-radius: 50%;
+        }
+
         &:hover:not([disabled]) {
-            background-color: $jb-button-raised-background-focus;
+            background-color: $jb-default-active-background;
         }
 
         &.jb-button-active {
@@ -83,14 +93,98 @@ $jb-button-min-width: 88px;
         }
 
         &.jb-button-focus {
-            background-color: $jb-button-raised-background-focus;
+            background-color: $jb-default-active-background;
         }
 
         &[disabled], &:disabled {
             background: $jb-button-raised-disabled-background;
             color: $jb-button-raised-disabled-color;
             box-shadow: none;
-            &[jb-dark] {
+        }
+
+        .jb-ripple {
+            background-color: $jb-default-ripple-color;
+        }
+
+        &.jb-primary {
+            background-color: $jb-primary-background;
+            color: $jb-primary-color;
+
+            &:hover:not([disabled]) {
+                background-color: $jb-primary-active-background;
+            }
+
+            &.jb-button-focus {
+                background-color: $jb-primary-active-background;
+            }
+
+            .jb-ripple {
+                background-color: $jb-primary-ripple-color;
+            }
+        }
+
+        &.jb-warn {
+            background-color: $jb-warn-background;
+            color: $jb-warn-color;
+
+            &:hover:not([disabled]) {
+                background-color: $jb-warn-active-background;
+            }
+
+            &.jb-button-focus {
+                background-color: $jb-warn-active-background;
+            }
+
+            .jb-ripple {
+                background-color: $jb-warn-ripple-color;
+            }
+        }
+
+        &.jb-danger {
+            background-color: $jb-danger-background;
+            color: $jb-danger-color;
+
+            &:hover:not([disabled]) {
+                background-color: $jb-danger-active-background;
+            }
+
+            &.jb-button-focus {
+                background-color: $jb-danger-active-background;
+            }
+
+            .jb-ripple {
+                background-color: $jb-danger-ripple-color;
+            }
+        }
+    }
+}
+
+.jb-dark {
+    [jb-button] {
+        &[jb-button="flat"] {
+            &:not(.jb-primary):not(.jb-warn):not(.jb-danger):not(:disabled):not([disabled]) {
+                color: $jb-light-grey-color;
+            }
+
+            &:hover:not([disabled]) {
+                background-color: $jb-theme-dark-button-flat-active-background;
+            }
+
+            &.jb-button-focus {
+                background-color: $jb-theme-dark-button-flat-active-background;
+            }
+
+            .jb-ripple {
+                background-color: $jb-theme-dark-button-flat-ripple-color;
+            }
+        }
+
+        &[disabled], &:disabled {
+            &[jb-button="flat"] {
+                color: $jb-theme-dark-disabled-color;
+            }
+
+            &[jb-button="raised"], &[jb-button="fab"] {
                 background-color: $jb-theme-dark-disabled-background;
                 color: $jb-theme-dark-disabled-color;
             }

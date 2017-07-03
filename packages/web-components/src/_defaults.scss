@@ -1,24 +1,33 @@
-$jb-default-color: #212121 !default;
-$jb-default-background: #FAFAFA !default;
-$jb-default-active-background: #E0E0E0 !default;
-
-$jb-shadow-color: rgba(0, 0, 0, 0.4) !default;
-
-$jb-primary: #2979FF !default;
-$jb-primary-background: $jb-primary !default;
-$jb-primary-active-background: #2962FF !default;
-
-$jb-warn-background: #E53935 !default;
-$jb-warn-active-background: #DD2C00 !default;
-
-$jb-danger-background: #FF5252 !default;
-$jb-danger-active-background: #D50000 !default;
-
-$jb-error-color: #F44336 !default;
-
 $jb-light-grey-color: #EEEEEE !default;
 $jb-grey-color: #BDBDBD !default;
 $jb-dark-grey-color: #757575 !default;
+
+$jb-shadow-color: rgba(0, 0, 0, 0.4) !default;
+
+$jb-default-color: #212121 !default;
+$jb-default-background: #FAFAFA !default;
+$jb-default-active-background: #E0E0E0 !default;
+$jb-default-ripple-color: $jb-dark-grey-color !default;
+
+$jb-primary: #2979FF !default;
+$jb-primary-color: #FFF !default;;
+$jb-primary-background: $jb-primary !default;
+$jb-primary-active-background: #2962FF !default;
+$jb-primary-ripple-color: #FFF !default;
+
+$jb-warn: #EF6C00 !default;
+$jb-warn-color: #FFF !default;
+$jb-warn-background: $jb-warn !default;
+$jb-warn-active-background: #E65100 !default;
+$jb-warn-ripple-color: #FFF !default;
+
+$jb-danger: #E53935 !default;
+$jb-danger-color: #FFF !default;
+$jb-danger-background: $jb-danger !default;
+$jb-danger-active-background: #C62828 !default;
+$jb-danger-ripple-color: #FFF !default;
+
+$jb-error-color: #F44336 !default;
 
 $jb-theme-dark-background-focus: rgba(255,255,255, 0.2) !default;
 $jb-theme-dark-ripple-color: #FFF !default;
