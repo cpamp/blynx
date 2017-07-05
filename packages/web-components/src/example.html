@@ -157,8 +157,63 @@
 
         <!--Dialog-->
         <button id="btnDialog" jb-button jb-dialog-open="dialog1">
-            Open Dialog
+            Open Dialog scrollable
         </button>
-        <jb-dialog id="dialog1"></jb-dialog>
+        <jb-dialog id="dialog1" class="jb-scrollable">
+            <jb-header>Header!</jb-header>
+            <jb-body>
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazingWow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+                Wow you did something and now I'm telling you about it. Truely amazing
+            </jb-body>
+            <jb-footer>
+                <button jb-button="flat" jb-dialog-close="dialog1">Cancel</button>
+                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog1">Ok</button>
+            </jb-footer>
+        </jb-dialog>
+
+        <button id="btnDialog" jb-button jb-dialog-open="dialog2">
+            Open Dialog No Scroll
+        </button>
+        <jb-dialog id="dialog2">
+            <jb-header>Header!</jb-header>
+            <jb-body>
+                Some content. No need to worry. Just letting you know that the Pack is back baby.
+            </jb-body>
+            <jb-footer>
+                <button jb-button="flat" jb-dialog-close="dialog2">boo</button>
+                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog2">go pack go</button>
+            </jb-footer>
+        </jb-dialog>
+
+        <button id="btnDialog" jb-button jb-dialog-open="dialog3">
+            Open Dialog Action Required
+        </button>
+        <jb-dialog id="dialog3" jb-action-required>
+            <jb-body>
+                Do you like pizza?
+            </jb-body>
+            <jb-footer>
+                <button jb-button="flat" jb-dialog-close="dialog3">No</button>
+                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog3">Yes</button>
+            </jb-footer>
+        </jb-dialog>
     </body>
 </html>

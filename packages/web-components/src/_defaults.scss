@@ -49,3 +49,8 @@ $jb-theme-dark-disabled-background: rgba(255,255,255, 0.15) !default;
     -o-transform: $transform;
     transform: $transform;
 }
+
+body.noscroll {
+    height: 100%;
+    overflow: hidden;
+}

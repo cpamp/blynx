@@ -1,7 +1,7 @@
 @import '../_defaults.scss';
 $ripple-duration: 1000ms !default;
 $ripple-color: #FFF !default;
-
+$ripple-transform: $ripple-duration ease-out, opacity $ripple-duration ease-out;
 
 [jb-ripple] {
     position: relative;
@@ -23,12 +23,13 @@ $ripple-color: #FFF !default;
             opacity: 0.2;
             width: 0;
             height: 0;
+            z-index:-1;
 
-            @include transition(-webkit-transform $ripple-duration ease-out, opacity $ripple-duration ease-out);
-            @include transition(-moz-transform $ripple-duration ease-out, opacity $ripple-duration ease-out);
-            @include transition(-ms-transform $ripple-duration ease-out, opacity $ripple-duration ease-out);
-            @include transition(-o-transform $ripple-duration ease-out, opacity $ripple-duration ease-out);
-            @include transition(transform $ripple-duration ease-out, opacity $ripple-duration ease-out);
+            @include transition(-webkit-transform $ripple-transform);
+            @include transition(-moz-transform $ripple-transform);
+            @include transition(-ms-transform $ripple-transform);
+            @include transition(-o-transform $ripple-transform);
+            @include transition(transform $ripple-transform);
 
             @include transform(scale(0));
 

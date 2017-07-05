@@ -1,4 +1,9 @@
-.jb-dialog-lightbox {
+@import '../_defaults.scss';
+
+$jb-dialog-border: $jb-light-grey-color 1px solid;
+$jb-dialog-padding: 20px;
+
+.jb-dialog-dim {
     height:100%;
     width:100%;
     position:fixed;
@@ -7,4 +12,57 @@
     z-index:1 !important;
     background-color: rgba(0, 0, 0, 0.6);
     display: none;
+}
+
+jb-dialog {
+    background: $jb-default-background;
+    min-height: 6em;
+    max-height: 25em;
+    min-width: 15em;
+    max-width: 40em;
+    width: 80%;
+    border: none;
+    box-shadow: 0px 2px 4px #000;
+    display: none;
+    position: fixed;
+    top: 20%;
+    left:0;
+    right:0;
+    margin: 0 auto;
+    z-index: 2;
+    border-radius: 2px;
+
+    jb-header, jb-body, jb-footer {
+        display:block;
+    }
+
+    jb-header, jb-body {
+        padding-top: $jb-dialog-padding;
+        padding-right: $jb-dialog-padding;
+        padding-left: $jb-dialog-padding;
+    }
+
+    &.jb-scrollable {
+        jb-header {
+            border-bottom: $jb-dialog-border;
+            padding-bottom: $jb-dialog-padding;
+        }
+        jb-body {
+            max-height: 14em;
+            overflow-y: scroll;
+            padding-bottom: $jb-dialog-padding;
+        }
+        jb-footer {
+            border-top: $jb-dialog-border;
+        }
+    }
+
+    jb-header {
+        font-weight: bold;
+        font-size: 1.1em;
+    }
+
+    jb-footer {
+        text-align: right;
+    }
 }
