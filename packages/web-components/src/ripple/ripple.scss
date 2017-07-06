@@ -1,5 +1,5 @@
 @import '../_defaults.scss';
-$ripple-duration: 1000ms !default;
+$ripple-duration: 400ms !default;
 $ripple-color: #FFF !default;
 $ripple-transform: $ripple-duration ease-out, opacity $ripple-duration ease-out;
 

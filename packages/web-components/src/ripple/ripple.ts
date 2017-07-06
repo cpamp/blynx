@@ -15,17 +15,29 @@ export class JbRipple {
 
     private createRipple(e: MouseEvent): HTMLElement {
         var rect = this.jbRipple.getBoundingClientRect();
-        var size = this.jbRipple.offsetWidth * 5;
-        var x = e.pageX - rect.left - (size / 2);
-        var y = e.pageY - rect.top - (size / 2);
+        var x = e.offsetX;
+        var y;
+        if (x !== void 0) {
+            y = e.offsetY;
+        } else {
+            x = e.clientX - rect.left;
+            y = e.clientY - rect.top;
+        }
+        var max;
+        if (rect.width == rect.height) {
+            max = rect.width * 1.412;
+        } else {
+            max = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
+        }
+        var dim = max * 2 + 'px';
         var ripple = document.createElement('div');
         if (this.jbRipple.hasAttribute('jb-ripple-color')) {
             ripple.style.backgroundColor = this.jbRipple.getAttribute('jb-ripple-color');
         }
-        ripple.style.width = size + 'px';
-        ripple.style.height = size + 'px';
-        ripple.style.left = x + 'px';
-        ripple.style.top = y + 'px';
+        ripple.style.width = dim;
+        ripple.style.height = dim;
+        ripple.style.marginLeft = -max + x + 'px';
+        ripple.style.marginTop = -max + y + 'px';
         ripple.className = 'jb-ripple';
         return ripple;
     }
