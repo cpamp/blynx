@@ -19,8 +19,16 @@
     "url": "git+https://github.com/cpamp/jable.git"
   },
   "keywords": [
+    "jable",
+    "web",
     "textbox",
-    "html"
+    "input",
+    "ripple",
+    "dialog",
+    "modal",
+    "alert",
+    "button",
+    "components"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",
