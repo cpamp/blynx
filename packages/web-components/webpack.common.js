@@ -28,10 +28,6 @@ module.exports = {
             {
                 test: /\.js$/,
                 loaders: ['babel-loader?' + es2015]
-            },
-            {
-                test: /\.scss$/,
-                loaders: ['to-string-loader', 'css-loader', 'sass-loader']
             }
         ]
     },
@@ -40,10 +36,6 @@ module.exports = {
         new webpack.optimize.CommonsChunkPlugin({
             name: ['jable-components']
         }),
-        //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin(),
-        new HtmlWebpackPlugin({
-            template: 'src/example.html',
-            filename: min ? 'example.bundle.min.html' : 'example.bundle.html'
-        })
+        //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin()
     ]
 };
