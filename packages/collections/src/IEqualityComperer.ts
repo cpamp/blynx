@@ -1,0 +1,1 @@
+export type IEqualityComparer<T> = (itemA: T, itemB: T) => boolean;
