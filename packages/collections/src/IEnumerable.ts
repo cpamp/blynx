@@ -2,7 +2,7 @@ import { IEqualityComparer } from "./IEqualityComperer";
 
 export interface IEnumerable<T = {}> {
     Aggregate(func: (working: T, next: T) => T): T;
-    Aggregate<TResult>(func: (working: TResult, next: T, seed: T) => TResult): TResult;
+    Aggregate<TResult>(func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     All(func: (item: T) => boolean): boolean;
     Any(): boolean;
     Any(func: (item: T) => boolean): boolean;

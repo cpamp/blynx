@@ -1,10 +1,26 @@
 import { IEnumerable } from "./IEnumerable";
 
 export abstract class Enumerable<T = {}> implements IEnumerable<T> {
+    private value: Array<T> = [];
+
     Aggregate(func: (working: T, next: T) => T): T;
-    Aggregate<TResult>(func: (working: TResult, next: T, seed: T) => TResult): TResult;
-    Aggregate(func: any) {
-        throw new Error("Method not implemented.");
+    Aggregate<TResult>(func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
+    Aggregate(func: any, seed?: any) {
+        if (func == null) throw new Error('ArgumentNullException');
+        if (this.value.length === 0) throw new Error('InvalidOperationException');
+
+        var current;
+        var start = 0;
+        if (seed == null) {
+            current = seed;
+        } else {
+            current = this.value[start++];
+        }
+
+        for (var i = start; i < this.value.length - 1; i++) {
+            current = func(current, this.value[i]);
+        }
+        return current;
     }
     All(func: (item: T) => boolean): boolean {
         throw new Error("Method not implemented.");
