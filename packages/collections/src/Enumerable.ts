@@ -18,12 +18,20 @@ export abstract class Enumerable {
         return new Error('ArgumentOutOfRangeException');
     }
 
+    private static ArgumentInvalidException() {
+        return new Error('ArgumentInvalidException');
+    }
+
+    private static InvalidOperationException() {
+        return new Error('InvalidOperationException');
+    }
+
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: (working: T, next: T) => T): T;
     public static Aggregate<T, TResult>(base: IEnumerable<T> | Array<T>, func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: any, seed?: any) {
         if (base == null || func == null || !this.isFunction(func)) throw this.ArgumentNullException();
         base = base instanceof Array ? base : base.ToArray();
-        if (base.length === 0) throw new Error('InvalidOperationException');
+        if (base.length === 0) throw this.InvalidOperationException();
 
         let current;
         let start = 0;
@@ -101,11 +109,11 @@ export abstract class Enumerable {
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         if (func == null) return base.length;
-        if (!this.isFunction(func)) throw new Error('InvalidArgumentException');
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
 
         let count = 0;
         for (let item of base) {
-            if (func(item)) count++;
+            if (func(item) === true) count++;
         }
         return count;
     }
@@ -174,12 +182,31 @@ export abstract class Enumerable {
     public static First<T>(base: IEnumerable<T> | Array<T>): T;
     public static First<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static First<T>(base: IEnumerable<T> | Array<T>, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (func == null) {
+            if (base instanceof Array) return base[0];
+            return base.ElementAt(0);
+        }
+        
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+        for (let item of base) {
+            if (func(item) === true) return item;
+        }
+        throw this.InvalidOperationException();
     }
+
     public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>): T;
     public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (func == null) {
+            if (base instanceof Array) return base[0];
+            return base.ElementAtOrDefault(0);
+        }
+
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+        try { return this.First(base, func); }
+        catch(e) { return null; }
     }
     public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): IEnumerable<TResult>;
     public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<TResult>;
