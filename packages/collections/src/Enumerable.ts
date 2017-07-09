@@ -6,8 +6,16 @@ export abstract class Enumerable {
         return typeof func === 'function';
     }
 
+    private static equalityComparer<T>(itemA: T, itemB: T): boolean {
+        return itemA === itemB;
+    }
+
     private static ArgumentNullException() {
         return new Error('ArgumentNullException');
+    }
+
+    private static ArgumentOutOfRangeException() {
+        return new Error('ArgumentOutOfRangeException');
     }
 
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: (working: T, next: T) => T): T;
@@ -81,7 +89,7 @@ export abstract class Enumerable {
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T, equalityComparer: IEqualityComparer<T>): boolean;
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: any, equalityComparer?: any) {
         if (base == null) throw this.ArgumentNullException();
-        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = (itemA: T, itemB: T) => itemA === itemB;
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
         for (let baseItem of base) {
             if (equalityComparer(baseItem, item)) return true;
@@ -106,7 +114,7 @@ export abstract class Enumerable {
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer?: any) {
         if (base == null) throw this.ArgumentNullException();
-        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = (itemA: T, itemB: T) => itemA === itemB;
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
         let result: Array<T> = [];
         for (let item of base) {
@@ -117,9 +125,7 @@ export abstract class Enumerable {
                     break;
                 }
             }
-            if (found === false) {
-                result.push(item);
-            }
+            if (found === false) result.push(item);
         }
         return result;
     }
@@ -132,17 +138,39 @@ export abstract class Enumerable {
         for (let item of base) {
             if (count === index) return item;
         }
-        throw new Error('ArgumentOutOfRangeException');
+        throw this.ArgumentOutOfRangeException();
     }
 
-    public static ElementAtOrDefault<T>(base: IEnumerable<T> | Array<T>, index: number): T {
-        throw new Error("Method not implemented.");
+    public static ElementAtOrDefault<T>(base: IEnumerable<T> | Array<T>, index: number): T | null {
+        if (base == null) throw this.ArgumentNullException();
+
+        try {
+            return this.ElementAt(base, index);
+        } catch(e) {
+            return null;
+        }
     }
+
     public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
     public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
     public static Except<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null || collection == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+
+        let result: Array<T> = [];
+        for (let baseItem of base) {
+            let found = false;
+            for (let colItem of collection) {
+                if (equalityComparer(baseItem, colItem)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) result.push(baseItem);
+        }
+        return result;
     }
+    
     public static First<T>(base: IEnumerable<T> | Array<T>): T;
     public static First<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static First<T>(base: IEnumerable<T> | Array<T>, func?: any) {

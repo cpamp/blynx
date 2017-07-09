@@ -17,13 +17,13 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Distinct(): IEnumerable<T>;
     Distinct(equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     ElementAt(index: number): T;
-    ElementAtOrDefault(index: number): T;
+    ElementAtOrDefault(index: number): T | null;
     Except(collection: IEnumerable<T>): IEnumerable<T>;
     Except(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     First(): T;
     First(func: (item: T) => boolean): T;
-    FirstOrDefault(): T;
-    FirstOrDefault(func: (item: T) => boolean): T;
+    FirstOrDefault(): T | null;
+    FirstOrDefault(func: (item: T) => boolean): T | null;
     GroupBy<TResult>(keys: IEnumerable<string> | Array<string>): IEnumerable<TResult>;
     GroupBy<TResult>(keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<TResult>;
     Intersect(collection: IEnumerable<T> | Array<T>): IEnumerable<T>;
@@ -32,8 +32,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Join(keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     Last(): T;
     Last(func: (item: T) => boolean): T;
-    LastOrDefault(): T;
-    LastOrDefault(func: (item: T) => boolean): T;
+    LastOrDefault(): T | null;
+    LastOrDefault(func: (item: T) => boolean): T | null;
     Max(): number;
     Max(func: (item: T) => number): number;
     Min(): number;
