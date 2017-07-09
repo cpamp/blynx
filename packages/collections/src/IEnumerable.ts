@@ -1,6 +1,8 @@
 import { IEqualityComparer } from "./IEqualityComperer";
+import { IIterable } from "./IIterable";
 
-export interface IEnumerable<T = {}> {
+export interface IEnumerable<T = {}> extends IIterable<T> {
+    length: number;
     Aggregate(func: (working: T, next: T) => T): T;
     Aggregate<TResult>(func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     All(func: (item: T) => boolean): boolean;
@@ -52,6 +54,7 @@ export interface IEnumerable<T = {}> {
     Sum(func: (item: T) => number): number;
     Take(count: number): IEnumerable<T>;
     TakeWhile(func: (item: T) => boolean): IEnumerable<T>;
+    ToArray(): Array<T>;
     Union(collection: IEnumerable<T>): IEnumerable<T>;
     Union(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     Where(func: (item: T) => boolean): IEnumerable<T>;

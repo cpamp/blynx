@@ -1,191 +1,211 @@
 import { IEnumerable } from "./IEnumerable";
 import { IEqualityComparer } from "./IEqualityComperer";
 
-export abstract class Enumerable<T = {}> implements IEnumerable<T> {
-    private value: Array<T> = [];
+export abstract class Enumerable {
+    private static isFunction(func: any) {
+        return typeof func === 'function';
+    }
 
-    Aggregate(func: (working: T, next: T) => T): T;
-    Aggregate<TResult>(func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
-    Aggregate(func: any, seed?: any) {
-        if (func == null) throw new Error('ArgumentNullException');
-        if (this.value.length === 0) throw new Error('InvalidOperationException');
+    private static ArgumentNullException() {
+        return new Error('ArgumentNullException');
+    }
+
+    public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: (working: T, next: T) => T): T;
+    public static Aggregate<T, TResult>(base: IEnumerable<T> | Array<T>, func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
+    public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: any, seed?: any) {
+        if (base == null || func == null || this.isFunction(func)) throw this.ArgumentNullException();
+        //base = this.getArray<T>(base);
+        if (base.length === 0) throw new Error('InvalidOperationException');
 
         var current;
         var start = 0;
         if (seed == null) {
             current = seed;
         } else {
-            current = this.value[start++];
+            current = base[start++];
         }
 
-        for (var i = start; i < this.value.length - 1; i++) {
-            current = func(current, this.value[i]);
+        for (var i = start; i < base.length - 1; i++) {
+            current = func(current, base[i]);
         }
         return current;
     }
 
-    All(func: (item: T) => boolean): boolean {
-        if (this.value == null) throw new Error('ArgumentNullException');
+    public static All<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): boolean {
+        if (base == null || func == null || this.isFunction(func)) throw this.ArgumentNullException();
 
-        for (let item of this.value) {
+        for (let item of base) {
             if (func(item) === false) return false;
         }
         return true;
     }
 
-    Any(): boolean;
-    Any(func: (item: T) => boolean): boolean;
-    Any(func?: any) {
+    public static Any<T>(base: IEnumerable<T> | Array<T>): boolean;
+    public static Any<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): boolean;
+    public static Any<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+        if (base == null) throw this.ArgumentNullException();
+
         if (func == null) {
-            if (this.value.length > 0) return true;
+            if (base.length > 0) return true;
             else return false;
         }
         
-        for (let item of this.value) {
+        for (let item of base) {
             if (func(item) === true) return true;
         }
         return false;
     }
 
-    Average(): number;
-    Average(func: (item: T) => number): number;
-    Average(func?: any) {
+    public static Average<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Average<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
+    public static Average<T>(base: IEnumerable<T> | Array<T>,func?: any) {
+        if (base == null) throw this.ArgumentNullException();
         if (func == null) func = (item: T) => item;
-        
+        //base = this.getArray(base);
+
         var total = 0;
-        for (let item of this.value) {
+        for (let item of base) {
             total += func(item);
         }
-        return total / this.value.length;
+        return total / base.length;
     }
 
-    Concat(collection: IEnumerable<T> | T[]): IEnumerable<T> {
+    public static Concat<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>): Array<T> {
+        if (collection == null || base == null) throw new Error('ArgumentNullException');
+        base = this.ToArray(base);
+        collection = this.ToArray(collection);
+        return base.concat(collection);
+    }
+
+    public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T): boolean;
+    public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T, equalityComparer: IEqualityComparer<T>): boolean;
+    public static Contains<T>(base: IEnumerable<T> | Array<T>, item: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Contains(item: T): boolean;
-    Contains(item: T, equalityComparer: IEqualityComparer<T>): boolean;
-    Contains(item: any, equalityComparer?: any) {
+    public static Count<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
+    public static Count<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    Count(): number;
-    Count(func: (item: T) => boolean): number;
-    Count(func?: any) {
+    public static Distinct<T>(base: IEnumerable<T> | Array<T>): Array<T>;
+    public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
+    public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Distinct(): IEnumerable<T>;
-    Distinct(equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
-    Distinct(equalityComparer?: any) {
+    public static ElementAt<T>(base: IEnumerable<T> | Array<T>, index: number): T {
         throw new Error("Method not implemented.");
     }
-    ElementAt(index: number): T {
+    public static ElementAtOrDefault<T>(base: IEnumerable<T> | Array<T>, index: number): T {
         throw new Error("Method not implemented.");
     }
-    ElementAtOrDefault(index: number): T {
+    public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
+    public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
+    public static Except<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Except(collection: IEnumerable<T>): IEnumerable<T>;
-    Except(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
-    Except(collection: any, equalityComparer?: any) {
+    public static First<T>(base: IEnumerable<T> | Array<T>): T;
+    public static First<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
+    public static First<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    First(): T;
-    First(func: (item: T) => boolean): T;
-    First(func?: any) {
+    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>): T;
+    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
+    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    FirstOrDefault(): T;
-    FirstOrDefault(func: (item: T) => boolean): T;
-    FirstOrDefault(func?: any) {
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): IEnumerable<TResult>;
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<TResult>;
+    public static GroupBy(keys: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    GroupBy<TResult>(keys: IEnumerable<string> | string[]): IEnumerable<TResult>;
-    GroupBy<TResult>(keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<TResult>;
-    GroupBy(keys: any, equalityComparer?: any) {
+    public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[]): Array<T>;
+    public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
+    public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Intersect(collection: IEnumerable<T> | T[]): IEnumerable<T>;
-    Intersect(collection: IEnumerable<T> | T[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<T>;
-    Intersect(collection: any, equalityComparer?: any) {
+    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
+    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
+    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Join(keys: IEnumerable<string> | string[]): IEnumerable<T>;
-    Join(keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<T>;
-    Join(keys: any, equalityComparer?: any) {
+    public static Last<T>(base: IEnumerable<T> | Array<T>): T;
+    public static Last<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
+    public static Last<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    Last(): T;
-    Last(func: (item: T) => boolean): T;
-    Last(func?: any) {
+    public static LastOrDefault(): T;
+    public static LastOrDefault(func: (item: T) => boolean): T;
+    public static LastOrDefault(func?: any) {
         throw new Error("Method not implemented.");
     }
-    LastOrDefault(): T;
-    LastOrDefault(func: (item: T) => boolean): T;
-    LastOrDefault(func?: any) {
+    public static Max<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Max<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
+    public static Max<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    Max(): number;
-    Max(func: (item: T) => number): number;
-    Max(func?: any) {
+    public static Min<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Min<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
+    public static Min<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    Min(): number;
-    Min(func: (item: T) => number): number;
-    Min(func?: any) {
+    public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    OfType(type: Function): IEnumerable<T> {
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>): Array<T>;
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => ): Array<T>;
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    OrderBy(): IEnumerable<T>;
-    OrderBy(func: (item: T) => ): IEnumerable<T>;
-    OrderBy(func?: any) {
+    public static Reverse<T>(base: IEnumerable<T> | Array<T>): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    Reverse(): IEnumerable<T> {
+    public static Select<T, TResult>(base: IEnumerable<T> | Array<T>, func: (item: T) => TResult): IEnumerable<TResult> {
         throw new Error("Method not implemented.");
     }
-    Select<TResult>(func: (item: T) => TResult): IEnumerable<TResult> {
+    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): boolean;
+    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
+    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Equals(collection: IEnumerable<T>): boolean;
-    Equals(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
-    Equals(collection: any, equalityComparer?: any) {
+    public static Single<T>(base: IEnumerable<T> | Array<T>): T {
         throw new Error("Method not implemented.");
     }
-    Single(): T {
+    public static SingleOrDefault<T>(base: IEnumerable<T> | Array<T>): T {
         throw new Error("Method not implemented.");
     }
-    SingleOrDefault(): T {
+    public static Skip<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    Skip(count: number): IEnumerable<T> {
+    public static SkipWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    SkipWhile(func: (item: T) => boolean): IEnumerable<T> {
+    public static Sum<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Sum<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
+    public static Sum<T>(base: IEnumerable<T> | Array<T>, func?: any) {
         throw new Error("Method not implemented.");
     }
-    Sum(): number;
-    Sum(func: (item: T) => number): number;
-    Sum(func?: any) {
+    public static Take<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    Take(count: number): IEnumerable<T> {
+    public static TakeWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
-    TakeWhile(func: (item: T) => boolean): IEnumerable<T> {
+    public static ToArray<T>(base: IEnumerable<T> | Array<T>): Array<T> {
+        var result: Array<T> = [];
+        for (let item of base) result.push(item);
+        return result;
+    }
+    public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
+    public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
+    public static Union<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
-    Union(collection: IEnumerable<T>): IEnumerable<T>;
-    Union(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
-    Union(collection: any, equalityComparer?: any) {
+    public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
+    public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T, index: number) => boolean): Array<T>;
+    public static Where<T>(base: IEnumerable<T> | Array<T>, func: any) {
         throw new Error("Method not implemented.");
     }
-    Where(func: (item: T) => boolean): IEnumerable<T>;
-    Where(func: (item: T, index: number) => boolean): IEnumerable<T>;
-    Where(func: any) {
-        throw new Error("Method not implemented.");
-    }
-    Zip<TCollection, TResult>(collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult {
+    public static Zip<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult {
         throw new Error("Method not implemented.");
     }
 
