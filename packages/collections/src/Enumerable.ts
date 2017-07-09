@@ -91,7 +91,14 @@ export abstract class Enumerable {
     public static Count<T>(base: IEnumerable<T> | Array<T>): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func?: any) {
-        throw new Error("Method not implemented.");
+        if (func == null) return base.length;
+        if (!this.isFunction(func)) throw new Error('InvalidArgumentException');
+
+        var count = 0;
+        for (let item of base) {
+            if (func(item)) count++;
+        }
+        return count;
     }
     public static Distinct<T>(base: IEnumerable<T> | Array<T>): Array<T>;
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
