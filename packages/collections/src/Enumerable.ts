@@ -14,18 +14,18 @@ export abstract class Enumerable {
     public static Aggregate<T, TResult>(base: IEnumerable<T> | Array<T>, func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: any, seed?: any) {
         if (base == null || func == null || !this.isFunction(func)) throw this.ArgumentNullException();
-        //base = this.getArray<T>(base);
+        base = base instanceof Array ? base : base.ToArray();
         if (base.length === 0) throw new Error('InvalidOperationException');
 
-        var current;
-        var start = 0;
+        let current;
+        let start = 0;
         if (seed == null) {
             current = seed;
         } else {
             current = base[start++];
         }
 
-        for (var i = start; i < base.length - 1; i++) {
+        for (let i = start; i < base.length - 1; i++) {
             current = func(current, base[i]);
         }
         return current;
@@ -63,7 +63,7 @@ export abstract class Enumerable {
         if (func == null || !this.isFunction(func)) func = (item: T) => item;
         //base = this.getArray(base);
 
-        var total = 0;
+        let total = 0;
         for (let item of base) {
             total += func(item);
         }
@@ -95,7 +95,7 @@ export abstract class Enumerable {
         if (func == null) return base.length;
         if (!this.isFunction(func)) throw new Error('InvalidArgumentException');
 
-        var count = 0;
+        let count = 0;
         for (let item of base) {
             if (func(item)) count++;
         }
@@ -108,7 +108,7 @@ export abstract class Enumerable {
         if (base == null) throw this.ArgumentNullException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = (itemA: T, itemB: T) => itemA === itemB;
 
-        var result: Array<T> = [];
+        let result: Array<T> = [];
         for (let item of base) {
             let found = false;
             for (let dist of result) {
@@ -125,8 +125,16 @@ export abstract class Enumerable {
     }
 
     public static ElementAt<T>(base: IEnumerable<T> | Array<T>, index: number): T {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base instanceof Array) return base[index];
+
+        let count = 0;
+        for (let item of base) {
+            if (count === index) return item;
+        }
+        throw new Error('ArgumentOutOfRangeException');
     }
+
     public static ElementAtOrDefault<T>(base: IEnumerable<T> | Array<T>, index: number): T {
         throw new Error("Method not implemented.");
     }
@@ -223,7 +231,7 @@ export abstract class Enumerable {
         throw new Error("Method not implemented.");
     }
     public static ToArray<T>(base: IEnumerable<T> | Array<T>): Array<T> {
-        var result: Array<T> = [];
+        let result: Array<T> = [];
         for (let item of base) result.push(item);
         return result;
     }
