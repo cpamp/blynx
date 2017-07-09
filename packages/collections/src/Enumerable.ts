@@ -46,10 +46,19 @@ export abstract class Enumerable<T = {}> implements IEnumerable<T> {
         }
         return false;
     }
-    
-    Average(func: (item: T) => number): number {
-        throw new Error("Method not implemented.");
+
+    Average(): number;
+    Average(func: (item: T) => number): number;
+    Average(func?: any) {
+        if (func == null) func = (item: T) => item;
+        
+        var total = 0;
+        for (let item of this.value) {
+            total += func(item);
+        }
+        return total / this.value.length;
     }
+
     Concat(collection: IEnumerable<T> | T[]): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }

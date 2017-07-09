@@ -6,6 +6,7 @@ export interface IEnumerable<T = {}> {
     All(func: (item: T) => boolean): boolean;
     Any(): boolean;
     Any(func: (item: T) => boolean): boolean;
+    Average(): number;
     Average(func: (item: T) => number): number;
     Concat(collection: IEnumerable<T> | Array<T>): IEnumerable<T>;
     Contains(item: T): boolean;
