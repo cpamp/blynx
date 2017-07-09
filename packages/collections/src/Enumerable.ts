@@ -36,8 +36,17 @@ export abstract class Enumerable<T = {}> implements IEnumerable<T> {
     Any(): boolean;
     Any(func: (item: T) => boolean): boolean;
     Any(func?: any) {
-        throw new Error("Method not implemented.");
+        if (func == null) {
+            if (this.value.length > 0) return true;
+            else return false;
+        }
+        
+        for (let item of this.value) {
+            if (func(item) === true) return true;
+        }
+        return false;
     }
+    
     Average(func: (item: T) => number): number {
         throw new Error("Method not implemented.");
     }
