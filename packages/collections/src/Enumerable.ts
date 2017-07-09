@@ -13,7 +13,7 @@ export abstract class Enumerable {
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: (working: T, next: T) => T): T;
     public static Aggregate<T, TResult>(base: IEnumerable<T> | Array<T>, func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: any, seed?: any) {
-        if (base == null || func == null || this.isFunction(func)) throw this.ArgumentNullException();
+        if (base == null || func == null || !this.isFunction(func)) throw this.ArgumentNullException();
         //base = this.getArray<T>(base);
         if (base.length === 0) throw new Error('InvalidOperationException');
 
@@ -32,7 +32,7 @@ export abstract class Enumerable {
     }
 
     public static All<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): boolean {
-        if (base == null || func == null || this.isFunction(func)) throw this.ArgumentNullException();
+        if (base == null || func == null || !this.isFunction(func)) throw this.ArgumentNullException();
 
         for (let item of base) {
             if (func(item) === false) return false;
@@ -60,7 +60,7 @@ export abstract class Enumerable {
     public static Average<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
     public static Average<T>(base: IEnumerable<T> | Array<T>,func?: any) {
         if (base == null) throw this.ArgumentNullException();
-        if (func == null) func = (item: T) => item;
+        if (func == null || !this.isFunction(func)) func = (item: T) => item;
         //base = this.getArray(base);
 
         var total = 0;
@@ -81,6 +81,12 @@ export abstract class Enumerable {
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T, equalityComparer: IEqualityComparer<T>): boolean;
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: any, equalityComparer?: any) {
         if (base == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = (itemA: T, itemB: T) => itemA === itemB;
+
+        for (let baseItem of base) {
+            if (equalityComparer(baseItem, item)) return true;
+        }
+        return false;
     }
     public static Count<T>(base: IEnumerable<T> | Array<T>): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
