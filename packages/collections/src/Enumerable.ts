@@ -88,6 +88,7 @@ export abstract class Enumerable {
         }
         return false;
     }
+
     public static Count<T>(base: IEnumerable<T> | Array<T>): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func?: any) {
@@ -100,11 +101,29 @@ export abstract class Enumerable {
         }
         return count;
     }
+
     public static Distinct<T>(base: IEnumerable<T> | Array<T>): Array<T>;
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = (itemA: T, itemB: T) => itemA === itemB;
+
+        var result: Array<T> = [];
+        for (let item of base) {
+            let found = false;
+            for (let dist of result) {
+                if (equalityComparer(item, dist)) {
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                result.push(item);
+            }
+        }
+        return result;
     }
+
     public static ElementAt<T>(base: IEnumerable<T> | Array<T>, index: number): T {
         throw new Error("Method not implemented.");
     }
