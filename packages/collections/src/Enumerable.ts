@@ -1,4 +1,5 @@
 import { IEnumerable } from "./IEnumerable";
+import { IEqualityComparer } from "./IEqualityComperer";
 
 export abstract class Enumerable<T = {}> implements IEnumerable<T> {
     private value: Array<T> = [];
@@ -22,9 +23,16 @@ export abstract class Enumerable<T = {}> implements IEnumerable<T> {
         }
         return current;
     }
+
     All(func: (item: T) => boolean): boolean {
-        throw new Error("Method not implemented.");
+        if (this.value == null) throw new Error('ArgumentNullException');
+
+        for (let item of this.value) {
+            if (func(item) === false) return false;
+        }
+        return true;
     }
+
     Any(): boolean;
     Any(func: (item: T) => boolean): boolean;
     Any(func?: any) {
