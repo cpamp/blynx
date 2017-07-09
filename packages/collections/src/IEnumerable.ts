@@ -1,8 +1,8 @@
 import { IEqualityComparer } from "./IEqualityComperer";
-import { IIterable } from "./IIterable";
 
-export interface IEnumerable<T = {}> extends IIterable<T> {
+export interface IEnumerable<T = {}> extends Iterable<T> {
     length: number;
+    [key: number]: T;
     Aggregate(func: (working: T, next: T) => T): T;
     Aggregate<TResult>(func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
     All(func: (item: T) => boolean): boolean;

@@ -71,7 +71,7 @@ export abstract class Enumerable {
     }
 
     public static Concat<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>): Array<T> {
-        if (collection == null || base == null) throw new Error('ArgumentNullException');
+        if (collection == null || base == null) throw this.ArgumentNullException();
         base = this.ToArray(base);
         collection = this.ToArray(collection);
         return base.concat(collection);
@@ -80,7 +80,7 @@ export abstract class Enumerable {
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T): boolean;
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T, equalityComparer: IEqualityComparer<T>): boolean;
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
     }
     public static Count<T>(base: IEnumerable<T> | Array<T>): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
