@@ -306,13 +306,33 @@ export abstract class Enumerable {
     public static Max<T>(base: IEnumerable<T> | Array<T>): number;
     public static Max<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
     public static Max(base: any, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) throw this.InvalidOperationException();
+        if (func == null || !this.isFunction(func)) func = (item: any) => item;
+
+        var max = -Infinity;
+        for (let item of base) {
+            var current = func(item);
+            if (current > max) max = current;
+        }
+        return current;
     }
+
     public static Min<T>(base: IEnumerable<T> | Array<T>): number;
     public static Min<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
     public static Min(base: any, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) throw this.InvalidOperationException();
+        if (func == null || !this.isFunction(func)) func = (item: any) => item;
+
+        var max = Infinity;
+        for (let item of base) {
+            var current = func(item);
+            if (current < max) max = current;
+        }
+        return current;
     }
+
     public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
