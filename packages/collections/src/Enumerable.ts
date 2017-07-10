@@ -235,8 +235,21 @@ export abstract class Enumerable {
     public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[]): Array<T>;
     public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
     public static Intersect(base: any, collection: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null || collection == null) throw this.ArgumentNullException();
+        if (equalityComparer == null) equalityComparer = this.equalityComparer;
+
+        let result: Array<any> = [];
+        for (let item of base) {
+            let doesMatch = false;
+            for (let colItem of collection) {
+                if (equalityComparer(item, colItem) === true) {
+                    result.push(item);
+                }
+            }
+        }
+        return result;
     }
+
     public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
     public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
     public static Join(base: any, keys: any, equalityComparer?: any) {
