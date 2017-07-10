@@ -28,7 +28,7 @@ export abstract class Enumerable {
 
     public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: (working: T, next: T) => T): T;
     public static Aggregate<T, TResult>(base: IEnumerable<T> | Array<T>, func: (working: TResult, next: T) => TResult, seed: TResult): TResult;
-    public static Aggregate<T>(base: IEnumerable<T> | Array<T>, func: any, seed?: any) {
+    public static Aggregate(base: any, func: any, seed?: any) {
         if (base == null || func == null || !this.isFunction(func)) throw this.ArgumentNullException();
         base = base instanceof Array ? base : base.ToArray();
         if (base.length === 0) throw this.InvalidOperationException();
@@ -58,7 +58,7 @@ export abstract class Enumerable {
 
     public static Any<T>(base: IEnumerable<T> | Array<T>): boolean;
     public static Any<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): boolean;
-    public static Any<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Any(base: any, func?: any) {
         if (base == null) throw this.ArgumentNullException();
 
         if (func == null) {
@@ -74,9 +74,9 @@ export abstract class Enumerable {
 
     public static Average<T>(base: IEnumerable<T> | Array<T>): number;
     public static Average<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
-    public static Average<T>(base: IEnumerable<T> | Array<T>,func?: any) {
+    public static Average(base: any,func?: any) {
         if (base == null) throw this.ArgumentNullException();
-        if (func == null || !this.isFunction(func)) func = (item: T) => item;
+        if (func == null || !this.isFunction(func)) func = (item: any) => item;
         //base = this.getArray(base);
 
         let total = 0;
@@ -95,7 +95,7 @@ export abstract class Enumerable {
 
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T): boolean;
     public static Contains<T>(base: IEnumerable<T> | Array<T>, item: T, equalityComparer: IEqualityComparer<T>): boolean;
-    public static Contains<T>(base: IEnumerable<T> | Array<T>, item: any, equalityComparer?: any) {
+    public static Contains(base: any, item: any, equalityComparer?: any) {
         if (base == null) throw this.ArgumentNullException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
@@ -107,7 +107,7 @@ export abstract class Enumerable {
 
     public static Count<T>(base: IEnumerable<T> | Array<T>): number;
     public static Count<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): number;
-    public static Count<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Count(base: any, func?: any) {
         if (func == null) return base.length;
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
 
@@ -120,11 +120,11 @@ export abstract class Enumerable {
 
     public static Distinct<T>(base: IEnumerable<T> | Array<T>): Array<T>;
     public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
-    public static Distinct<T>(base: IEnumerable<T> | Array<T>, equalityComparer?: any) {
+    public static Distinct(base: any, equalityComparer?: any) {
         if (base == null) throw this.ArgumentNullException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
-        let result: Array<T> = [];
+        let result: Array<any> = [];
         for (let item of base) {
             let found = false;
             for (let dist of result) {
@@ -161,11 +161,11 @@ export abstract class Enumerable {
 
     public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
     public static Except<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
-    public static Except<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
+    public static Except(base: any, collection: any, equalityComparer?: any) {
         if (base == null || collection == null) throw this.ArgumentNullException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
-        let result: Array<T> = [];
+        let result: Array<any> = [];
         for (let baseItem of base) {
             let found = false;
             for (let colItem of collection) {
@@ -181,7 +181,7 @@ export abstract class Enumerable {
     
     public static First<T>(base: IEnumerable<T> | Array<T>): T;
     public static First<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
-    public static First<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static First(base: any, func?: any) {
         if (base == null) throw this.ArgumentNullException();
         if (func == null) {
             if (base instanceof Array) return base[0];
@@ -195,9 +195,9 @@ export abstract class Enumerable {
         throw this.InvalidOperationException();
     }
 
-    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>): T;
-    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
-    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>): T | null;
+    public static FirstOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T | null;
+    public static FirstOrDefault(base: any, func?: any) {
         if (base == null) throw this.ArgumentNullException();
         if (func == null) {
             if (base instanceof Array) return base[0];
@@ -208,24 +208,43 @@ export abstract class Enumerable {
         try { return this.First(base, func); }
         catch(e) { return null; }
     }
-    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): IEnumerable<TResult>;
-    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): IEnumerable<TResult>;
-    public static GroupBy(keys: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<TResult>;
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<TResult>;
+    public static GroupBy(base: any, keys: any, equalityComparer?: any) {
+        if (base == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+
+        let result: Array<any> = [];
+        for (let item of base) {
+            let match: any = {};
+            let doesMatch = true;
+            for (let rItem of result) {
+                for (let key of keys) {
+                    if (equalityComparer(item[key], rItem[key]) === false) {
+                        doesMatch = false;
+                        break;
+                    }
+                    match[key] = item[key];
+                }
+            }
+            if (doesMatch) result.push(match);
+        }
+        return result;
     }
     public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[]): Array<T>;
     public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | T[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
-    public static Intersect<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
+    public static Intersect(base: any, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
     public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
     public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
-    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: any, equalityComparer?: any) {
+    public static Join(base: any, keys: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
     public static Last<T>(base: IEnumerable<T> | Array<T>): T;
     public static Last<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
-    public static Last<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Last(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static LastOrDefault(): T;
@@ -235,12 +254,12 @@ export abstract class Enumerable {
     }
     public static Max<T>(base: IEnumerable<T> | Array<T>): number;
     public static Max<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
-    public static Max<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Max(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static Min<T>(base: IEnumerable<T> | Array<T>): number;
     public static Min<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
-    public static Min<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Min(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): IEnumerable<T> {
@@ -248,7 +267,7 @@ export abstract class Enumerable {
     }
     public static OrderBy<T>(base: IEnumerable<T> | Array<T>): Array<T>;
     public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => ): Array<T>;
-    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static OrderBy(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static Reverse<T>(base: IEnumerable<T> | Array<T>): IEnumerable<T> {
@@ -259,7 +278,7 @@ export abstract class Enumerable {
     }
     public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): boolean;
     public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
-    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
+    public static Equals(base: any, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
     public static Single<T>(base: IEnumerable<T> | Array<T>): T {
@@ -276,7 +295,7 @@ export abstract class Enumerable {
     }
     public static Sum<T>(base: IEnumerable<T> | Array<T>): number;
     public static Sum<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
-    public static Sum<T>(base: IEnumerable<T> | Array<T>, func?: any) {
+    public static Sum(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static Take<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
@@ -292,12 +311,12 @@ export abstract class Enumerable {
     }
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
-    public static Union<T>(base: IEnumerable<T> | Array<T>, collection: any, equalityComparer?: any) {
+    public static Union(base: any, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
     public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
     public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T, index: number) => boolean): Array<T>;
-    public static Where<T>(base: IEnumerable<T> | Array<T>, func: any) {
+    public static Where(base: any, func: any) {
         throw new Error("Method not implemented.");
     }
     public static Zip<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult {
