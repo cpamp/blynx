@@ -28,8 +28,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     GroupBy<TResult>(keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<TResult>;
     Intersect(collection: IEnumerable<T> | Array<T>): IEnumerable<T>;
     Intersect(collection: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
-    Join(keys: IEnumerable<string> | Array<string>): IEnumerable<T>;
-    Join(keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
+    Join(collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | Array<string>): IEnumerable<T>;
+    Join(collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     Last(): T;
     Last(func: (item: T) => boolean): T;
     LastOrDefault(): T | null;

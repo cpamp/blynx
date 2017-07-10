@@ -212,7 +212,7 @@ export abstract class Enumerable {
     public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<TResult>;
     public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<TResult>;
     public static GroupBy(base: any, keys: any, equalityComparer?: any) {
-        if (base == null) throw this.ArgumentNullException();
+        if (base == null || keys == null) throw this.ArgumentNullException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
         let result: Array<any> = [];
@@ -250,9 +250,9 @@ export abstract class Enumerable {
         return result;
     }
 
-    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
-    public static Join<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
-    public static Join(base: any, keys: any, equalityComparer?: any) {
+    public static Join<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
+    public static Join<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
+    public static Join(base: any, collection: any, keys: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
     public static Last<T>(base: IEnumerable<T> | Array<T>): T;
