@@ -183,6 +183,7 @@ export abstract class Enumerable {
     public static First<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static First(base: any, func?: any) {
         if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) throw this.InvalidOperationException();
         if (func == null) {
             if (base instanceof Array) return base[0];
             return base.ElementAt(0);
@@ -200,7 +201,7 @@ export abstract class Enumerable {
     public static FirstOrDefault(base: any, func?: any) {
         if (base == null) throw this.ArgumentNullException();
         if (func == null) {
-            if (base instanceof Array) return base[0];
+            if (base instanceof Array) return base[0] || null;
             return base.ElementAtOrDefault(0);
         }
 
@@ -257,7 +258,7 @@ export abstract class Enumerable {
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
         if (resultFactory == null || !this.isFunction(resultFactory)) resultFactory = (itemA: any, itemB: any) => Object.assign({}, itemA, itemB);
 
-        var result: any[] = [];
+        let result: any[] = [];
         for (let bItem of base) {
             for (let cItem of base) {
                 if (equalityComparer(bItem, cItem) === true) {
@@ -271,13 +272,37 @@ export abstract class Enumerable {
     public static Last<T>(base: IEnumerable<T> | Array<T>): T;
     public static Last<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static Last(base: any, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) throw this.InvalidOperationException();
+        if (func == null) {
+            if (base instanceof Array) return base[base.length - 1];
+            else return base.ElementAt(base.length - 1);
+        }
+
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+        let r: any;
+        for (let item of base) {
+            if (func(item) === true) r = item;
+        }
+        if (r === void 0) throw this.InvalidOperationException();
+        return r;
     }
-    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>): T;
-    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
+
+    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>): T | null;
+    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T | null;
     public static LastOrDefault(base: any, func?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) return null;
+        if (func == null) {
+            if (base instanceof Array) return base[base.length - 1] || null;
+            else return base.ElementAtOrDefault(base.length - 1);
+        }
+
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+        try { return this.Last(base, func); }
+        catch(e) { return null; }
     }
+
     public static Max<T>(base: IEnumerable<T> | Array<T>): number;
     public static Max<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
     public static Max(base: any, func?: any) {
