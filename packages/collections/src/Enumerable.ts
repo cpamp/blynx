@@ -250,19 +250,32 @@ export abstract class Enumerable {
         return result;
     }
 
-    public static Join<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<T>;
-    public static Join<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<T>;
-    public static Join(base: any, collection: any, keys: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+    public static Join<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection> | Array<TCollection>, resultFactory?: (itemA: T, itemB: TCollection) => TResult): Array<TResult>;
+    public static Join<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection> | Array<TCollection>, resultFactory?: (itemA: T, itemB: TCollection) => TResult, equalityComparer?: (itemA: T, itemB: TCollection) => boolean): Array<TResult>;
+    public static Join(base: any, collection: any, resultFactory: any, equalityComparer?: any) {
+        if (base == null || collection == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+        if (resultFactory == null || !this.isFunction(resultFactory)) resultFactory = (itemA: any, itemB: any) => Object.assign({}, itemA, itemB);
+
+        var result: any[] = [];
+        for (let bItem of base) {
+            for (let cItem of base) {
+                if (equalityComparer(bItem, cItem) === true) {
+                    result.push(resultFactory(bItem, cItem));
+                }
+            }
+        }
+        return result;
     }
+
     public static Last<T>(base: IEnumerable<T> | Array<T>): T;
     public static Last<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
     public static Last(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
-    public static LastOrDefault(): T;
-    public static LastOrDefault(func: (item: T) => boolean): T;
-    public static LastOrDefault(func?: any) {
+    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>): T;
+    public static LastOrDefault<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): T;
+    public static LastOrDefault(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
     public static Max<T>(base: IEnumerable<T> | Array<T>): number;
@@ -279,7 +292,7 @@ export abstract class Enumerable {
         throw new Error("Method not implemented.");
     }
     public static OrderBy<T>(base: IEnumerable<T> | Array<T>): Array<T>;
-    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => ): Array<T>;
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
     public static OrderBy(base: any, func?: any) {
         throw new Error("Method not implemented.");
     }
