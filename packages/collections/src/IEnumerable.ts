@@ -1,4 +1,5 @@
 import { IEqualityComparer } from "./IEqualityComperer";
+import { IOrder } from "./IOrder";
 
 export interface IEnumerable<T = {}> extends Iterable<T> {
     length: number;
@@ -39,8 +40,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Min(): number;
     Min(func: (item: T) => number): number;
     OfType(type: Function): IEnumerable<T>;
-    OrderBy(): IEnumerable<T>;
-    OrderBy(func: (item: T) => any): IEnumerable<T>;
+    OrderBy(keys: IEnumerable<string> | Array<string>): IEnumerable<T>;
+    OrderBy(keys: IEnumerable<string> | Array<string>, func: IOrder<T>): IEnumerable<T>;
     Reverse(): IEnumerable<T>;
     Select<TResult>(func: (item: T) => TResult): IEnumerable<TResult>;
     Equals(collection: IEnumerable<T>): boolean;

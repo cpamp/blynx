@@ -1,5 +1,6 @@
 import { IEnumerable } from "./IEnumerable";
 import { IEqualityComparer } from "./IEqualityComperer";
+import { IOrder, OrderResult } from "./IOrder";
 
 export abstract class Enumerable {
     private static isFunction(func: any) {
@@ -214,6 +215,7 @@ export abstract class Enumerable {
     public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<TResult>;
     public static GroupBy(base: any, keys: any, equalityComparer?: any) {
         if (base == null || keys == null) throw this.ArgumentNullException();
+        if (keys.length === 0) throw this.ArgumentInvalidException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
         let result: Array<any> = [];
@@ -333,25 +335,58 @@ export abstract class Enumerable {
         return current;
     }
 
-    public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): IEnumerable<T> {
+    public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): Array<T> {
+        if (base == null || type == null) throw this.ArgumentNullException();
+
+        var result: any[] = [];
+        for (let item of base) {
+            if (item instanceof type) result.push(item);
+        }
+        return result;
+    }
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | Array<string>): Array<T>;
+    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | Array<string>, func: IOrder<T>): Array<T>;
+    public static OrderBy(base: any, keys: any, func?: any) {
         throw new Error("Method not implemented.");
     }
-    public static OrderBy<T>(base: IEnumerable<T> | Array<T>): Array<T>;
-    public static OrderBy<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
-    public static OrderBy(base: any, func?: any) {
-        throw new Error("Method not implemented.");
+
+    public static Reverse<T>(base: IEnumerable<T> | Array<T>): Array<T> {
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length === 0) throw this.InvalidOperationException();
+
+        let r: any[] = [];
+        let count = base.length - 1;
+        for (let item of base) {
+            r[count--] = item;
+        }
+        return r;
     }
-    public static Reverse<T>(base: IEnumerable<T> | Array<T>): IEnumerable<T> {
-        throw new Error("Method not implemented.");
+
+    public static Select<T, TResult>(base: IEnumerable<T> | Array<T>, func: (item: T) => TResult): Array<TResult> {
+        if (base == null || func == null) throw this.ArgumentNullException();
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+
+        let r: any[] = [];
+        for (let item of base) {
+            r.push(func(item));
+        }
+        return r;
     }
-    public static Select<T, TResult>(base: IEnumerable<T> | Array<T>, func: (item: T) => TResult): IEnumerable<TResult> {
-        throw new Error("Method not implemented.");
-    }
+
     public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): boolean;
     public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
     public static Equals(base: any, collection: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null || collection == null) throw this.ArgumentNullException();
+        if (!this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+
+        for (let bItem of base) {
+            for (let cItem of collection) {
+                if (equalityComparer(bItem, cItem) === false) return false;
+            }
+        }
+        return true;
     }
+
     public static Single<T>(base: IEnumerable<T> | Array<T>): T {
         throw new Error("Method not implemented.");
     }
