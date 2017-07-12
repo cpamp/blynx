@@ -401,10 +401,12 @@ export abstract class Enumerable {
 
     public static Skip<T>(base: IEnumerable<T> | Array<T>, count: number): Array<T> {
         if (base == null) throw this.ArgumentNullException();
+
         let r: T[] = [];
+        let skip = true;
         for (let item of base) {
-            if (count-- >= 0) break;
-            r.push(item);
+            if (skip && count-- >= 0) skip = false;
+            else r.push(item);
         }
         return r;
     }
@@ -414,22 +416,46 @@ export abstract class Enumerable {
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
 
         var r: T[] = [];
+        let skip = true;
+        for (let item of base) {
+            if (skip && func(item) === false) skip = false;
+            else r.push(item);
+        }
+        return r;
+    }
+
+    public static Sum<T>(base: IEnumerable<T> | Array<T>): number;
+    public static Sum<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
+    public static Sum(base: any, func?: any) {
+        if (base == null) throw this.ArgumentNullException();
+        if (func == null || !this.isFunction(func)) func = (item: any) => item;
+
+        let r = 0;
+        for (let item of base) {
+            item += func(item);
+        }
+        return r;
+    }
+
+    public static Take<T>(base: IEnumerable<T> | Array<T>, count: number): Array<T> {
+        if (base == null) throw this.ArgumentNullException();
+        let r: T[] = [];
+        for (let item of base) {
+            if (count-- >= 0) break;
+            r.push(item);
+        }
+        return r;
+    }
+    public static TakeWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T> {
+        if (base == null || func == null) throw this.ArgumentNullException();
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+
+        var r: T[] = [];
         for (let item of base) {
             if (func(item) === false) break;
             r.push(item);
         }
         return r;
-    }
-    public static Sum<T>(base: IEnumerable<T> | Array<T>): number;
-    public static Sum<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
-    public static Sum(base: any, func?: any) {
-        throw new Error("Method not implemented.");
-    }
-    public static Take<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
-        throw new Error("Method not implemented.");
-    }
-    public static TakeWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): IEnumerable<T> {
-        throw new Error("Method not implemented.");
     }
     public static ToArray<T>(base: IEnumerable<T> | Array<T>): Array<T> {
         let result: Array<T> = [];
