@@ -457,21 +457,32 @@ export abstract class Enumerable {
         }
         return r;
     }
+
     public static ToArray<T>(base: IEnumerable<T> | Array<T>): Array<T> {
         let result: Array<T> = [];
         for (let item of base) result.push(item);
         return result;
     }
+
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
     public static Union(base: any, collection: any, equalityComparer?: any) {
         throw new Error("Method not implemented.");
     }
+
     public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
     public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T, index: number) => boolean): Array<T>;
     public static Where(base: any, func: any) {
-        throw new Error("Method not implemented.");
+        if (base == null || func == null) throw this.ArgumentNullException();
+
+        let r: any[] = [];
+        let count = 0;
+        for (let item of base) {
+            if (func(item, count++) === true) r.push(item);
+        }
+        return r;
     }
+
     public static Zip<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult {
         throw new Error("Method not implemented.");
     }
