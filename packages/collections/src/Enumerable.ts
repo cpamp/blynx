@@ -338,7 +338,7 @@ export abstract class Enumerable {
     public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): Array<T> {
         if (base == null || type == null) throw this.ArgumentNullException();
 
-        var result: any[] = [];
+        var result: T[] = [];
         for (let item of base) {
             if (item instanceof type) result.push(item);
         }
@@ -354,7 +354,7 @@ export abstract class Enumerable {
         if (base == null) throw this.ArgumentNullException();
         if (base.length === 0) throw this.InvalidOperationException();
 
-        let r: any[] = [];
+        let r: T[] = [];
         let count = base.length - 1;
         for (let item of base) {
             r[count--] = item;
@@ -366,7 +366,7 @@ export abstract class Enumerable {
         if (base == null || func == null) throw this.ArgumentNullException();
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
 
-        let r: any[] = [];
+        let r: TResult[] = [];
         for (let item of base) {
             r.push(func(item));
         }
@@ -399,11 +399,26 @@ export abstract class Enumerable {
         return this.ElementAt(base, 0);
     }
 
-    public static Skip<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
-        throw new Error("Method not implemented.");
+    public static Skip<T>(base: IEnumerable<T> | Array<T>, count: number): Array<T> {
+        if (base == null) throw this.ArgumentNullException();
+        let r: T[] = [];
+        for (let item of base) {
+            if (count-- >= 0) break;
+            r.push(item);
+        }
+        return r;
     }
-    public static SkipWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): IEnumerable<T> {
-        throw new Error("Method not implemented.");
+
+    public static SkipWhile<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T> {
+        if (base == null || func == null) throw this.ArgumentNullException();
+        if (!this.isFunction(func)) throw this.ArgumentInvalidException();
+
+        var r: T[] = [];
+        for (let item of base) {
+            if (func(item) === false) break;
+            r.push(item);
+        }
+        return r;
     }
     public static Sum<T>(base: IEnumerable<T> | Array<T>): number;
     public static Sum<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => number): number;
