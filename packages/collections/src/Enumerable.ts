@@ -187,7 +187,7 @@ export abstract class Enumerable {
         if (base.length === 0) throw this.InvalidOperationException();
         if (func == null) {
             if (base instanceof Array) return base[0];
-            return base.ElementAt(0);
+            return this.ElementAt(base, 0);
         }
         
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
@@ -203,7 +203,7 @@ export abstract class Enumerable {
         if (base == null) throw this.ArgumentNullException();
         if (func == null) {
             if (base instanceof Array) return base[0] || null;
-            return base.ElementAtOrDefault(0);
+            return this.ElementAtOrDefault(base, 0);
         }
 
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
@@ -278,7 +278,7 @@ export abstract class Enumerable {
         if (base.length === 0) throw this.InvalidOperationException();
         if (func == null) {
             if (base instanceof Array) return base[base.length - 1];
-            else return base.ElementAt(base.length - 1);
+            else return this.ElementAt(base, base.length - 1);
         }
 
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
@@ -297,7 +297,7 @@ export abstract class Enumerable {
         if (base.length === 0) return null;
         if (func == null) {
             if (base instanceof Array) return base[base.length - 1] || null;
-            else return base.ElementAtOrDefault(base.length - 1);
+            else return this.ElementAtOrDefault(base, base.length - 1);
         }
 
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
@@ -388,11 +388,17 @@ export abstract class Enumerable {
     }
 
     public static Single<T>(base: IEnumerable<T> | Array<T>): T {
-        throw new Error("Method not implemented.");
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length !== 1) throw this.InvalidOperationException();
+        return this.ElementAt(base, 0);
     }
-    public static SingleOrDefault<T>(base: IEnumerable<T> | Array<T>): T {
-        throw new Error("Method not implemented.");
+
+    public static SingleOrDefault<T>(base: IEnumerable<T> | Array<T>): T | null {
+        if (base == null) throw this.ArgumentNullException();
+        if (base.length !== 1) return null;
+        return this.ElementAt(base, 0);
     }
+
     public static Skip<T>(base: IEnumerable<T> | Array<T>, count: number): IEnumerable<T> {
         throw new Error("Method not implemented.");
     }
