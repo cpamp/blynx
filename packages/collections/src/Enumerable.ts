@@ -459,6 +459,10 @@ export abstract class Enumerable {
     }
 
     public static ToArray<T>(base: IEnumerable<T> | Array<T>): Array<T> {
+        if (base == null) throw this.ArgumentNullException();
+
+        if (base instanceof Array) return base.splice(0);
+
         let result: Array<T> = [];
         for (let item of base) result.push(item);
         return result;
@@ -467,7 +471,21 @@ export abstract class Enumerable {
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): Array<T>;
     public static Union<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): Array<T>;
     public static Union(base: any, collection: any, equalityComparer?: any) {
-        throw new Error("Method not implemented.");
+        if (base == null || collection == null) throw this.ArgumentNullException();
+        if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+
+        let arr = base instanceof Array ? base : this.ToArray(base);
+        for (let item of collection) {
+            let found = false;
+            for (let bItem of base) {
+                if (equalityComparer(item, bItem) === true) {
+                    found = true;
+                    break;
+                }
+            }
+            if (!found) arr.push(item);
+        }
+        return arr;
     }
 
     public static Where<T>(base: IEnumerable<T> | Array<T>, func: (item: T) => boolean): Array<T>;
@@ -483,7 +501,7 @@ export abstract class Enumerable {
         return r;
     }
 
-    public static Zip<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult {
+    public static Zip<T, TCollection, TResult>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): Array<TResult> {
         throw new Error("Method not implemented.");
     }
 

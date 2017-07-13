@@ -59,5 +59,5 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Union(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     Where(func: (item: T) => boolean): IEnumerable<T>;
     Where(func: (item: T, index: number) => boolean): IEnumerable<T>;
-    Zip<TCollection, TResult>(collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): TResult;
+    Zip<TCollection, TResult>(collection: IEnumerable<TCollection>, func: (itemA: T, itemB: TCollection) => TResult): Array<TResult>;
 }
