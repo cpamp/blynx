@@ -19,8 +19,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Distinct(equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     ElementAt(index: number): T;
     ElementAtOrDefault(index: number): T | null;
-    Except(collection: IEnumerable<T>): IEnumerable<T>;
-    Except(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
+    Except(collection: IEnumerable<T> | Array<T>): IEnumerable<T>;
+    Except(collection: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     First(): T;
     First(func: (item: T) => boolean): T;
     FirstOrDefault(): T | null;
@@ -40,8 +40,10 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     Min(): number;
     Min(func: (item: T) => number): number;
     OfType(type: Function): IEnumerable<T>;
-    OrderBy(keys: IEnumerable<string> | Array<string>): IEnumerable<T>;
-    OrderBy(keys: IEnumerable<string> | Array<string>, func: IOrder<T>): IEnumerable<T>;
+    OrderBy(): IEnumerable<T>;
+    OrderBy(func: IOrder<T>): IEnumerable<T>;
+    OrderByDescending(): IEnumerable<T>;
+    OrderByDescending(func: IOrder<T>): IEnumerable<T>;
     Reverse(): IEnumerable<T>;
     Select<TResult>(func: (item: T) => TResult): IEnumerable<TResult>;
     Equals(collection: IEnumerable<T>): boolean;
