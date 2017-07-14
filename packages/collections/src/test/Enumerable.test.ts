@@ -121,4 +121,16 @@ export class EnumerableTest {
         assert.AreEqual(true, Enumerable.Except(arr, not).indexOf(6) === -1);
         assert.AreEqual(true, Enumerable.Except(arr, not).indexOf(5) === -1);
     }
+
+    @TestMethod()
+    public First_Number(assert: Assert) {
+        let arr = [1,2,3,4];
+        assert.AreEqual(1, Enumerable.First(arr));
+    }
+
+    @TestMethod()
+    public FirstOrDefault(assert: Assert) {
+        let arr: any[] = [];
+        assert.AreEqual(null, Enumerable.FirstOrDefault(arr));
+    }
 }
