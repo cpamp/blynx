@@ -129,8 +129,20 @@ export class EnumerableTest {
     }
 
     @TestMethod()
+    public First_Number_Of(assert: Assert) {
+        let arr = [1,3,5,6,8];
+        assert.AreEqual(6, Enumerable.First(arr, (item) => item % 2 === 0));
+    }
+
+    @TestMethod()
     public FirstOrDefault(assert: Assert) {
         let arr: any[] = [];
         assert.AreEqual(null, Enumerable.FirstOrDefault(arr));
+    }
+
+    @TestMethod()
+    public FirstOrDefault_Of(assert: Assert) {
+        let arr: any[] = [1,3,5,7];
+        assert.AreEqual(null, Enumerable.FirstOrDefault(arr, (item) => item % 2 === 0));
     }
 }
