@@ -25,8 +25,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     First(func: (item: T) => boolean): T;
     FirstOrDefault(): T | null;
     FirstOrDefault(func: (item: T) => boolean): T | null;
-    GroupBy<TResult>(keys: IEnumerable<string> | Array<string>): IEnumerable<TResult>;
-    GroupBy<TResult>(keys: IEnumerable<string> | Array<string>, equalityComparer: IEqualityComparer<T>): IEnumerable<TResult>;
+    GroupBy<TResult>(): IEnumerable<TResult>;
+    GroupBy<TResult>(groupFunc: (item: T) => TResult, equalityComparer: IEqualityComparer<T>): IEnumerable<TResult>;
     Intersect(collection: IEnumerable<T> | Array<T>): IEnumerable<T>;
     Intersect(collection: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): IEnumerable<T>;
     Join<TCollection, TResult>(collection: IEnumerable<T> | Array<T>, resultFactory: (itemA: T, itemB: TCollection) => TResult): IEnumerable<TResult>;

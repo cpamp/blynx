@@ -145,4 +145,32 @@ export class EnumerableTest {
         let arr: any[] = [1,3,5,7];
         assert.AreEqual(null, Enumerable.FirstOrDefault(arr, (item) => item % 2 === 0));
     }
+
+    @TestMethod()
+    public GroupBy(assert: Assert) {
+        let arr = [
+            {
+                a: 20,
+                b: 60
+            },
+            {
+                a: 20,
+                b: 22
+            },
+            {
+                a: 20,
+                b: 24
+            },
+            {
+                a: 20,
+                b: 60
+            },
+            {
+                a: 20,
+                b: 24
+            }
+        ];
+
+        assert.AreEqual(3, Enumerable.GroupBy(arr, (item) => {return {a: item.a, b: item.b}}).length);
+    }
 }

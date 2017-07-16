@@ -213,27 +213,35 @@ export abstract class Enumerable {
         catch(e) { return null; }
     }
 
-    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[]): Array<TResult>;
-    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, keys: IEnumerable<string> | string[], equalityComparer: (itemA: T, itemB: T) => boolean): Array<TResult>;
-    public static GroupBy(base: any, keys: any, equalityComparer?: any) {
-        if (base == null || keys == null) throw this.ArgumentNullException();
-        if (keys.length === 0) throw this.ArgumentInvalidException();
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, groupFunc: (item: T) => TResult): Array<TResult>;
+    public static GroupBy<T, TResult>(base: IEnumerable<T> | Array<T>, groupFunc: (item: T) => TResult, equalityComparer: (itemA: T, itemB: T) => boolean): Array<TResult>;
+    public static GroupBy(base: any, groupFunc: any, equalityComparer?: any) {
+        if (base == null || groupFunc == null) throw this.ArgumentNullException();
+        if (!this.isFunction(groupFunc)) throw this.ArgumentInvalidException();
         if (equalityComparer == null || !this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
 
         let result: Array<any> = [];
         for (let item of base) {
-            let match: any = {};
-            let doesMatch = true;
+            let match: Object = {};
+            let doesMatch = false;
+            match = groupFunc(item);
             for (let rItem of result) {
-                for (let key of keys) {
-                    if (equalityComparer(item[key], rItem[key]) === false) {
-                        doesMatch = false;
-                        break;
+                let allKeysMatch = true;
+                for (let key in match) {
+                    if (match.hasOwnProperty(key)) {
+                        if (equalityComparer(item[key], rItem[key]) === false) {
+                            allKeysMatch = false;
+                            break;
+                        }
                     }
-                    match[key] = item[key];
+                }
+                if (allKeysMatch) {
+                    doesMatch = true;
+                    break;
                 }
             }
-            if (doesMatch) result.push(match);
+
+            if (!doesMatch) result.push(match);
         }
         return result;
     }
