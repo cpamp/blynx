@@ -151,26 +151,67 @@ export class EnumerableTest {
         let arr = [
             {
                 a: 20,
-                b: 60
+                b: 60,
+                c: 0
             },
             {
                 a: 20,
-                b: 22
+                b: 22,
+                c: 0
             },
             {
                 a: 20,
-                b: 24
+                b: 24,
+                c: 0
             },
             {
                 a: 20,
-                b: 60
+                b: 60,
+                c: 0
             },
             {
                 a: 20,
-                b: 24
+                b: 24,
+                c: 0
             }
         ];
 
         assert.AreEqual(3, Enumerable.GroupBy(arr, (item) => {return {a: item.a, b: item.b}}).length);
+        assert.AreEqual(20, Enumerable.GroupBy(arr, (item) => {return {a: item.a, b: item.b}})[0].a);
+        assert.AreEqual(undefined, (<any>Enumerable.GroupBy(arr, (item) => {return {a: item.a, b: item.b}})[0]).c);
+    }
+
+    @TestMethod()
+    public Intersect_Number(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        let arr2 = [4,5,6,7,8];
+
+        assert.AreEqual(2, Enumerable.Intersect(arr, arr2).length);
+        assert.AreEqual(4, Enumerable.Intersect(arr, arr2)[0]);
+        assert.AreEqual(5, Enumerable.Intersect(arr, arr2)[1]);
+    }
+
+    @TestMethod()
+    public Join(assert: Assert) {
+        let boxes = [{containerId: 1, name: "Box1"}, {containerId: 2, name: "Box2"}];
+        let containers = [{containerId: 1, name: "Container 1"}, {containerId: 2, name: "Container 2"}];
+
+        let joined = Enumerable.Join(boxes, containers, (box, container) => {
+            return {
+                containerId: container.containerId,
+                containerName: container.name,
+                boxName: box.name
+            }
+        }, (box, container) => box.containerId === container.containerId);
+
+        assert.AreEqual(2, joined.length);
+
+        assert.AreEqual(1, joined[0].containerId);
+        assert.AreEqual("Container 1", joined[0].containerName);
+        assert.AreEqual("Box1", joined[0].boxName);
+
+        assert.AreEqual(2, joined[1].containerId);
+        assert.AreEqual("Container 2", joined[1].containerName);
+        assert.AreEqual("Box2", joined[1].boxName);
     }
 }
