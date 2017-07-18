@@ -1,6 +1,8 @@
 import { TestClass, TestMethod, Assert } from "@jable/test/dist/commonjs";
 import { Enumerable } from "../Enumerable";
 
+class CustomType {}
+
 @TestClass()
 export class EnumerableTest {
     @TestMethod()
@@ -261,5 +263,46 @@ export class EnumerableTest {
     public Min_Number(assert: Assert) {
         let arr = [111,12,3,15,0];
         assert.AreEqual(0, Enumerable.Min(arr));
+    }
+
+    @TestMethod()
+    public OfType(assert: Assert) {
+        let arr = [1,23,new CustomType(), new CustomType()];
+        assert.AreEqual(2, Enumerable.OfType(arr, CustomType).length);
+    }
+
+    @TestMethod()
+    public OrderBy(assert: Assert) {
+        let arr = [1,2,56,621,5643,1];
+        let ordered = Enumerable.OrderBy(arr);
+        assert.AreEqual(1, ordered[0]);
+        assert.AreEqual(1, ordered[1]);
+        assert.AreEqual(2, ordered[2]);
+        assert.AreEqual(56, ordered[3]);
+        assert.AreEqual(621, ordered[4]);
+        assert.AreEqual(5643, ordered[5]);
+    }
+
+    @TestMethod()
+    public OrderByDescending(assert: Assert) {
+        let arr = [1,2,56,621,5643,1];
+        let ordered = Enumerable.OrderByDescending(arr);
+        assert.AreEqual(1, ordered[5]);
+        assert.AreEqual(1, ordered[4]);
+        assert.AreEqual(2, ordered[3]);
+        assert.AreEqual(56, ordered[2]);
+        assert.AreEqual(621, ordered[1]);
+        assert.AreEqual(5643, ordered[0]);
+    }
+
+    @TestMethod()
+    public Reverse(assert: Assert) {
+        let arr = [1,5,2,4,3];
+        let reversed = Enumerable.Reverse(arr);
+        assert.AreEqual(3, reversed[0]);
+        assert.AreEqual(4, reversed[1]);
+        assert.AreEqual(2, reversed[2]);
+        assert.AreEqual(5, reversed[3]);
+        assert.AreEqual(1, reversed[4]);
     }
 }
