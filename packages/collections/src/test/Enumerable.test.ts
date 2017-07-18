@@ -214,4 +214,52 @@ export class EnumerableTest {
         assert.AreEqual("Container 2", joined[1].containerName);
         assert.AreEqual("Box2", joined[1].boxName);
     }
+
+    @TestMethod()
+    public Last(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        assert.AreEqual(5, Enumerable.Last(arr));
+    }
+
+    @TestMethod()
+    public Last_Of(assert: Assert) {
+        let arr = [2,4,6,8,9,11];
+        assert.AreEqual(8, Enumerable.Last(arr, (item) => item % 2 === 0));
+    }
+
+    @TestMethod()
+    public LastOrDefault_Null(assert: Assert) {
+        let arr: any[] = [];
+        assert.AreEqual(null, Enumerable.LastOrDefault(arr));
+    }
+
+    @TestMethod()
+    public LastOrDefault_Number(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        assert.AreEqual(5, Enumerable.LastOrDefault(arr));
+    }
+
+    @TestMethod()
+    public LastOrDefault_Null_Of(assert: Assert) {
+        let arr: any[] = [];
+        assert.AreEqual(null, Enumerable.LastOrDefault(arr, (item) => item %2 === 0));
+    }
+
+    @TestMethod()
+    public LastOrDefault_Number_Of(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        assert.AreEqual(4, Enumerable.LastOrDefault(arr, (item) => item % 2 === 0));
+    }
+
+    @TestMethod()
+    public Max_Number(assert: Assert) {
+        let arr = [111,12,3,15,0];
+        assert.AreEqual(111, Enumerable.Max(arr));
+    }
+
+    @TestMethod()
+    public Min_Number(assert: Assert) {
+        let arr = [111,12,3,15,0];
+        assert.AreEqual(0, Enumerable.Min(arr));
+    }
 }

@@ -324,12 +324,12 @@ export abstract class Enumerable {
         if (base.length === 0) throw this.InvalidOperationException();
         if (func == null || !this.isFunction(func)) func = (item: any) => item;
 
-        var max = -Infinity;
+        let max = -Infinity;
         for (let item of base) {
-            var current = func(item);
+            let current = func(item);
             if (current > max) max = current;
         }
-        return current;
+        return max;
     }
 
     public static Min<T>(base: IEnumerable<T> | Array<T>): number;
@@ -339,12 +339,12 @@ export abstract class Enumerable {
         if (base.length === 0) throw this.InvalidOperationException();
         if (func == null || !this.isFunction(func)) func = (item: any) => item;
 
-        var max = Infinity;
+        let min = Infinity;
         for (let item of base) {
-            var current = func(item);
-            if (current < max) max = current;
+            let current = func(item);
+            if (current < min) min = current;
         }
-        return current;
+        return min;
     }
 
     public static OfType<T>(base: IEnumerable<T> | Array<T>, type: Function): Array<T>;
