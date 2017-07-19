@@ -305,4 +305,16 @@ export class EnumerableTest {
         assert.AreEqual(5, reversed[3]);
         assert.AreEqual(1, reversed[4]);
     }
+
+    @TestMethod()
+    public Select(assert: Assert) {
+        let arr = [1,2,3,4,5,6];
+        let selected = Enumerable.Select(arr, (item) => item % 2);
+        assert.AreEqual(1, selected[0]);
+        assert.AreEqual(0, selected[1]);
+        assert.AreEqual(1, selected[2]);
+        assert.AreEqual(0, selected[3]);
+        assert.AreEqual(1, selected[4]);
+        assert.AreEqual(0, selected[5]);
+    }
 }
