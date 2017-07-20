@@ -46,8 +46,8 @@ export interface IEnumerable<T = {}> extends Iterable<T> {
     OrderByDescending(func: IOrder<T>): IEnumerable<T>;
     Reverse(): IEnumerable<T>;
     Select<TResult>(func: (item: T) => TResult): IEnumerable<TResult>;
-    Equals(collection: IEnumerable<T>): boolean;
-    Equals(collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
+    Equals(collection: IEnumerable<T> | Array<T>): boolean;
+    Equals(collection: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): boolean;
     Single(): T;
     SingleOrDefault(): T;
     Skip(count: number): IEnumerable<T>;

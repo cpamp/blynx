@@ -414,16 +414,15 @@ export abstract class Enumerable {
         return r;
     }
 
-    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>): boolean;
-    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T>, equalityComparer: IEqualityComparer<T>): boolean;
+    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>): boolean;
+    public static Equals<T>(base: IEnumerable<T> | Array<T>, collection: IEnumerable<T> | Array<T>, equalityComparer: IEqualityComparer<T>): boolean;
     public static Equals(base: any, collection: any, equalityComparer?: any) {
         if (base == null || collection == null) throw this.ArgumentNullException();
         if (!this.isFunction(equalityComparer)) equalityComparer = this.equalityComparer;
+        if (base.length !== collection.length) return false;
 
-        for (let bItem of base) {
-            for (let cItem of collection) {
-                if (equalityComparer(bItem, cItem) === false) return false;
-            }
+        for (let i = 0; i < base.length; i++) {
+            if (equalityComparer(this.ElementAt(base, i), this.ElementAt(collection, i)) === false) return false;
         }
         return true;
     }

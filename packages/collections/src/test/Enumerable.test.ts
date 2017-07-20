@@ -317,4 +317,19 @@ export class EnumerableTest {
         assert.AreEqual(1, selected[4]);
         assert.AreEqual(0, selected[5]);
     }
+
+    @TestMethod()
+    public Equals_True(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        let arr2 = [1,2,3,4,5];
+
+        assert.AreEqual(true, Enumerable.Equals(arr, arr2));
+    }
+    @TestMethod()
+    public Equals_False(assert: Assert) {
+        let arr = [1,2,3,4,5];
+        let arr2 = [1,2,3,4,6];
+
+        assert.AreEqual(false, Enumerable.Equals(arr, arr2));
+    }
 }
