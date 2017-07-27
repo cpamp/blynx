@@ -332,4 +332,16 @@ export class EnumerableTest {
 
         assert.AreEqual(false, Enumerable.Equals(arr, arr2));
     }
+
+    @TestMethod()
+    public Single(assert: Assert) {
+        let arr = [1];
+        assert.AreEqual(1, Enumerable.Single(arr));
+    }
+
+    @TestMethod()
+    public SingleOrDefault(assert: Assert) {
+        let arr = [1,2];
+        assert.AreEqual(null, Enumerable.SingleOrDefault(arr));
+    }
 }
