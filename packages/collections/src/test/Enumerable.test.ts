@@ -344,4 +344,16 @@ export class EnumerableTest {
         let arr = [1,2];
         assert.AreEqual(null, Enumerable.SingleOrDefault(arr));
     }
+
+    @TestMethod()
+    public Skip_3(assert: Assert) {
+        let arr = [1,2,3,4,5,6];
+        assert.AreEqual(3, Enumerable.Skip(arr, 3).length);
+    }
+
+    @TestMethod()
+    public SkipWhile(assert: Assert) {
+        let arr = [2,4,6,1,3,5];
+        assert.AreEqual(3, Enumerable.SkipWhile(arr, (item) => item % 2 === 0).length);
+    }
 }

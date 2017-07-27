@@ -446,10 +446,8 @@ export abstract class Enumerable {
         if (base == null) throw this.ArgumentNullException();
 
         let r: any[] = [];
-        let skip = true;
         for (let item of base) {
-            if (skip && count-- >= 0) skip = false;
-            else r.push(item);
+            if (count-- <= 0) r.push(item);
         }
         return r;
     }
@@ -460,10 +458,9 @@ export abstract class Enumerable {
         if (!this.isFunction(func)) throw this.ArgumentInvalidException();
 
         var r: any[] = [];
-        let skip = true;
         for (let item of base) {
-            if (skip && func(item) === false) skip = false;
-            else r.push(item);
+            if (func(item) === false) break;
+            r.push(item);
         }
         return r;
     }
