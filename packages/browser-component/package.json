@@ -1,9 +1,9 @@
 {
   "name": "@jable/browser-component",
-  "version": "1.0.10",
+  "version": "2.0.0",
   "description": "Browser Components",
-  "main": "./dist/es2015/index.js",
-  "types": "./dist/es2015/index.d.ts",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
   "scripts": {
     "prepare": "tsc && tsc -p ./tsconfig.commonjs.json"
   },
