@@ -55,6 +55,7 @@
     "webpack-merge": "^4.1.0"
   },
   "dependencies": {
-    "@jable/browser-component": "^1.0.10"
+    "@jable/browser-component": "^2.0.0",
+    "@jable/inject": "^2.0.0"
   }
 }
