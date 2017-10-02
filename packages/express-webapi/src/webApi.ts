@@ -24,6 +24,8 @@ export abstract class WebApi {
     private static bindRoute(app: Express, route: Route, controller: Controller) {
         let action = HttpMethod[route.Method].toLowerCase();
         let path = (controller.BasePath || '') + route.Path;
+        if (path.lastIndexOf('/', 0) !== 0) path = `/${path}`;
+        if (path.lastIndexOf('/') === path.length - 1) path = path.slice(0, -1);
         (<any>app)[action](path, controller.Instance[route.Action]);
     }
 }
