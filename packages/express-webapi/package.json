@@ -1,0 +1,38 @@
+{
+  "name": "@jable/mongo-document",
+  "version": "2.0.1",
+  "description": "",
+  "main": "./dist/commonjs/index.js",
+  "types": "./dist/commonjs/index.d.ts",
+  "scripts": {
+    "prepare": "tsc && tsc -p tsconfig.commonjs.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpamp/jable.git"
+  },
+  "keywords": [
+    "mongo",
+    "mongodb",
+    "document",
+    "object",
+    "model",
+    "repository"
+  ],
+  "author": "Clint Pamperin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cpamp/jable/issues"
+  },
+  "homepage": "https://github.com/cpamp/jable/tree/master/packages/mongo-document#readme",
+  "devDependencies": {
+    "@types/express": "^4.0.37",
+    "@types/node": "^7.0.31"
+  },
+  "dependencies": {
+    "es6-symbol": "^3.1.1",
+    "express": "^4.16.1",
+    "reflect-metadata": "^0.1.10",
+    "uuid": "^3.1.0"
+  }
+}
