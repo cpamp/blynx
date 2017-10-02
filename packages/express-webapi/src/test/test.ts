@@ -4,17 +4,22 @@ import { Route } from "../route.decorator";
 import { HttpMethod } from "../httpMethod";
 import { WebApi } from "../webApi";
 
-@Controller()
+@Controller('api/test')
 class TController {
     @Route(HttpMethod.GET, '/')
     index(req: express.Request, res: express.Response) {
-        res.send('Hello World')
+        res.send('Hello World');
+    }
+
+    @Route(HttpMethod.GET, '/v2')
+    index2(req: express.Request, res: express.Response) {
+        res.send('Hello World, v2');
     }
 }
 
 @Controller()
 class TController2 {
-    @Route(HttpMethod.GET, '/test')
+    @Route(HttpMethod.GET, 'test')
     index(req: express.Request, res: express.Response) {
         res.send(req.query);
     }
