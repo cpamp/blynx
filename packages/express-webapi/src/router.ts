@@ -55,7 +55,7 @@ export class Router {
     public registerRoute(targetPrototype: any, httpMethod: HttpMethod, path: string, actionKey: string) {
         let key = targetPrototype[this.SYMBOL_ID] || this.getKey();
         targetPrototype[this.SYMBOL_ID] = key;
-        this.controllers[key] = new Controller();
+        if (this.controllers[key] == null) this.controllers[key] = new Controller();
         this.controllers[key].addRoute(new Route(httpMethod, path, actionKey));
     }
 }
