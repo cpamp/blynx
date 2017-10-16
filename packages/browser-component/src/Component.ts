@@ -8,6 +8,25 @@ const inject = Injectable({exclude: {HTMLElement: true, Element: true}})
 export type IOptions = {
     selector: string;
     styles?: string;
+    template?: string;
+}
+
+function initTemplate(element: Element, template: string | undefined) {
+    if (template == null) return;
+    let elHtml = element.innerHTML;
+    let elWrapper = document.createElement('div');
+    elWrapper.innerHTML = elHtml;
+    element.innerHTML = template;
+    let jbContents = element.querySelectorAll('jb-content');
+    for (let i = 0; i < jbContents.length; i++) {
+        let jbContent = jbContents.item(i);
+        if (jbContent.hasAttribute('selector')) {
+            let content = elWrapper.querySelector(<string>jbContent.getAttribute('selector'));
+            if (content) jbContent.innerHTML = content.innerHTML;
+        } else {
+            jbContent.innerHTML = elWrapper.innerHTML;
+        }
+    }
 }
 
 export function Component(options: IOptions) {
@@ -30,9 +49,11 @@ export function Component(options: IOptions) {
             var params: any[] = [];
             for (var i = 0; i < elements.length; i++) {
                 if (ComponentRegistry.componentElements.indexOf(elements[i]) === -1) {
-                    params[htmlElementIndex] = elements.item(i);
+                    let el = elements.item(i);
+                    initTemplate(el, options.template);
+                    params[htmlElementIndex] = el;
                     new (Function.prototype.bind.apply(constructor, [null, ...params]))();
-                    ComponentRegistry.componentElements.push(elements[i]);
+                    ComponentRegistry.componentElements.push(el);
                 }
             }
         };

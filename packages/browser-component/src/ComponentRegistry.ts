@@ -28,14 +28,18 @@ export class ComponentRegistry {
         }
     }
 
+    private static initStyles(component: any) {
+        var css = component[StyleSymbol];
+        if (css) {
+            var style = document.createElement('style');
+            style.appendChild(document.createTextNode(css));
+            document.head.appendChild(style);
+        }
+    }
+
     public static init() {
         for (let component of this.components) {
-            var css = component[StyleSymbol];
-            if (css) {
-                var style = document.createElement('style');
-                style.appendChild(document.createTextNode(css));
-                document.head.appendChild(style);
-            }
+            this.initStyles(component);
         }
         this.componentInit();
         this.observe();
