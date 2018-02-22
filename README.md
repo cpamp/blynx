@@ -8,9 +8,13 @@ Jable.
 
 [deprecated](packages/deprecated#readme)
 
+[express-webapi](packages/express-webapi#readme)
+
 [inject](packages/inject#readme)
 
 [logging](packages/logging#readme)
+
+[mongo-document](packages/mongo-document#readme)
 
 [strict-types](packages/strict-types#readme)
 
