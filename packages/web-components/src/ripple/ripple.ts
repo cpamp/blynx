@@ -3,8 +3,8 @@ export class JbRipple {
 
     constructor(private jbRipple: HTMLElement) {
         this.setupRippleContainer();
-        var mouseDown = (<any>window).PointerEvent ? 'pointerdown' : 'mousedown';
-        this.jbRipple.addEventListener(mouseDown, (e: MouseEvent) => this.showRipple(e));
+        let mouseDown = (<any>window).PointerEvent ? 'pointerdown' : 'mousedown';
+        this.jbRipple.addEventListener(mouseDown, (e: Event) => this.showRipple(e));
     }
 
     private setupRippleContainer() {
@@ -13,24 +13,25 @@ export class JbRipple {
         this.jbRipple.appendChild(this.rippleContainer);
     }
 
-    private createRipple(e: MouseEvent): HTMLElement {
-        var rect = this.jbRipple.getBoundingClientRect();
-        var x = e.offsetX;
-        var y;
+    private createRipple(e: Event): HTMLElement {
+        let mouseEv = e as MouseEvent;
+        let rect = this.jbRipple.getBoundingClientRect();
+        let x = mouseEv.offsetX;
+        let y;
         if (x !== void 0) {
-            y = e.offsetY;
+            y = mouseEv.offsetY;
         } else {
-            x = e.clientX - rect.left;
-            y = e.clientY - rect.top;
+            x = mouseEv.clientX - rect.left;
+            y = mouseEv.clientY - rect.top;
         }
-        var max;
+        let max;
         if (rect.width == rect.height) {
             max = rect.width * 1.412;
         } else {
             max = Math.sqrt(rect.width * rect.width + rect.height * rect.height);
         }
-        var dim = max * 2 + 'px';
-        var ripple = document.createElement('div');
+        let dim = max * 2 + 'px';
+        let ripple = document.createElement('div');
         if (this.jbRipple.hasAttribute('jb-ripple-color')) {
             ripple.style.backgroundColor = this.jbRipple.getAttribute('jb-ripple-color');
         }
@@ -42,16 +43,16 @@ export class JbRipple {
         return ripple;
     }
 
-    private showRipple(e: MouseEvent) {
+    private showRipple(e: Event) {
         if (this.jbRipple.hasAttribute('disabled')) return;
-        var ripple = this.createRipple(e);
+        let ripple = this.createRipple(e);
         this.rippleContainer.appendChild(ripple);
         window.setTimeout(function() {
             ripple.classList.add('jb-ripple-held');
         }, 0);
 
-        var releaseEvent = ((<any>window).PointerEvent ? 'pointerup' : 'mouseup');
-        var release = (ev: Event) => {
+        let releaseEvent = ((<any>window).PointerEvent ? 'pointerup' : 'mouseup');
+        let release = (ev: Event) => {
             document.removeEventListener(releaseEvent, release);
             ripple.classList.add('jb-ripple-done');
 

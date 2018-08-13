@@ -31,7 +31,7 @@ export class JbTextbox {
 
     private setupInput() {
         this.jbTextbox.removeChild(this.jbInput);
-        var borderBottom = document.createElement('span');
+        let borderBottom = document.createElement('span');
         borderBottom.classList.add('jb-input-border-bottom');
         borderBottom.appendChild(this.jbInput);
         this.jbTextbox.insertBefore(borderBottom, this.jbTextbox.firstChild);
@@ -54,20 +54,20 @@ export class JbTextbox {
     }
 
     private getError(type: string): HTMLElement {
-        for (var i = 0; i < this.jbErrors.length; i++) {
+        for (let i = 0; i < this.jbErrors.length; i++) {
             if (this.jbErrors.item(i).hasAttribute(type)) return this.jbErrors.item(i);
         }
         return null;
     }
 
     private error(type: string) {
-        var err = this.getError(type);
+        let err = this.getError(type);
         this.jbHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
         this.jbTextbox.classList.add('jb-input-error');
     }
 
     private validate() {
-        var v = this.jbInput.validity;
+        let v = this.jbInput.validity;
         if ((<any>v).tooShort === void 0) {
             (<any>v).tooShort = false;
             if (this.jbInput.hasAttribute('minlength')) (<any>v).tooShort = this.jbInput.value.length < parseInt(this.jbInput.getAttribute('minlength'));

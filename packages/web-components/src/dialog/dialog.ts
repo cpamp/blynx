@@ -30,16 +30,16 @@ export class JbDialog {
 
     private setupEventListener() {
         document.addEventListener('click', (e: MouseEvent) => {
-            var target = <Element>e.target;
+            let target = <Element>e.target;
             if (target.hasAttribute('jb-dialog-open')) {
-                var dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-open'));
+                let dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-open'));
                 if (dialog != null) dialog.$jb_dialog_component.open();
             }
         });
         document.addEventListener('click', (e: MouseEvent) => {
-            var target = <Element>e.target;
+            let target = <Element>e.target;
             if (target.hasAttribute('jb-dialog-close')) {
-                var dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-close'));
+                let dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-close'));
                 if (dialog != null) dialog.$jb_dialog_component.close();
             }
         });
@@ -48,28 +48,16 @@ export class JbDialog {
 
     private setupLightbox() {
         if (JbDialog.lightbox == null) {
-            var lightbox = document.querySelector('.jb-dialog-dim');
+            let lightbox = document.querySelector('.jb-dialog-dim');
             if (lightbox == null) {
                 lightbox = document.createElement('div');
                 lightbox.classList.add('jb-dialog-dim');
                 document.body.appendChild(lightbox);
-                lightbox.addEventListener('click', (e: MouseEvent) => {
+                lightbox.addEventListener('click', (e: Event) => {
                     if (JbDialog.openedDialog != null && JbDialog.openedDialog.actionRequired === false) JbDialog.openedDialog.close();
                 });
             }
             JbDialog.lightbox = <HTMLElement>lightbox;
         }
-    }
-
-    private setupHeader() {
-
-    }
-
-    private setupBody() {
-
-    }
-
-    private setupFooter() {
-
     }
 }
