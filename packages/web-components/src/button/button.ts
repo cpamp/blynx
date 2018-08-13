@@ -1,13 +1,6 @@
 import { JbRipple } from "../ripple/ripple";
 
-enum ButtonType {
-    Fab,
-    Raised,
-    Flat
-}
-
 export class JbButton {
-    // private type: ButtonType;
 
     constructor(private jbButton: HTMLElement) {
         // this.setType();
@@ -31,20 +24,4 @@ export class JbButton {
             this.jbButton.classList.remove('jb-button-focus');
         });
     }
-
-    // private setType() {
-    //     switch (this.jbButton.getAttribute('jb-button').toLowerCase()) {
-    //         case ButtonType[ButtonType.Fab].toLowerCase():
-    //             this.type = ButtonType.Fab;
-    //             break;
-    //         case ButtonType[ButtonType.Flat].toLowerCase():
-    //             this.type = ButtonType.Flat;
-    //             break;
-    //         case ButtonType[ButtonType.Raised].toLowerCase():
-    //         default:
-    //             this.type = ButtonType.Raised;
-    //             break;
-    //     }
-    //     this.jbButton.setAttribute('jb-button', ButtonType[this.type].toLowerCase());
-    // }
 }
