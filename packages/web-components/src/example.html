@@ -216,5 +216,28 @@
                 <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog3">Yes</button>
             </jb-footer>
         </jb-dialog>
+
+        <div style="width:250px">
+            <jb-progress-bar id="pg1" step label max-value="6" jb-primary></jb-progress-bar>
+        </div>
+        <br />
+        <div style="width:250px">
+            <jb-progress-bar id="pg2" label max-value="100" value="66" jb-warn></jb-progress-bar>
+        </div>
+        <br />
+        <div style="width:250px">
+            <jb-progress-bar id="pg3" jb-danger></jb-progress-bar>
+        </div>
+        <script>
+            let pg1 = document.querySelector('#pg1');
+            let pg2 = document.querySelector('#pg2');
+            let pg3 = document.querySelector('#pg3');
+
+            setInterval(function() {
+                pg1.$jb.setValue(Math.floor(Math.random() * 7));
+                pg2.$jb.value = pg2.$jb.value > 0 ? pg2.$jb.value - 1 : 100;
+                pg3.$jb.value = pg3.$jb.value >= 100 ? 0 : pg3.$jb.value + 5 ;
+            }, 1000);
+        </script>
     </body>
 </html>

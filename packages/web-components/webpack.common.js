@@ -28,6 +28,9 @@ module.exports = {
             {
                 test: /\.js$/,
                 loaders: ['babel-loader?' + es2015]
+            }, {
+                test: /\.html$/,
+                loaders: ['raw-loader']
             }
         ]
     },

@@ -1,9 +1,7 @@
 import { JbRipple } from "../ripple/ripple";
 
 export class JbButton {
-
     constructor(private jbButton: HTMLElement) {
-        // this.setType();
         this.jbButton.setAttribute('jb-ripple', '');
         this.setupButton();
         new JbRipple(this.jbButton);

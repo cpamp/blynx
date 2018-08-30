@@ -1,5 +1,3 @@
-interface IHasDialog extends Element { $jb_dialog_component: JbDialog }
-
 export class JbDialog {
     private static openedDialog: JbDialog;
     private static eventListenersDone: boolean = false;
@@ -9,7 +7,7 @@ export class JbDialog {
     private actionRequired: boolean;
 
     constructor(private jbDialog: HTMLElement) {
-        (<IHasDialog>(<any>this.jbDialog)).$jb_dialog_component = this;
+        (<IHasJb<JbDialog>>(<any>this.jbDialog)).$jb = this;
         this.actionRequired = this.jbDialog.hasAttribute('jb-action-required');
         this.setupLightbox();
         if (!JbDialog.eventListenersDone) this.setupEventListener();
@@ -32,15 +30,15 @@ export class JbDialog {
         document.addEventListener('click', (e: MouseEvent) => {
             let target = <Element>e.target;
             if (target.hasAttribute('jb-dialog-open')) {
-                let dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-open'));
-                if (dialog != null) dialog.$jb_dialog_component.open();
+                let dialog: IHasJb<JbDialog> = <any>document.getElementById(target.getAttribute('jb-dialog-open'));
+                if (dialog != null) dialog.$jb.open();
             }
         });
         document.addEventListener('click', (e: MouseEvent) => {
             let target = <Element>e.target;
             if (target.hasAttribute('jb-dialog-close')) {
-                let dialog: IHasDialog = <any>document.getElementById(target.getAttribute('jb-dialog-close'));
-                if (dialog != null) dialog.$jb_dialog_component.close();
+                let dialog: IHasJb<JbDialog> = <any>document.getElementById(target.getAttribute('jb-dialog-close'));
+                if (dialog != null) dialog.$jb.close();
             }
         });
         JbDialog.eventListenersDone = true;
