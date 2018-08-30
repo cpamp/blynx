@@ -68,10 +68,11 @@ export class JbTextbox {
 
     private validate() {
         let v = this.jbInput.validity;
-        if ((<any>v).tooShort === void 0) {
+
+        try {
             (<any>v).tooShort = false;
             if (this.jbInput.hasAttribute('minlength')) (<any>v).tooShort = this.jbInput.value.length < parseInt(this.jbInput.getAttribute('minlength'));
-        }
+        } catch { /* Nothing to do */ }
 
         if (v.badInput) {
             return this.error('bad');

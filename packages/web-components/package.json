@@ -56,9 +56,8 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "@jable/browser-component": "^2.1.0",
-    "@jable/inject": "^2.0.0",
-    "es6-iterator": "^2.0.3",
+    "@jable/browser-component": "^2.2.0",
+    "browser-component": "^0.1.2",
     "es6-symbol": "^3.1.1"
   }
 }

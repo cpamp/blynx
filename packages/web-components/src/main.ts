@@ -1,4 +1,3 @@
-import "es6-iterator";
 require('es6-symbol/implement');
 
 import { JbTextbox } from "./textbox/textbox";

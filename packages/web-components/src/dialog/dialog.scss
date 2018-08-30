@@ -2,6 +2,7 @@
 
 $jb-dialog-border: $jb-light-grey-color 1px solid;
 $jb-dialog-padding: 20px;
+$jb-dialog-transition: visibility 0.3s linear, opacity 0.3s linear;
 
 .jb-dialog-dim {
     height:100%;
@@ -11,7 +12,9 @@ $jb-dialog-padding: 20px;
     top:0;
     z-index:1 !important;
     background-color: rgba(0, 0, 0, 0.6);
-    display: none;
+    transition: $jb-dialog-transition;
+    opacity:0;
+    visibility: hidden;
 }
 
 jb-dialog {
@@ -23,7 +26,6 @@ jb-dialog {
     width: 80%;
     border: none;
     box-shadow: 0px 2px 4px #000;
-    display: none;
     position: fixed;
     top: 20%;
     left:0;
@@ -31,6 +33,9 @@ jb-dialog {
     margin: 0 auto;
     z-index: 2;
     border-radius: 2px;
+    transition: $jb-dialog-transition;
+    opacity:0;
+    visibility: hidden;
 
     jb-header, jb-body, jb-footer {
         display:block;

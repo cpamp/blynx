@@ -15,14 +15,18 @@ export class JbDialog {
 
     public open() {
         document.body.classList.add('noscroll');
-        JbDialog.lightbox.style.display = 'block';
+        JbDialog.lightbox.style.visibility = 'visible';
+        this.jbDialog.style.visibility = 'visible';
         JbDialog.openedDialog = this;
-        this.jbDialog.style.display = 'block';
+        JbDialog.lightbox.style.opacity = '1';
+        this.jbDialog.style.opacity = '1';
     }
 
     public close() {
-        JbDialog.lightbox.style.display = 'none';
-        this.jbDialog.style.display = 'none';
+        JbDialog.lightbox.style.visibility = 'hidden';
+        this.jbDialog.style.visibility = 'hidden';
+        JbDialog.lightbox.style.opacity = '0';
+        this.jbDialog.style.opacity = '0';
         document.body.classList.remove('noscroll');
     }
 
