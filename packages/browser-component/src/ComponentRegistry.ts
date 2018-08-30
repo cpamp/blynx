@@ -38,7 +38,8 @@ export class ComponentRegistry {
     }
 
     public static init() {
-        for (let component of this.components) {
+        for (let i = 0; i < this.components.length; i++) {
+            let component = this.components[i];
             this.initStyles(component);
         }
         this.componentInit();
@@ -46,7 +47,8 @@ export class ComponentRegistry {
     }
 
     public static componentInit() {
-        for (let component of this.components) {
+        for (let i = 0; i < this.components.length; i++) {
+            let component = this.components[i];
             new component();
         }
     }
