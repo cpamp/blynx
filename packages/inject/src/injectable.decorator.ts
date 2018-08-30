@@ -7,8 +7,9 @@ import { getName } from "./getName";
 function getNewConstructor(constructor: Function, params: any[]) {
     return function(...args: any[]) {
         var newParams = params.slice(0);
-        for (var arg of args) {
-            for (var i = 0; i < newParams.length; i++) {
+        for (let j = 0; j < args.length; j++) {
+            let arg = args[j];
+            for (let i = 0; i < newParams.length; i++) {
                 if (newParams[i] === void 0) {
                     (<any>newParams)[i] = arg;
                     break;
@@ -21,7 +22,8 @@ function getNewConstructor(constructor: Function, params: any[]) {
 
 function getParams(excludes: any, metadata: any) {
     var params: any[] = [];
-    for (var meta of metadata) {
+    for (let i = 0; i < metadata.length; i++) {
+        let meta = metadata[i];
         var key = getName(meta);
         if (excludes[key] !== true) {
             params.push(InjectProvider.Instance.get(meta));
@@ -54,7 +56,8 @@ function Inject(options: IInjectableOptions, constructor: Function) {
         setupNewConstructorPrototype(constructor, newConstructor);
 
         var newMetadata = [];
-        for (let meta of metadata) {
+        for (let i = 0; i < metadata.length; i++) {
+            let meta = metadata[i];
             if ((<any>options.exclude)[getName(meta)] === true) {
                 newMetadata.push(meta);
             }
