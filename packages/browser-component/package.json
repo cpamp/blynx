@@ -1,6 +1,6 @@
 {
   "name": "@jable/browser-component",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "description": "Browser Components",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
