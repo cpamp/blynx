@@ -1,0 +1,92 @@
+@import "../main.scss";
+
+$jb-tooltip-default-background: #EEEEEE;
+
+jb-tooltip {
+    max-width: 200px;
+    position: absolute;
+
+    .jb-tooltip {
+        .jb-tooltip-pointer {
+            position: absolute;
+            display: block;
+            width: 1em;
+            height: .5em;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+
+            &::before {
+                bottom: 0;
+                border-width: 0 .5em .5em;
+                position: absolute;
+                content: "";
+                border-color: transparent;
+                border-style: solid;
+                border-bottom-color: $jb-tooltip-default-background;
+            }
+        }
+
+        .jb-tooltip-text {
+            color: $jb-default-color;
+            border-radius: 3px;
+            background-color: $jb-tooltip-default-background;
+            padding: 7px;
+            font-size: .8em;
+            text-align: center;
+            margin-top:.5em;
+        }
+    }
+
+    &[jb-default] {
+        .jb-tooltip {
+            .jb-tooltip-text {
+                color: $jb-default-color;
+                background-color: $jb-tooltip-default-background;
+            }
+
+            .jb-tooltip-pointer::before {
+                border-bottom-color: $jb-tooltip-default-background;
+            }
+        }
+    }
+
+    &[jb-primary] {
+        .jb-tooltip {
+            .jb-tooltip-text {
+                color: $jb-primary-color;
+                background-color: $jb-primary-background;
+            }
+
+            .jb-tooltip-pointer::before {
+                border-bottom-color: $jb-primary-background;
+            }
+        }
+    }
+
+    &[jb-warn] {
+        .jb-tooltip {
+            .jb-tooltip-text {
+                color: $jb-warn-color;
+                background-color: $jb-warn-background;
+            }
+
+            .jb-tooltip-pointer::before {
+                border-bottom-color: $jb-warn-background;
+            }
+        }
+    }
+
+    &[jb-danger] {
+        .jb-tooltip {
+            .jb-tooltip-text {
+                color: $jb-danger-color;
+                background-color: $jb-danger-background;
+            }
+
+            .jb-tooltip-pointer::before {
+                border-bottom-color: $jb-danger-background;
+            }
+        }
+    }
+}

@@ -10,9 +10,12 @@ import { JbDialogComponent } from "./dialog/dialog.component";
 import { JbDialog } from "./dialog/dialog";
 import { JbProgressBar } from "./progress-bar/progress-bar";
 import { JbProgressBarComponent } from "./progress-bar/progress-bar.component";
+import { JbTooltip } from "./tooltip/tooltip";
+import { JbTooltipComponent } from "./tooltip/tooltip.component";
 
 export { JbTextbox, JbTextboxComponent }
 export { JbRipple, JbRippleComponent }
 export { JbButton, JbButtonComponent }
 export { JbDialog, JbDialogComponent }
 export { JbProgressBar, JbProgressBarComponent }
+export { JbTooltip, JbTooltipComponent }
