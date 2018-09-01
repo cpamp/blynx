@@ -48,12 +48,13 @@ export function Component(options: IOptions) {
 
             var params: any[] = [];
             for (var i = 0; i < elements.length; i++) {
-                if (ComponentRegistry.componentElements.indexOf(elements[i]) === -1) {
+                ComponentRegistry.componentElements[options.selector] = ComponentRegistry.componentElements[options.selector] || [];
+                if (ComponentRegistry.componentElements[options.selector].indexOf(elements[i]) === -1) {
                     let el = elements.item(i);
                     initTemplate(el, options.template);
                     params[htmlElementIndex] = el;
                     new (Function.prototype.bind.apply(constructor, [null, ...params]))();
-                    ComponentRegistry.componentElements.push(el);
+                    ComponentRegistry.componentElements[options.selector].push(el);
                 }
             }
         };

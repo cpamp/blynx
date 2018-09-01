@@ -4,7 +4,7 @@ export const StyleSymbol = Symbol('styles');
 
 export class ComponentRegistry {
     private static components: any[] = [];
-    public static componentElements: Element[] = [];
+    public static componentElements: {[key: string]: Element[]} = {};
 
     public static register(component: any) {
         this.components.push(component);
