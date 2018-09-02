@@ -240,8 +240,18 @@
             }, 1000);
         </script>
         <br/>
-        <jb-tooltip>
-            Tooltip Text
-        </jb-tooltip>
+        
+        <button jb-button jb-tooltip="Top Default Tooltip" jb-tooltip-top jb-tooltip-default>
+            raised
+        </button>
+        <button class="jb-primary" jb-button jb-tooltip="Right Primary Tooltip" jb-tooltip-right jb-tooltip-primary>
+            primary
+        </button>
+        <button class="jb-warn" jb-button jb-tooltip="Bottom Warn Tooltip" jb-tooltip-bottom jb-tooltip-warn>
+            warn
+        </button>
+        <button class="jb-danger" jb-button jb-tooltip="Left Danger Tooltip" jb-tooltip-left jb-tooltip-danger>
+            danger
+        </button>
     </body>
 </html>
