@@ -3,6 +3,10 @@ import { ComponentRegistry } from "./ComponentRegistry";
 
 export { Component }
 
-document.addEventListener('DOMContentLoaded', function() {
-    ComponentRegistry.init();
-});
+if (document.readyState == 'loading') {
+    document.addEventListener('DOMContentLoaded', function() {
+        ComponentRegistry.init();
+    });
+} else {
+    setTimeout(function() { ComponentRegistry.init(); }, 1);
+}
