@@ -1,0 +1,15 @@
+---
+---
+
+@import "{{ site.theme }}";
+
+.nav-bar {
+    text-align:center;
+    ul {
+        list-style: none;
+        li {
+            display: inline;
+            margin: 0 1em 0 1em;
+        }
+    }
+}

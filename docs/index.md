@@ -5,5 +5,3 @@
 layout: default
 ---
 
-Test Page
-<div style="background-color:black">Testing</div>
