@@ -42,3 +42,4 @@ collections:
   web-components:
     output: true
     permalink: :collection/:path
+    load_web_components: true

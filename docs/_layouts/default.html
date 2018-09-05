@@ -2,6 +2,11 @@
 <html lang="{{ site.lang | default: " en-US " }}">
 
 <head>
+    {% for col in site.collections %}
+    {% if col.label == page.collection and col.load_web_components %}
+    <script async src="/jable/assets/scripts/jable-components.bundle.min.js?v={{ site.github.build_revision }}"></script>\
+    {% endif %}
+    {% endfor %}
 
     {% if site.google_analytics %}
     <script async src="https://www.googletagmanager.com/gtag/js?id={{ site.google_analytics }}"></script>

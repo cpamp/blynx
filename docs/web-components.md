@@ -11,6 +11,6 @@ permalink: web-components/
 
 {% for component in site.web-components %}
 <div>
-    <a href="{{ site.baseurl }}{{ component.url }}">{{ component.name }}</a> - {{ component.description }}
+    <a href="{{ site.baseurl }}{{ component.url }}">{{ component.name }}</a> - {{ component.short_description }}
 </div>
 {% endfor %}
