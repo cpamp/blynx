@@ -1,5 +1,5 @@
 {
-  "name": "@blynx/browser-component",
+  "name": "@blynx/component",
   "version": "2.3.3",
   "description": "Browser Components",
   "main": "./dist/commonjs/index.js",

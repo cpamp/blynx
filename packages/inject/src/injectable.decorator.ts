@@ -5,7 +5,7 @@ import { ParamTypes } from "./constants";
 import { getName } from "./getName";
 
 function getNewConstructor(constructor: Function, params: any[]) {
-    return function(...args: any[]) {
+    return function(this: any, ...args: any[]) {
         var newParams = params.slice(0);
         for (let j = 0; j < args.length; j++) {
             let arg = args[j];

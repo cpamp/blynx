@@ -5,7 +5,8 @@ import { HttpMethod } from "../httpMethod";
 import { WebApi } from "../webApi";
 
 @Controller('api/test')
-class TController {
+// @ts-ignore Ignore unused
+class TController { 
     @Route(HttpMethod.GET, '/')
     index(req: express.Request, res: express.Response) {
         res.send('Hello World');
@@ -18,7 +19,8 @@ class TController {
 }
 
 @Controller()
-class TController2 {
+// @ts-ignore Ignore unused
+class TController2 { 
     @Route(HttpMethod.GET, 'test')
     index(req: express.Request, res: express.Response) {
         res.send(req.query);
