@@ -1,5 +1,5 @@
 import { JbButton } from "./button";
-import { Component } from "@blynx/browser-component";
+import { Component } from "@blynx/component";
 
 @Component({
     selector: '[jb-button]'

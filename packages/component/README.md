@@ -1,1 +1,1 @@
-# browser-components
+# components

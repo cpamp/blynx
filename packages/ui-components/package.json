@@ -1,5 +1,5 @@
 {
-  "name": "@blynx/web-components",
+  "name": "@blynx/ui-components",
   "version": "2.0.2",
   "description": "Fancy blynx web components",
   "main": "./dist/main/main.js",
@@ -35,7 +35,7 @@
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/web-components#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/ui-components#readme",
   "devDependencies": {
     "@types/node": "^8.10.25",
     "awesome-typescript-loader": "^3.5.0",
@@ -56,7 +56,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "@blynx/browser-component": "^2.3.3",
+    "@blynx/component": "^2.3.3",
     "es6-symbol": "^3.1.1",
     "webpack": "^3.12.0"
   }

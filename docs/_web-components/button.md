@@ -1,11 +1,11 @@
 ---
 layout: default
-direct_url: https://github.com/cpamp/blynx/tree/master/packages/web-components/src/button
+direct_url: https://github.com/cpamp/blynx/tree/master/packages/ui-components/src/button
 name: Button
 short_description: blynx buttons
 ---
 
-# @blynx/web-components/button
+# @blynx/ui-components/button
 
 blynx buttons offer stylish, modern buttons for you web pages.
 

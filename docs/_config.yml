@@ -39,7 +39,7 @@ repository: cpamp/blynx
 #   - vendor/gems/
 #   - vendor/ruby/
 collections:
-  web-components:
+  ui-components:
     output: true
     permalink: :collection/:path
     load_web_components: true

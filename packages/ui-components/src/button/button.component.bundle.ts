@@ -1,4 +1,4 @@
-import { Component } from "@blynx/browser-component";
+import { Component } from "@blynx/component";
 import { JbButton } from "./button";
 
 @Component({

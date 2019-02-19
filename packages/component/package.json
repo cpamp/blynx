@@ -17,7 +17,7 @@
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/browser-component#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/component#readme",
   "devDependencies": {
     "@types/node": "^8.0.1",
     "@types/reflect-metadata": "0.0.5"

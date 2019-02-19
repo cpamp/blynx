@@ -24,8 +24,16 @@ export class TestService {
         if ((<any>testFunc)[RESULT_MESSAGE] === void 0) (<any>testFunc)[RESULT_MESSAGE] = '';
         if (!passed) {
             (<any>testFunc)[PASSED] = false;
-            (<any>testFunc)[RESULT_MESSAGE] +=
-                EscapeText.TAB + EscapeText.X + ' ' + (<any>testFunc).name + ' Failed: expected result ' + expected + ' ' + compareText + ' actual result ' + result + EscapeText.NEW_LINE;
+            (<any>testFunc)[RESULT_MESSAGE] += `${EscapeText.TAB}${EscapeText.X} ${(<any>testFunc).name} Failed: expected result ${expected} ${compareText} actual result ${result}${EscapeText.NEW_LINE}`;
+        }
+    }
+
+    public assertResultCustom<T>(testFunc: () => void, passed: boolean, message: string) {
+        if ((<any>testFunc)[PASSED] === void 0) (<any>testFunc)[PASSED] = true;
+        if ((<any>testFunc)[RESULT_MESSAGE] === void 0) (<any>testFunc)[RESULT_MESSAGE] = '';
+        if (!passed) {
+            (<any>testFunc)[PASSED] = false;
+            (<any>testFunc)[RESULT_MESSAGE] += `${EscapeText.TAB}${EscapeText.X} ${(<any>testFunc).name} Failed: ${message}${EscapeText.NEW_LINE}`;
         }
     }
 
@@ -60,11 +68,11 @@ export class TestService {
                     }
                 } catch(e) {
                     passed = false;
-                    message += EscapeText.TAB + EscapeText.X + ' ' + method + ' Failed on ERROR: ' + e + EscapeText.NEW_LINE;
+                    message += `${EscapeText.TAB}${EscapeText.X} ${method} Failed on ERROR: ${e}${EscapeText.NEW_LINE}`;
                 }
             }
         }
-        var classMessage = (passed ? EscapeText.CHECK : EscapeText.X) + ' ' + (<any>testClass).name + ' (' + passedCount + ' of ' + totalCount + ') Passed' + EscapeText.NEW_LINE;
+        var classMessage = `${passed ? EscapeText.CHECK : EscapeText.X} ${(<any>testClass).name} (${passedCount} of ${totalCount}) Passed${EscapeText.NEW_LINE}`;
         message = (classMessage + message).slice(0, -1);
         message = (passed ? colors.fg.green(message) : colors.fg.red(message));
         console.log(colors.bg.black(message));

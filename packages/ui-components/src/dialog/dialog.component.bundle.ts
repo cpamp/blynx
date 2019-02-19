@@ -1,5 +1,5 @@
 import { JbDialog } from "./dialog";
-import { Component } from "@blynx/browser-component";
+import { Component } from "@blynx/component";
 
 @Component({
     selector: 'jb-dialog',

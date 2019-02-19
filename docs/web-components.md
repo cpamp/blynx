@@ -3,13 +3,13 @@
 # Edit theme's home layout instead if you wanna make some changes
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: default
-direct_url: https://github.com/cpamp/blynx/tree/master/packages/web-components
-permalink: web-components/
+direct_url: https://github.com/cpamp/blynx/tree/master/packages/ui-components
+permalink: ui-components/
 ---
 
-# @blynx/web-components
+# @blynx/ui-components
 
-{% for component in site.web-components %}
+{% for component in site.ui-components %}
 <div>
     <a href="{{ site.baseurl }}{{ component.url }}">{{ component.title }}</a> - {{ component.short_description }}
 </div>

@@ -4,20 +4,16 @@ blynx.
 
 ## Packages
 
-[browser-component](packages/browser-component#readme)
+[collection](packages/collection#readme)
 
-[deprecated](packages/deprecated#readme)
+[component](packages/component#readme)
 
 [express-webapi](packages/express-webapi#readme)
 
 [inject](packages/inject#readme)
 
-[logging](packages/logging#readme)
-
-[mongo-document](packages/mongo-document#readme)
-
 [strict-types](packages/strict-types#readme)
 
 [test](packages/test#readme)
 
-[web-components](packages/web-components#readme)
+[ui-components](packages/ui-components#readme)

@@ -1,4 +1,4 @@
-# @blynx/web-components
+# @blynx/ui-components
 
 Fancy blynx web components.
 
