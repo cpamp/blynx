@@ -8,7 +8,7 @@ module.exports = merge(require('./webpack.common'), {
         filename: min ? '[name].bundle.min.js' : '[name].bundle.js',
     },
     entry: {
-        'jable-components': './src/index.bundle.ts'
+        'blynx-components': './src/index.bundle.ts'
     },
     module: {
         loaders: [{

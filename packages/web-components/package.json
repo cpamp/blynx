@@ -1,7 +1,7 @@
 {
-  "name": "@jable/web-components",
+  "name": "@blynx/web-components",
   "version": "2.0.2",
-  "description": "Fancy jable web components",
+  "description": "Fancy blynx web components",
   "main": "./dist/main/main.js",
   "types": "./dist/main/main.d.ts",
   "scripts": {
@@ -16,10 +16,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable.git"
+    "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [
-    "jable",
+    "blynx",
     "web",
     "textbox",
     "input",
@@ -33,9 +33,9 @@
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable/issues"
+    "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/web-components#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/web-components#readme",
   "devDependencies": {
     "@types/node": "^8.10.25",
     "awesome-typescript-loader": "^3.5.0",
@@ -56,7 +56,7 @@
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "@jable/browser-component": "^2.3.3",
+    "@blynx/browser-component": "^2.3.3",
     "es6-symbol": "^3.1.1",
     "webpack": "^3.12.0"
   }

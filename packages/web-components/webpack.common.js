@@ -37,7 +37,7 @@ module.exports = {
 
     plugins: [
         new webpack.optimize.CommonsChunkPlugin({
-            name: ['jable-components']
+            name: ['blynx-components']
         }),
         //new (require('webpack-bundle-analyzer')).BundleAnalyzerPlugin()
     ]

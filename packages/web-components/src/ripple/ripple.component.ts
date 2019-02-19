@@ -1,5 +1,5 @@
 import { JbRipple } from "./ripple";
-import { Component } from "@jable/browser-component";
+import { Component } from "@blynx/browser-component";
 
 @Component({
     selector: '[jb-ripple]'

@@ -1,0 +1,1 @@
+export type Func<T extends any[], TReturn> = (...args: T) => TReturn

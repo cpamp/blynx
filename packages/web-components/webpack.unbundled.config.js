@@ -8,7 +8,7 @@ module.exports = merge(require('./webpack.common'), {
         filename: min ? '[name].min.js' : '[name].js',
     },
     entry: {
-        'jable-components': './src/index.unbundled.ts'
+        'blynx-components': './src/index.unbundled.ts'
     },
     module: {
         loaders: [{
@@ -17,7 +17,7 @@ module.exports = merge(require('./webpack.common'), {
         }]
     },
     plugins: [
-        new extract('jable-components' + (min ? '.min' : '') + '.css'),
+        new extract('blynx-components' + (min ? '.min' : '') + '.css'),
         new HtmlWebpackPlugin({
             template: 'src/example.html',
             filename: min ? 'example.min.html' : 'example.html'

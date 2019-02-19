@@ -1,5 +1,5 @@
 import { JbTextbox } from "./textbox";
-import { Component } from "@jable/browser-component";
+import { Component } from "@blynx/browser-component";
 
 @Component({
     selector: 'jb-textbox',

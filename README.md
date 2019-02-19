@@ -1,6 +1,6 @@
-# Jable
+# blynx
 
-Jable.
+blynx.
 
 ## Packages
 

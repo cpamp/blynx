@@ -1,5 +1,5 @@
 {
-  "name": "@jable/browser-component",
+  "name": "@blynx/browser-component",
   "version": "2.3.3",
   "description": "Browser Components",
   "main": "./dist/commonjs/index.js",
@@ -9,21 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable.git"
+    "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [],
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable/issues"
+    "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/browser-component#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/browser-component#readme",
   "devDependencies": {
     "@types/node": "^8.0.1",
     "@types/reflect-metadata": "0.0.5"
   },
   "dependencies": {
-    "@jable/inject": "^2.2.0",
+    "@blynx/inject": "^2.2.0",
     "es6-symbol": "^3.1.1",
     "reflect-metadata": "^0.1.10"
   }

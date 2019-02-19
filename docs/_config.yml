@@ -13,10 +13,10 @@
 # you will see them accessed via {{ site.title }}, {{ site.email }}, and so on.
 # You can create any custom variable you would like, and they will be accessible
 # in the templates via {{ site.myvariable }}.
-title: Jable
+title: blynx
 description: >- # this means to ignore newlines until "baseurl:"
   A collection of javascript packages for node.js and the browser
-baseurl: "/jable/" # the subpath of your site, e.g. /blog
+baseurl: "/blynx/" # the subpath of your site, e.g. /blog
 url: "" # the base hostname & protocol for your site, e.g. http://example.com
 github_username:  cpamp
 
@@ -26,7 +26,7 @@ theme: jekyll-theme-cayman
 plugins:
   - jekyll-feed
   - jekyll-github-metadata
-repository: cpamp/jable
+repository: cpamp/blynx
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list
 # to override the default setting.

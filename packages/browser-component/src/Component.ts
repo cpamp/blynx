@@ -1,4 +1,4 @@
-import { Injectable } from "@jable/inject";
+import { Injectable } from "@blynx/inject";
 import "reflect-metadata";
 import { ComponentRegistry, StyleSymbol } from "./ComponentRegistry";
 

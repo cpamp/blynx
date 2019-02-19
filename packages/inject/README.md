@@ -1,4 +1,4 @@
-# @jable/inject
+# @blynx/inject
 
 Inject dependencies into injectable classes
 

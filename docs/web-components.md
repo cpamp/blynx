@@ -3,11 +3,11 @@
 # Edit theme's home layout instead if you wanna make some changes
 # See: https://jekyllrb.com/docs/themes/#overriding-theme-defaults
 layout: default
-direct_url: https://github.com/cpamp/jable/tree/master/packages/web-components
+direct_url: https://github.com/cpamp/blynx/tree/master/packages/web-components
 permalink: web-components/
 ---
 
-# @jable/web-components
+# @blynx/web-components
 
 {% for component in site.web-components %}
 <div>

@@ -1,5 +1,5 @@
 {
-  "name": "@jable/deprecated",
+  "name": "@blynx/deprecated",
   "version": "2.0.0",
   "description": "Deprecated class and method decorators",
   "main": "./dist/commonjs/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable.git"
+    "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [
     "deprecated",
@@ -25,9 +25,9 @@
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable/issues"
+    "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/#readme",
   "devDependencies": {
     "@types/node": "^7.0.29"
   }

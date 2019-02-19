@@ -1,5 +1,5 @@
 import { JbTooltip } from "./tooltip";
-import { Component } from "@jable/browser-component";
+import { Component } from "@blynx/browser-component";
 
 @Component({
     selector: '[jb-tooltip]'

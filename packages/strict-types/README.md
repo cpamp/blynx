@@ -1,4 +1,4 @@
-# jable-strict-types
+# blynx-strict-types
 
 Decorate a method for strict types
 

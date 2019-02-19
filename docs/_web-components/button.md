@@ -1,13 +1,13 @@
 ---
 layout: default
-direct_url: https://github.com/cpamp/jable/tree/master/packages/web-components/src/button
+direct_url: https://github.com/cpamp/blynx/tree/master/packages/web-components/src/button
 name: Button
-short_description: Jable buttons
+short_description: blynx buttons
 ---
 
-# @jable/web-components/button
+# @blynx/web-components/button
 
-Jable buttons offer stylish, modern buttons for you web pages.
+blynx buttons offer stylish, modern buttons for you web pages.
 
 ## Raised (default)
 

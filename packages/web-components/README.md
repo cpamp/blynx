@@ -1,6 +1,6 @@
-# @jable/web-components
+# @blynx/web-components
 
-Fancy jable web components.
+Fancy blynx web components.
 
 ## Textbox
 

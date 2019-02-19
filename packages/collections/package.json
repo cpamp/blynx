@@ -1,7 +1,7 @@
 {
-  "name": "@blynx/inject",
-  "version": "2.2.0",
-  "description": "",
+  "name": "@blynx/collections",
+  "version": "2.0.0",
+  "description": "Javascript collections",
   "main": "./dist/commonjs/index.js",
   "types": "./dist/commonjs/index.d.ts",
   "scripts": {
@@ -12,25 +12,26 @@
     "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [
-    "inject",
-    "injectable",
-    "dependency",
-    "injection",
+    "deprecated",
+    "warning",
+    "log",
+    "loggin",
+    "class",
+    "method",
     "decorator",
-    "@Injectable"
+    "@DeprecatedClass",
+    "@DeprecatedMethod"
   ],
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/inject#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/#readme",
   "devDependencies": {
-    "@types/node": "^7.0.27",
-    "@types/reflect-metadata": "0.0.5"
+    "@blynx/test": "^2.0.0",
+    "@types/node": "^7.10.3",
+    "typescript": "^3.3.3"
   },
-  "dependencies": {
-    "es6-symbol": "^3.1.1",
-    "reflect-metadata": "^0.1.10"
-  }
+  "dependencies": {}
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@jable/test",
+  "name": "@blynx/test",
   "version": "2.0.0",
   "description": "",
   "main": "./dist/commonjs/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable.git"
+    "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [
     "test",
@@ -21,9 +21,9 @@
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable/issues"
+    "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/test#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/test#readme",
   "devDependencies": {
     "@types/node": "^7.0.29"
   },

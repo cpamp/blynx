@@ -1,5 +1,5 @@
 {
-  "name": "@jable/mongo-document",
+  "name": "@blynx/mongo-document",
   "version": "2.0.1",
   "description": "",
   "main": "./dist/commonjs/index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/cpamp/jable.git"
+    "url": "git+https://github.com/cpamp/blynx.git"
   },
   "keywords": [
     "mongo",
@@ -22,9 +22,9 @@
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/cpamp/jable/issues"
+    "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/jable/tree/master/packages/mongo-document#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/mongo-document#readme",
   "devDependencies": {
     "@types/mongodb": "^2.2.11",
     "@types/node": "^7.0.31"
