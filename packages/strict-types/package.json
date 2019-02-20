@@ -1,6 +1,6 @@
 {
   "name": "@blynx/strict-types",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Force strict types for javascript function parameters",
   "main": "./lib/main/barrel.js",
   "types": "./lib/main/barrel.d.ts",
@@ -32,6 +32,6 @@
   },
   "homepage": "https://github.com/cpamp/blynx/tree/master/packages/strict-types#readme",
   "devDependencies": {
-    "@blynx/test": "0.0.1"
+    "@blynx/test": "^0.0.2"
   }
 }

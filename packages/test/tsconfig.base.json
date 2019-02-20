@@ -13,7 +13,8 @@
         "baseUrl": "./",
         "paths": {"node": ["node_modules/"]},                           /* A series of entries which re-map imports to lookup locations relative to the 'baseUrl'. */
         "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
-        "emitDecoratorMetadata": true         /* Enables experimental support for emitting type metadata for decorators. */
+        "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+        "moduleResolution": "node"
     },
     "exclude": ["./lib"]
 }
