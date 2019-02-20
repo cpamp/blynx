@@ -2,4 +2,5 @@
 **/.vscode/
 **/.vs/
 **/dist/
+**/lib/
 *.log

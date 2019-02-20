@@ -1,11 +1,16 @@
 {
   "name": "@blynx/inject",
-  "version": "2.2.0",
-  "description": "",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "version": "0.0.1",
+  "description": "Dependency injector for javascript",
+  "main": "./lib/main/barrel.js",
+  "types": "./lib/main/barrel.d.ts",
+  "es2015": "./lib/es2015/barrel.js",
+  "esm2015": "./lib/esm2015/barrel.js",
   "scripts": {
-    "prepare": "tsc && tsc -p ./tsconfig.commonjs.json"
+    "prepare": "tsc && tsc -p tsconfig.es2015.json && tsc -p tsconfig.esm2015.json",
+    "test:main": "node lib/main/tests/barrel.test.js",
+    "test:es2015": "node lib/es2015/tests/barrel.test.js",
+    "test": "npm run test:main && npm run test:es2015"
   },
   "repository": {
     "type": "git",
@@ -26,6 +31,7 @@
   },
   "homepage": "https://github.com/cpamp/blynx/tree/master/packages/inject#readme",
   "devDependencies": {
+    "@blynx/test": "0.0.1",
     "@types/node": "^7.0.27",
     "@types/reflect-metadata": "0.0.5"
   },

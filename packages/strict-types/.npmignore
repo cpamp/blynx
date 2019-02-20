@@ -1,5 +1,6 @@
-.vscode/
 src/
-tsconfig.json
-dist/tests/
 node_modules/
+.vscode/
+lib/tests/
+.log
+tsconfig*

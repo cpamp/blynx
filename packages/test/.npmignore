@@ -1,5 +1,6 @@
 src/
 node_modules/
 .vscode/
-tsconfig.json
-tsconfig.base.json
+lib/tests/
+.log
+tsconfig*

@@ -5,18 +5,21 @@ import { ParamTypes } from "./constants";
 import { getName } from "./getName";
 
 function getNewConstructor(constructor: Function, params: any[]) {
-    return function(this: any, ...args: any[]) {
-        var newParams = params.slice(0);
-        for (let j = 0; j < args.length; j++) {
-            let arg = args[j];
-            for (let i = 0; i < newParams.length; i++) {
-                if (newParams[i] === void 0) {
-                    (<any>newParams)[i] = arg;
-                    break;
+    return class extends (<any>constructor) {
+        constructor(...args: any[]) {
+            var newParams = params.slice(0);
+            for (let j = 0; j < args.length; j++) {
+                let arg = args[j];
+                for (let i = 0; i < newParams.length; i++) {
+                    if (newParams[i] === void 0) {
+                        (<any>newParams)[i] = arg;
+                        break;
+                    }
                 }
             }
+            super(...newParams);
+            console.log(newParams);
         }
-        return constructor.apply(this, newParams);
     }
 }
 

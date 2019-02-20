@@ -1,7 +1,8 @@
 import { TESTABLE, PASSED, RESULT_MESSAGE } from "./Symbols";
 import { EscapeText } from "./Text";
 import { Assert } from "./Assert";
-import * as colors from "colorful-text";
+declare const require: any;
+const colors = require("colorful-text");
 
 export class TestService {
     private static instance: TestService;
