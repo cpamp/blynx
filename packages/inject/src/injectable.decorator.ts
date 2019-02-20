@@ -18,7 +18,6 @@ function getNewConstructor(constructor: Function, params: any[]) {
                 }
             }
             super(...newParams);
-            console.log(newParams);
         }
     }
 }
