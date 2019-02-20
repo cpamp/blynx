@@ -5,7 +5,8 @@
   "main": "./dist/barrel.js",
   "types": "./dist/barrel.d.ts",
   "scripts": {
-    "prepare": "tsc"
+    "prepare": "tsc",
+    "test": "node ./dist/tests/barrel.test.js"
   },
   "repository": {
     "type": "git",
