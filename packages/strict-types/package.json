@@ -1,11 +1,11 @@
 {
   "name": "@blynx/strict-types",
-  "version": "2.0.0",
-  "description": "",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "version": "0.0.1",
+  "description": "Force strict types for javascript function parameters",
+  "main": "./dist/barrel.js",
+  "types": "./dist/barrel.d.ts",
   "scripts": {
-    "prepare": "tsc && tsc -p tsconfig.commonjs.json"
+    "prepare": "tsc"
   },
   "repository": {
     "type": "git",
@@ -27,6 +27,6 @@
   },
   "homepage": "https://github.com/cpamp/blynx/tree/master/packages/strict-types#readme",
   "devDependencies": {
-    "@types/node": "^7.0.31"
+    "@blynx/test": "0.0.1"
   }
 }
