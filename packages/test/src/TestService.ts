@@ -1,4 +1,3 @@
-
 import { TESTABLE, PASSED, RESULT_MESSAGE } from "./Symbols";
 import { EscapeText } from "./Text";
 import { Assert } from "./Assert";
@@ -28,7 +27,7 @@ export class TestService {
         }
     }
 
-    public assertResultCustom<T>(testFunc: () => void, passed: boolean, message: string) {
+    public assertResultCustom(testFunc: () => void, passed: boolean, message: string) {
         if ((<any>testFunc)[PASSED] === void 0) (<any>testFunc)[PASSED] = true;
         if ((<any>testFunc)[RESULT_MESSAGE] === void 0) (<any>testFunc)[RESULT_MESSAGE] = '';
         if (!passed) {
@@ -38,7 +37,7 @@ export class TestService {
     }
 
     private getAllPropertyNames(object: any) {
-        var props: any[] = [];
+        let props: any[] = [];
 
         do {
             props= props.concat(Object.getOwnPropertyNames(object));
@@ -48,13 +47,13 @@ export class TestService {
     }
 
     public test<T>(testClass: {new(...args: any[]): T}) {
-        var testInstance = new testClass();
+        let testInstance = new testClass();
 
-        var passed: boolean = true;
-        var message: string = '';
-        var totalCount: number = 0;
-        var passedCount: number = 0;
-        var properties = this.getAllPropertyNames(testClass.prototype);
+        let passed: boolean = true;
+        let message: string = '';
+        let totalCount: number = 0;
+        let passedCount: number = 0;
+        let properties = this.getAllPropertyNames(testClass.prototype);
         for (let method of properties) {
             if (method !== 'constructor' && (<any>testInstance)[method][TESTABLE]) {
                 totalCount++;
@@ -72,7 +71,7 @@ export class TestService {
                 }
             }
         }
-        var classMessage = `${passed ? EscapeText.CHECK : EscapeText.X} ${(<any>testClass).name} (${passedCount} of ${totalCount}) Passed${EscapeText.NEW_LINE}`;
+        let classMessage = `${passed ? EscapeText.CHECK : EscapeText.X} ${(<any>testClass).name} (${passedCount} of ${totalCount}) Passed${EscapeText.NEW_LINE}`;
         message = (classMessage + message).slice(0, -1);
         message = (passed ? colors.fg.green(message) : colors.fg.red(message));
         console.log(colors.bg.black(message));

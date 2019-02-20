@@ -1,4 +1,3 @@
-
 import { TestService } from "../TestService";
 
 export function TestClass() {

@@ -1,4 +1,3 @@
-
 export module EscapeText {
     export const X = "\u2717";
     export const TAB = "\t";

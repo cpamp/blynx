@@ -14,7 +14,7 @@ export class Testing {
 
     @TestMethod()
     public ServiceTest(assert: Assert) {
-        assert.AreEqual(true, true);
+        assert.areEqual(true, true);
     }
 }
 ```

@@ -2,3 +2,4 @@ src/
 node_modules/
 .vscode/
 tsconfig.json
+tsconfig.base.json

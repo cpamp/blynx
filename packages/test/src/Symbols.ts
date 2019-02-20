@@ -1,4 +1,5 @@
-var Symbol = require('es6-symbol');
+declare let require: any;
+let Symbol = require('es6-symbol');
 
 export const TESTABLE = Symbol('Testable');
 export const PASSED = Symbol('Passed');
