@@ -6,6 +6,22 @@ import { IGroup } from "./IGroup";
 import { InvalidOperationError, errorMessages } from "./errors";
 
 export class Collection<T> extends Array<T> implements ICollection<T> {
+    constructor(...args: any[]) {
+        let $this = super(...args);
+        if (typeof this.__extendNoop__ !== 'function') {
+            for (let key in Collection.prototype) {
+                if (Object.prototype.hasOwnProperty.call(Collection.prototype, key)) {
+                    (<any>$this)[key] = function () { return Collection.prototype[key].apply($this, arguments); };
+                }
+            }
+            // if (typeof (<any>Object).setPrototypeOf === 'function') {
+            //     (<any>Object).setPrototypeOf(this, Collection.prototype);
+            // }
+        }
+    }
+
+    private __extendNoop__() {}
+
     //#region IQueryable
     distinct(this: ICollection<T>): ICollection<T>;
     distinct(this: ICollection<T>, comparer: Func<[T, T], boolean>): ICollection<T>;
@@ -152,8 +168,8 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = this.copy();
-        this.concat(collection);
-        return this.distinct(comparer);
+        result.concat(collection);
+        return result.distinct(comparer);
     }
 
     where(this: ICollection<T>, predicate: Func<[T], boolean>): ICollection<T> {

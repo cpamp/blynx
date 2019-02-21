@@ -34,9 +34,8 @@
   },
   "homepage": "https://github.com/cpamp/blynx/tree/master/packages/#readme",
   "devDependencies": {
-    "@blynx/test": "^2.0.0",
-    "@types/node": "^7.10.3",
-    "typescript": "^3.3.3"
+    "@blynx/test": "0.0.4",
+    "@types/node": "^7.10.3"
   },
   "dependencies": {}
 }
