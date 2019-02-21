@@ -45,7 +45,6 @@ export class Router {
     public registerController<T extends Function>(instanceType: NewableType<T>, basePath?: string) {
         let key = instanceType.prototype[this.SYMBOL_ID] || this.getKey();
         if (this.controllers[key] != null) {
-            let instance = new (instanceType)();
             let controller = this.controllers[key];
             controller.BasePath = basePath;
             controller.Instance = new (instanceType)();

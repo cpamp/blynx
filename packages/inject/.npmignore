@@ -1,6 +1,6 @@
 src/
 node_modules/
 .vscode/
-lib/tests/
+lib/**/tests/
 .log
 tsconfig*

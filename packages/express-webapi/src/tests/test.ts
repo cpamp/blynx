@@ -8,11 +8,13 @@ import { WebApi } from "../webApi";
 // @ts-ignore Ignore unused
 class TController { 
     @Route(HttpMethod.GET, '/')
+    // @ts-ignore
     index(req: express.Request, res: express.Response) {
         res.send('Hello World');
     }
 
     @Route(HttpMethod.GET, '/v2')
+    // @ts-ignore
     index2(req: express.Request, res: express.Response) {
         res.send('Hello World, v2');
     }
