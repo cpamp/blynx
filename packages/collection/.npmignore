@@ -1,6 +1,6 @@
 src/
-.vscode/
 node_modules/
-tsconfig.json
-tsconfig.commonjs.json
-dist/**/test/
+.vscode/
+lib/**/tests/
+.log
+tsconfig*

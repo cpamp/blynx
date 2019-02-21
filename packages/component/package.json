@@ -2,10 +2,15 @@
   "name": "@blynx/component",
   "version": "2.3.3",
   "description": "Browser Components",
-  "main": "./dist/commonjs/index.js",
-  "types": "./dist/commonjs/index.d.ts",
+  "main": "./lib/main/barrel.js",
+  "types": "./lib/main/barrel.d.ts",
+  "es2015": "./lib/es2015/barrel.js",
+  "esm2015": "./lib/esm2015/barrel.js",
   "scripts": {
-    "prepare": "tsc && tsc -p ./tsconfig.commonjs.json"
+    "prepare": "tsc && tsc -p tsconfig.es2015.json && tsc -p tsconfig.esm2015.json",
+    "test:main": "node lib/main/tests/barrel.test.js",
+    "test:es2015": "node lib/es2015/tests/barrel.test.js",
+    "test": "npm run test:main && npm run test:es2015"
   },
   "repository": {
     "type": "git",
@@ -23,7 +28,7 @@
     "@types/reflect-metadata": "0.0.5"
   },
   "dependencies": {
-    "@blynx/inject": "^2.2.0",
+    "@blynx/inject": "0.0.1",
     "es6-symbol": "^3.1.1",
     "reflect-metadata": "^0.1.10"
   }
