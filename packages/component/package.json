@@ -1,6 +1,6 @@
 {
   "name": "@blynx/component",
-  "version": "2.3.3",
+  "version": "0.0.1",
   "description": "Browser Components",
   "main": "./lib/main/barrel.js",
   "types": "./lib/main/barrel.d.ts",
