@@ -3,10 +3,10 @@ $ripple-duration: 400ms !default;
 $ripple-color: #FFF !default;
 $ripple-transform: $ripple-duration ease-out, opacity $ripple-duration ease-out;
 
-[jb-ripple] {
+[nx-ripple] {
     position: relative;
     overflow: hidden;
-    .jb-ripple-container {
+    .nx-ripple-container {
         position: absolute;
         top: 0;
         left: 0;
@@ -16,7 +16,7 @@ $ripple-transform: $ripple-duration ease-out, opacity $ripple-duration ease-out;
 
         -webkit-mask-image: -webkit-radial-gradient(circle, white, black);
 
-        .jb-ripple {
+        .nx-ripple {
             position: absolute;
             border-radius: 100%;
             background-color: $ripple-color;
@@ -33,12 +33,12 @@ $ripple-transform: $ripple-duration ease-out, opacity $ripple-duration ease-out;
 
             @include transform(scale(0));
 
-            &.jb-ripple-held {
+            &.nx-ripple-held {
                 opacity: 0.2;
                 @include transform(scale(1));
             }
 
-            &.jb-ripple-done {
+            &.nx-ripple-done {
                 opacity: 0.0;
             }
         }

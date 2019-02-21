@@ -2,14 +2,14 @@
   "name": "@blynx/express-webapi",
   "version": "0.0.1",
   "description": "A library for creating maintainable express api's using decorators",
-  "main": "./lib/main/barrel.js",
-  "types": "./lib/main/barrel.d.ts",
-  "es2015": "./lib/es2015/barrel.js",
-  "esm2015": "./lib/esm2015/barrel.js",
+  "main": "./lib/main/index.js",
+  "types": "./lib/main/index.d.ts",
+  "es2015": "./lib/es2015/index.js",
+  "esm2015": "./lib/esm2015/index.js",
   "scripts": {
     "prepare": "tsc && tsc -p tsconfig.es2015.json && tsc -p tsconfig.esm2015.json",
-    "test:main": "node lib/main/tests/barrel.test.js",
-    "test:es2015": "node lib/es2015/tests/barrel.test.js",
+    "test:main": "node lib/main/tests/index.test.js",
+    "test:es2015": "node lib/es2015/tests/index.test.js",
     "test": "npm run test:main && npm run test:es2015"
   },
   "repository": {

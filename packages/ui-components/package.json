@@ -1,9 +1,9 @@
 {
   "name": "@blynx/ui-components",
-  "version": "2.0.2",
+  "version": "0.0.1",
   "description": "Fancy blynx web components",
-  "main": "./dist/main/main.js",
-  "types": "./dist/main/main.d.ts",
+  "main": "./lib/main/main.js",
+  "types": "./lib/main/main.d.ts",
   "scripts": {
     "build:unbundled": "webpack --config ./webpack.unbundled.config.js",
     "build:bundle": "webpack --config ./webpack.bundle.config.js",
@@ -50,13 +50,13 @@
     "raw-loader": "^0.5.1",
     "sass-loader": "^6.0.7",
     "to-string-loader": "^1.1.5",
-    "typescript": "^2.9.2",
+    "typescript": "^3.3.3",
     "webpack": "^3.12.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-merge": "^4.1.4"
   },
   "dependencies": {
-    "@blynx/component": "^2.3.3",
+    "@blynx/component": "0.0.3",
     "es6-symbol": "^3.1.1",
     "webpack": "^3.12.0"
   }

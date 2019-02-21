@@ -1,6 +1,6 @@
 
 
-import { StrictTypes, Nullable, Arguments } from "../barrel";
+import { StrictTypes, Nullable, Arguments } from "../index";
 import { TestClass, TestMethod, Assert } from '@blynx/test';
 
 class Foo {}

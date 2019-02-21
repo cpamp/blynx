@@ -1,77 +1,77 @@
-export class JbTextbox {
-    private jbHelper: HTMLElement;
-    private jbErrors: NodeListOf<HTMLElement>;
-    private jbLabel: HTMLElement;
-    private jbInput: HTMLInputElement;
+export class Textbox {
+    private nxHelper: HTMLElement;
+    private nxErrors: NodeListOf<HTMLElement>;
+    private nxLabel: HTMLElement;
+    private nxInput: HTMLInputElement;
     private helperHtml: string;
 
-    constructor(private jbTextbox: HTMLElement) {
-        this.jbHelper = <HTMLElement>jbTextbox.querySelector('jb-helper');
-        this.jbErrors = <NodeListOf<HTMLElement>>jbTextbox.querySelectorAll('jb-error');
-        this.jbLabel = <HTMLElement>jbTextbox.querySelector('label');
-        this.jbInput = <HTMLInputElement>jbTextbox.querySelector('input');
-        if (this.jbLabel) this.jbLabel.addEventListener('click', () => this.jbInput.focus());
+    constructor(private nxTextbox: HTMLElement) {
+        this.nxHelper = <HTMLElement>nxTextbox.querySelector('nx-helper');
+        this.nxErrors = <NodeListOf<HTMLElement>>nxTextbox.querySelectorAll('nx-error');
+        this.nxLabel = <HTMLElement>nxTextbox.querySelector('label');
+        this.nxInput = <HTMLInputElement>nxTextbox.querySelector('input');
+        if (this.nxLabel) this.nxLabel.addEventListener('click', () => this.nxInput.focus());
         this.setupHelper();
         this.setupInput();
         this.setWidth();
     }
 
     private setupHelper() {
-        if (this.jbHelper == null) {
-            this.jbHelper = document.createElement('jb-helper');
+        if (this.nxHelper == null) {
+            this.nxHelper = document.createElement('nx-helper');
         }
-        this.jbHelper.innerHTML = this.jbHelper.innerHTML == '' ? '&nbsp;' : this.jbHelper.innerHTML;
-        this.helperHtml = this.jbHelper.innerHTML;
+        this.nxHelper.innerHTML = this.nxHelper.innerHTML == '' ? '&nbsp;' : this.nxHelper.innerHTML;
+        this.helperHtml = this.nxHelper.innerHTML;
     }
 
     private setWidth() {
-        if (this.jbLabel) this.jbLabel.style.width = this.jbInput.offsetWidth + 'px';
-        this.jbHelper.style.width = this.jbInput.offsetWidth + 'px';
+        if (this.nxLabel) this.nxLabel.style.width = this.nxInput.offsetWidth + 'px';
+        this.nxHelper.style.width = this.nxInput.offsetWidth + 'px';
     }
 
     private setupInput() {
-        this.jbTextbox.removeChild(this.jbInput);
+        this.nxTextbox.removeChild(this.nxInput);
         let borderBottom = document.createElement('span');
-        borderBottom.classList.add('jb-input-border-bottom');
-        borderBottom.appendChild(this.jbInput);
-        this.jbTextbox.insertBefore(borderBottom, this.jbTextbox.firstChild);
-        this.jbInput.addEventListener('focus', (e) => { this.focused(e); });
-        this.jbInput.addEventListener('blur', (e) => { this.blurred(e); });
+        borderBottom.classList.add('nx-input-border-bottom');
+        borderBottom.appendChild(this.nxInput);
+        this.nxTextbox.insertBefore(borderBottom, this.nxTextbox.firstChild);
+        this.nxInput.addEventListener('focus', (e) => { this.focused(e); });
+        this.nxInput.addEventListener('blur', (e) => { this.blurred(e); });
     }
 
     private focused(e: FocusEvent) {
-        this.jbTextbox.classList.add('jb-input-focused');
+        this.nxTextbox.classList.add('nx-input-focused');
     }
 
     private blurred(e: FocusEvent) {
-        this.jbTextbox.classList.remove('jb-input-focused');
-        if (this.jbInput.value === '') {
-            this.jbTextbox.classList.remove('jb-has-value');
+        this.nxTextbox.classList.remove('nx-input-focused');
+        if (this.nxInput.value === '') {
+            this.nxTextbox.classList.remove('nx-has-value');
         } else {
-            this.jbTextbox.classList.add('jb-has-value');
+            this.nxTextbox.classList.add('nx-has-value');
         }
         this.validate();
     }
 
     private getError(type: string): HTMLElement {
-        for (let i = 0; i < this.jbErrors.length; i++) {
-            if (this.jbErrors.item(i).hasAttribute(type)) return this.jbErrors.item(i);
+        for (let i = 0; i < this.nxErrors.length; i++) {
+            if (this.nxErrors.item(i).hasAttribute(type)) return this.nxErrors.item(i);
         }
         return null;
     }
 
     private error(type: string) {
         let err = this.getError(type);
-        this.jbHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
-        this.jbTextbox.classList.add('jb-input-error');
+        this.nxHelper.innerHTML = err ? err.innerHTML : '&nbsp;';
+        this.nxTextbox.classList.add('nx-input-error');
     }
 
     private validate() {
-        let v = this.jbInput.validity;
+        let v = this.nxInput.validity;
 
         try {
             (<any>v).tooShort = false;
-            if (this.jbInput.hasAttribute('minlength')) (<any>v).tooShort = this.jbInput.value.length < parseInt(this.jbInput.getAttribute('minlength'));
+            if (this.nxInput.hasAttribute('minlength')) (<any>v).tooShort = this.nxInput.value.length < parseInt(this.nxInput.getAttribute('minlength'));
         } catch { /* Nothing to do */ }
 
         if (v.badInput) {
@@ -95,8 +95,8 @@ export class JbTextbox {
         } else if (v.typeMismatch) {
             return this.error('type');
         } else {
-            this.jbHelper.innerHTML = this.helperHtml;
-            this.jbTextbox.classList.remove('jb-input-error');
+            this.nxHelper.innerHTML = this.helperHtml;
+            this.nxTextbox.classList.remove('nx-input-error');
         }
     }
 }

@@ -1,11 +1,11 @@
-import { Component } from "@blynx/component";
-import { JbButton } from "./button";
+import { Component } from "@blynx/component/lib/esm2015";
+import { Button } from "./button";
 
 @Component({
-    selector: '[jb-button]',
+    selector: '[nx-button]',
     styles: require('./button.scss')
 })
-export class JbButtonComponentBundle extends JbButton {
+export class ButtonComponentBundle extends Button {
     constructor(el: HTMLElement) {
         super(el);
     }

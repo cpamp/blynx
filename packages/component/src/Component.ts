@@ -33,28 +33,30 @@ export function Component(options: IOptions) {
     return function(constructor: Function) {
         constructor = inject(constructor);
 
-        var metadata = Reflect.getMetadata(paramTypes, constructor);
+        let metadata = Reflect.getMetadata(paramTypes, constructor);
 
-        var htmlElementIndex = -1;
-        for (var i = 0; i < metadata.length; i++) {
+        let htmlElementIndex = -1;
+        for (let i = 0; i < metadata.length; i++) {
             if (metadata[i] === Element || metadata[i] === HTMLElement) {
                 htmlElementIndex = i;
                 break;
             }
         }
 
-        var newConstructor = function() {
-            var elements: NodeListOf<Element> = document.querySelectorAll(options.selector);
+        let newConstructor = class {
+            constructor() {
+                let elements: NodeListOf<Element> = document.querySelectorAll(options.selector);
 
-            var params: any[] = [];
-            for (var i = 0; i < elements.length; i++) {
-                ComponentRegistry.componentElements[options.selector] = ComponentRegistry.componentElements[options.selector] || [];
-                if (ComponentRegistry.componentElements[options.selector].indexOf(elements[i]) === -1) {
-                    let el = elements.item(i);
-                    initTemplate(el, options.template);
-                    params[htmlElementIndex] = el;
-                    new (Function.prototype.bind.apply(constructor, [null, ...params]))();
-                    ComponentRegistry.componentElements[options.selector].push(el);
+                let params: any[] = [];
+                for (let i = 0; i < elements.length; i++) {
+                    ComponentRegistry.componentElements[options.selector] = ComponentRegistry.componentElements[options.selector] || [];
+                    if (ComponentRegistry.componentElements[options.selector].indexOf(elements[i]) === -1) {
+                        let el = elements.item(i);
+                        initTemplate(el, options.template);
+                        params[htmlElementIndex] = el;
+                        new (Function.prototype.bind.apply(constructor, [null, ...params]))();
+                        ComponentRegistry.componentElements[options.selector].push(el);
+                    }
                 }
             }
         };

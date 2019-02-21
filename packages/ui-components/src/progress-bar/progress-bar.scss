@@ -1,8 +1,8 @@
 @import '../_defaults.scss';
 
-jb-progress-bar {
+nx-progress-bar {
     width: 100%;
-    .jb-progress-bar-wrapper {
+    .nx-progress-bar-wrapper {
         border-radius: 3px;
         width:100%;
         height: 25px;
@@ -11,41 +11,41 @@ jb-progress-bar {
         overflow-y: hidden;
         position: relative;
 
-        .jb-progress-bar-text {
+        .nx-progress-bar-text {
             width: 100%;
             position: absolute;
             left: 50%;
             transform: translate(-50%, -50%);
             text-align: center;
-            color: $jb-default-color;
+            color: $nx-default-color;
             font-size: .85em;
             vertical-align: middle;
             top: 50%;
         }
 
-        .jb-progress-bar-bg {
-            background-color: $jb-primary;
+        .nx-progress-bar-bg {
+            background-color: $nx-primary;
             width: 0%;
             height: 100%;
             transition: width .5s ease;
         }
     }
 
-    &[jb-primary] {
-        .jb-progress-bar-bg {
-            background-color: $jb-primary;
+    &[nx-primary] {
+        .nx-progress-bar-bg {
+            background-color: $nx-primary;
         }
     }
 
-    &[jb-warn] {
-        .jb-progress-bar-bg {
-            background-color: $jb-warn;
+    &[nx-warn] {
+        .nx-progress-bar-bg {
+            background-color: $nx-warn;
         }
     }
 
-    &[jb-danger] {
-        .jb-progress-bar-bg {
-            background-color: $jb-danger;
+    &[nx-danger] {
+        .nx-progress-bar-bg {
+            background-color: $nx-danger;
         }
     }
 }

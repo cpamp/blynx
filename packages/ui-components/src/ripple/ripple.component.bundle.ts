@@ -1,11 +1,11 @@
-import { JbRipple } from "./ripple";
-import { Component } from "@blynx/component";
+import { Ripple } from "./ripple";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: '[jb-ripple]',
+    selector: '[nx-ripple]',
     styles: require('./ripple.scss')
 })
-export class JbRippleComponentBundle extends JbRipple {
+export class RippleComponentBundle extends Ripple {
     constructor(el: HTMLElement) {
         super(el)
     }

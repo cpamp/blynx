@@ -1,39 +1,39 @@
 @import "../main.scss";
 
-$jb-tooltip-default-background: #E0E0E0;
-$jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
+$nx-tooltip-default-background: #E0E0E0;
+$nx-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
 
 @mixin tooltipColor($color, $background) {
-    .jb-tooltip-text {
+    .nx-tooltip-text {
         color: $color;
         background-color: $background;
     }
 
-    &.jb-tooltip-top .jb-tooltip-pointer::before {
+    &.nx-tooltip-top .nx-tooltip-pointer::before {
         border-top-color: $background;
     }
 
-    &.jb-tooltip-right .jb-tooltip-pointer::before {
+    &.nx-tooltip-right .nx-tooltip-pointer::before {
         border-right-color: $background;
     }
 
-    &.jb-tooltip-bottom .jb-tooltip-pointer::before {
+    &.nx-tooltip-bottom .nx-tooltip-pointer::before {
         border-bottom-color: $background;
     }
 
-    &.jb-tooltip-left .jb-tooltip-pointer::before {
+    &.nx-tooltip-left .nx-tooltip-pointer::before {
         border-left-color: $background;
     }
 }
 
-.jb-tooltip {
+.nx-tooltip {
     max-width: 200px;
     position: absolute;
     visibility: hidden;
     opacity: 0;
-    transition: $jb-tooltip-transition;
+    transition: $nx-tooltip-transition;
 
-    .jb-tooltip-pointer {
+    .nx-tooltip-pointer {
         position: absolute;
         display: block;
 
@@ -45,7 +45,7 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         }
     }
 
-    &.jb-tooltip-top .jb-tooltip-pointer {
+    &.nx-tooltip-top .nx-tooltip-pointer {
         bottom: 0;
         left: 50%;
         transform: translateX(-50%);
@@ -57,7 +57,7 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         }
     }
 
-    &.jb-tooltip-right .jb-tooltip-pointer {
+    &.nx-tooltip-right .nx-tooltip-pointer {
         top: 50%;
         left: 0;
         transform: translateY(-50%);
@@ -70,7 +70,7 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         }
     }
 
-    &.jb-tooltip-bottom .jb-tooltip-pointer {
+    &.nx-tooltip-bottom .nx-tooltip-pointer {
         top: 0;
         left: 50%;
         transform: translateX(-50%);
@@ -82,7 +82,7 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         }
     }
 
-    &.jb-tooltip-left .jb-tooltip-pointer {
+    &.nx-tooltip-left .nx-tooltip-pointer {
         top: 50%;
         right: 0;
         transform: translateY(-50%);
@@ -95,7 +95,7 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         }
     }
 
-    .jb-tooltip-text {
+    .nx-tooltip-text {
         border-radius: 3px;
         padding: 7px;
         font-size: .8em;
@@ -103,19 +103,19 @@ $jb-tooltip-transition: visibility 0.3s linear, opacity 0.3s linear;
         margin:.6em;
     }
 
-    &.jb-default {
-        @include tooltipColor($jb-default-color, $jb-tooltip-default-background);
+    &.nx-default {
+        @include tooltipColor($nx-default-color, $nx-tooltip-default-background);
     }
     
-    &.jb-primary {
-        @include tooltipColor($jb-primary-color, $jb-primary-background);
+    &.nx-primary {
+        @include tooltipColor($nx-primary-color, $nx-primary-background);
     }
     
-    &.jb-warn {
-        @include tooltipColor($jb-warn-color, $jb-warn-background);
+    &.nx-warn {
+        @include tooltipColor($nx-warn-color, $nx-warn-background);
     }
     
-    &.jb-danger {
-        @include tooltipColor($jb-danger-color, $jb-danger-background);
+    &.nx-danger {
+        @include tooltipColor($nx-danger-color, $nx-danger-background);
     }
 }

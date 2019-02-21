@@ -1,21 +1,21 @@
 require('es6-symbol/implement');
 
-import { JbTextbox } from "./textbox/textbox";
-import { JbRipple } from "./ripple/ripple";
-import { JbButton } from "./button/button";
-import { JbButtonComponent } from "./button/button.component";
-import { JbRippleComponent } from "./ripple/ripple.component";
-import { JbTextboxComponent } from "./textbox/textbox.component";
-import { JbDialogComponent } from "./dialog/dialog.component";
-import { JbDialog } from "./dialog/dialog";
-import { JbProgressBar } from "./progress-bar/progress-bar";
-import { JbProgressBarComponent } from "./progress-bar/progress-bar.component";
-import { JbTooltip } from "./tooltip/tooltip";
-import { JbTooltipComponent } from "./tooltip/tooltip.component";
+import { Textbox } from "./textbox/textbox";
+import { Ripple } from "./ripple/ripple";
+import { Button } from "./button/button";
+import { ButtonComponent } from "./button/button.component";
+import { RippleComponent } from "./ripple/ripple.component";
+import { TextboxComponent } from "./textbox/textbox.component";
+import { DialogComponent } from "./dialog/dialog.component";
+import { Dialog } from "./dialog/dialog";
+import { ProgressBar } from "./progress-bar/progress-bar";
+import { ProgressBarComponent } from "./progress-bar/progress-bar.component";
+import { Tooltip } from "./tooltip/tooltip";
+import { TooltipComponent } from "./tooltip/tooltip.component";
 
-export { JbTextbox, JbTextboxComponent }
-export { JbRipple, JbRippleComponent }
-export { JbButton, JbButtonComponent }
-export { JbDialog, JbDialogComponent }
-export { JbProgressBar, JbProgressBarComponent }
-export { JbTooltip, JbTooltipComponent }
+export { Textbox as Textbox, TextboxComponent }
+export { Ripple as Ripple, RippleComponent }
+export { Button as Button, ButtonComponent }
+export { Dialog as Dialog, DialogComponent }
+export { ProgressBar as ProgressBar, ProgressBarComponent }
+export { Tooltip as Tooltip, TooltipComponent }

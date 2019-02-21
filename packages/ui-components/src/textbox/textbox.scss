@@ -1,15 +1,15 @@
 @import '../_defaults.scss';
 
-$jb-textbox-active-color: $jb-primary !default;
-$jb-textbox-label-color: $jb-dark-grey-color !default;
-$jb-textbox-error: $jb-danger !default;
-$jb-textbox-color: #1E1E1E !default;
-$jb-textbox-transition-ease: ease-in-out !default;
-$jb-textbox-transition-duration: 250ms !default;
+$nx-textbox-active-color: $nx-primary !default;
+$nx-textbox-label-color: $nx-dark-grey-color !default;
+$nx-textbox-error: $nx-danger !default;
+$nx-textbox-color: #1E1E1E !default;
+$nx-textbox-transition-ease: ease-in-out !default;
+$nx-textbox-transition-duration: 250ms !default;
 
 $marginUnfocused: -1px;
-$borderUnfocused: $jb-textbox-label-color solid 1px;
-$borderError: $jb-textbox-error solid 2px;
+$borderUnfocused: $nx-textbox-label-color solid 1px;
+$borderError: $nx-textbox-error solid 2px;
 $labelTextSize: .85em;
 $helperTextSize: .75em;
 $labelTopFocused: -16px;
@@ -34,19 +34,19 @@ $labelTopFocused: -16px;
     &::placeholder  {@include transition($transition);}
 }
 
-jb-textbox {
+nx-textbox {
     display: block;
     position: relative;
     margin: 32px 8px 8px 8px;
 
-    jb-error {
+    nx-error {
         display: none;
     }
 
-    jb-helper {
+    nx-helper {
         display: block;
         padding-top: 8px;
-        color: $jb-textbox-label-color;
+        color: $nx-textbox-label-color;
         font-size: $helperTextSize;
     }
 
@@ -59,43 +59,43 @@ jb-textbox {
         margin-bottom: $marginUnfocused;
         outline: none;
         padding-bottom: 8px;
-        color: $jb-textbox-color;
+        color: $nx-textbox-color;
         @include placeholderOpacity(0);
-        @include placeholderTransition(opacity $jb-textbox-transition-duration $jb-textbox-transition-ease);
+        @include placeholderTransition(opacity $nx-textbox-transition-duration $nx-textbox-transition-ease);
     }
 
-    .jb-input-border-bottom {
+    .nx-input-border-bottom {
         display: inline-block;
         &:after {
             display: block;
             content: '';
             @include transform(scaleX(0));
-            @include transition(transform $jb-textbox-transition-duration $jb-textbox-transition-ease);
-            @include getBorder($jb-primary);
+            @include transition(transform $nx-textbox-transition-duration $nx-textbox-transition-ease);
+            @include getBorder($nx-primary);
         }
     }
 
     label {
-        color: $jb-textbox-label-color;
+        color: $nx-textbox-label-color;
         position: absolute;
         left: 0px;
         top: 0px;
         font-size: 1em;
-        @include transition(all $jb-textbox-transition-duration $jb-textbox-transition-ease);
+        @include transition(all $nx-textbox-transition-duration $nx-textbox-transition-ease);
         cursor: text;
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
     }
 
-    &.jb-has-value {
+    &.nx-has-value {
         label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
         }
     }
 
-    &.jb-input-focused {
+    &.nx-input-focused {
         input {
             @include placeholderOpacity(1);
         }
@@ -103,38 +103,38 @@ jb-textbox {
         label {
             top: $labelTopFocused;
             font-size: $labelTextSize;
-            color: $jb-textbox-active-color;
+            color: $nx-textbox-active-color;
         }
 
-        &.jb-input-error {
+        &.nx-input-error {
             label {
-                color: $jb-textbox-error;
+                color: $nx-textbox-error;
             }
         }
 
-        .jb-input-border-bottom {
+        .nx-input-border-bottom {
             &:after, &:before {
                 @include transform(scaleX(1));
             }
         }
     }
 
-    &.jb-input-error {
-        .jb-input-border-bottom:after {
-            @include getBorder($jb-textbox-error);
+    &.nx-input-error {
+        .nx-input-border-bottom:after {
+            @include getBorder($nx-textbox-error);
             @include transform(scaleX(1));
         }
 
-        jb-helper {
-            color: $jb-textbox-error;
+        nx-helper {
+            color: $nx-textbox-error;
         }
     }
 }
 
-.jb-dark {
-    jb-textbox {
+.nx-dark {
+    nx-textbox {
         input {
-            color: $jb-light-grey-color;
+            color: $nx-light-grey-color;
         }
     }
 }

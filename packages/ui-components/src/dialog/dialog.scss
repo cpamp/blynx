@@ -1,10 +1,10 @@
 @import '../_defaults.scss';
 
-$jb-dialog-border: $jb-light-grey-color 1px solid;
-$jb-dialog-padding: 20px;
-$jb-dialog-transition: visibility 0.3s linear, opacity 0.3s linear;
+$nx-dialog-border: $nx-light-grey-color 1px solid;
+$nx-dialog-padding: 20px;
+$nx-dialog-transition: visibility 0.3s linear, opacity 0.3s linear;
 
-.jb-dialog-dim {
+.nx-dialog-dim {
     height:100%;
     width:100%;
     position:fixed;
@@ -12,13 +12,13 @@ $jb-dialog-transition: visibility 0.3s linear, opacity 0.3s linear;
     top:0;
     z-index:1 !important;
     background-color: rgba(0, 0, 0, 0.6);
-    transition: $jb-dialog-transition;
+    transition: $nx-dialog-transition;
     opacity:0;
     visibility: hidden;
 }
 
-jb-dialog {
-    background: $jb-default-background;
+nx-dialog {
+    background: $nx-default-background;
     min-height: 6em;
     max-height: 25em;
     min-width: 15em;
@@ -33,41 +33,41 @@ jb-dialog {
     margin: 0 auto;
     z-index: 2;
     border-radius: 2px;
-    transition: $jb-dialog-transition;
+    transition: $nx-dialog-transition;
     opacity:0;
     visibility: hidden;
 
-    jb-header, jb-body, jb-footer {
+    nx-header, nx-body, nx-footer {
         display:block;
     }
 
-    jb-header, jb-body {
-        padding-top: $jb-dialog-padding;
-        padding-right: $jb-dialog-padding;
-        padding-left: $jb-dialog-padding;
+    nx-header, nx-body {
+        padding-top: $nx-dialog-padding;
+        padding-right: $nx-dialog-padding;
+        padding-left: $nx-dialog-padding;
     }
 
-    &.jb-scrollable {
-        jb-header {
-            border-bottom: $jb-dialog-border;
-            padding-bottom: $jb-dialog-padding;
+    &.nx-scrollable {
+        nx-header {
+            border-bottom: $nx-dialog-border;
+            padding-bottom: $nx-dialog-padding;
         }
-        jb-body {
+        nx-body {
             max-height: 14em;
             overflow-y: scroll;
-            padding-bottom: $jb-dialog-padding;
+            padding-bottom: $nx-dialog-padding;
         }
-        jb-footer {
-            border-top: $jb-dialog-border;
+        nx-footer {
+            border-top: $nx-dialog-border;
         }
     }
 
-    jb-header {
+    nx-header {
         font-weight: bold;
         font-size: 1.1em;
     }
 
-    jb-footer {
+    nx-footer {
         text-align: right;
     }
 }

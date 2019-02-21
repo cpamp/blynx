@@ -1,39 +1,39 @@
-$jb-light-grey-color: #EEEEEE !default;
-$jb-grey-color: #BDBDBD !default;
-$jb-dark-grey-color: #757575 !default;
+$nx-light-grey-color: #EEEEEE !default;
+$nx-grey-color: #BDBDBD !default;
+$nx-dark-grey-color: #757575 !default;
 
-$jb-shadow-color: rgba(0, 0, 0, 0.4) !default;
+$nx-shadow-color: rgba(0, 0, 0, 0.4) !default;
 
-$jb-default-color: #212121 !default;
-$jb-default-background: #FAFAFA !default;
-$jb-default-active-background: #E0E0E0 !default;
-$jb-default-ripple-color: $jb-dark-grey-color !default;
+$nx-default-color: #212121 !default;
+$nx-default-background: #FAFAFA !default;
+$nx-default-active-background: #E0E0E0 !default;
+$nx-default-ripple-color: $nx-dark-grey-color !default;
 
-$jb-primary: #2979FF !default;
-$jb-primary-color: #FFF !default;;
-$jb-primary-background: $jb-primary !default;
-$jb-primary-active-background: #2962FF !default;
-$jb-primary-ripple-color: #FFF !default;
+$nx-primary: #2979FF !default;
+$nx-primary-color: #FFF !default;;
+$nx-primary-background: $nx-primary !default;
+$nx-primary-active-background: #2962FF !default;
+$nx-primary-ripple-color: #FFF !default;
 
-$jb-warn: #EF6C00 !default;
-$jb-warn-color: #FFF !default;
-$jb-warn-background: $jb-warn !default;
-$jb-warn-active-background: #E65100 !default;
-$jb-warn-ripple-color: #FFF !default;
+$nx-warn: #EF6C00 !default;
+$nx-warn-color: #FFF !default;
+$nx-warn-background: $nx-warn !default;
+$nx-warn-active-background: #E65100 !default;
+$nx-warn-ripple-color: #FFF !default;
 
-$jb-danger: #E53935 !default;
-$jb-danger-color: #FFF !default;
-$jb-danger-background: $jb-danger !default;
-$jb-danger-active-background: #C62828 !default;
-$jb-danger-ripple-color: #FFF !default;
+$nx-danger: #E53935 !default;
+$nx-danger-color: #FFF !default;
+$nx-danger-background: $nx-danger !default;
+$nx-danger-active-background: #C62828 !default;
+$nx-danger-ripple-color: #FFF !default;
 
-$jb-error-color: #F44336 !default;
+$nx-error-color: #F44336 !default;
 
-$jb-theme-dark-background-focus: rgba(255,255,255, 0.2) !default;
-$jb-theme-dark-ripple-color: #FFF !default;
-$jb-theme-dark-color: #FFF !default;
-$jb-theme-dark-disabled-color: rgba(255,255,255, 0.3) !default;
-$jb-theme-dark-disabled-background: rgba(255,255,255, 0.15) !default;
+$nx-theme-dark-background-focus: rgba(255,255,255, 0.2) !default;
+$nx-theme-dark-ripple-color: #FFF !default;
+$nx-theme-dark-color: #FFF !default;
+$nx-theme-dark-disabled-color: rgba(255,255,255, 0.3) !default;
+$nx-theme-dark-disabled-background: rgba(255,255,255, 0.15) !default;
 
 @mixin transition($transition...) {
     -webkit-transition: $transition;

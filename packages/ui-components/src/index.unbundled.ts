@@ -1,3 +1,3 @@
 import './main.scss';
-import * as JbWebComponents from './main';
-export { JbWebComponents };
+import * as WebComponents from './main';
+export { WebComponents };

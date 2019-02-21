@@ -1,4 +1,4 @@
 src/
 tsconfig.json
 gulpfile.js
-dist/bundle/index.html
+lib/bundle/index.html

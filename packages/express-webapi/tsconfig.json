@@ -2,7 +2,7 @@
     "extends": "./tsconfig.base.json",
     "compilerOptions": {
         "target": "es5",
-        "module": "umd",
+        "module": "commonjs",
         "outDir": "./lib/main"
     }
 }

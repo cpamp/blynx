@@ -1,10 +1,10 @@
-import { JbButton } from "./button";
-import { Component } from "@blynx/component";
+import { Button } from "./button";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: '[jb-button]'
+    selector: '[nx-button]'
 })
-export class JbButtonComponent extends JbButton {
+export class ButtonComponent extends Button {
     constructor(el: HTMLElement) {
         super(el);
     }

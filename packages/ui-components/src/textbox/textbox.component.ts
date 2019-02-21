@@ -1,10 +1,10 @@
-import { JbTextbox } from "./textbox";
-import { Component } from "@blynx/component";
+import { Textbox } from "./textbox";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: 'jb-textbox'
+    selector: 'nx-textbox'
 })
-export class JbTextboxComponent extends JbTextbox {
+export class TextboxComponent extends Textbox {
     constructor(el: HTMLElement) {
         super(el);
     }

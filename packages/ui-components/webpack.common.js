@@ -7,7 +7,7 @@ var es2015 = JSON.stringify({presets: [['es2015', {modules: false}]]})
 
 module.exports = {
     output: {
-        path: __dirname + '/dist/bundle',
+        path: __dirname + '/lib/bundle',
         chunkFilename: '[id].chunk.js',
     },
 

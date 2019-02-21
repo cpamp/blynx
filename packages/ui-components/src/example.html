@@ -18,150 +18,150 @@
     </head>
     <body>
         <!-- Textbox -->
-        <jb-textbox>
+        <nx-textbox>
             <label>Email</label>
             <input type="email" placeholder="example@domain.com" required>
-            <jb-helper>Enter your email</jb-helper>
-            <jb-error required>Email is required</jb-error>
-            <jb-error type>Not a valid email!</jb-error>
-        </jb-textbox>
-        <div class="jb-dark dark">
-            <jb-textbox>
+            <nx-helper>Enter your email</nx-helper>
+            <nx-error required>Email is required</nx-error>
+            <nx-error type>Not a valid email!</nx-error>
+        </nx-textbox>
+        <div class="nx-dark dark">
+            <nx-textbox>
                 <label>Password</label>
                 <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;&#9679;" minlength="8" required>
-                <jb-helper>Enter secret password</jb-helper>
-                <jb-error required>Password is required</jb-error>
-                <jb-error minlength>Password must be 8 characters!</jb-error>
-            </jb-textbox>
+                <nx-helper>Enter secret password</nx-helper>
+                <nx-error required>Password is required</nx-error>
+                <nx-error minlength>Password must be 8 characters!</nx-error>
+            </nx-textbox>
         </div>
         <br>
 
         <!-- Ripple -->
-        <button style="background-color:blue; height:50px; width:200px" jb-ripple jb-ripple-color="yellow">
+        <button style="background-color:blue; height:50px; width:200px" nx-ripple nx-ripple-color="yellow">
             Ripple
         </button>
         <br>
 
         <!-- Raised Button -->
-        <button jb-button>
+        <button nx-button>
             raised
         </button>
-        <button class="jb-primary" jb-button>
+        <button class="nx-primary" nx-button>
             primary
         </button>
-        <button class="jb-warn" jb-button>
+        <button class="nx-warn" nx-button>
             warn
         </button>
-        <button class="jb-danger" jb-button>
+        <button class="nx-danger" nx-button>
             danger
         </button>
-        <button jb-button disabled>
+        <button nx-button disabled>
             disabled
         </button>
         <br>
         <!-- Raised Button Dark -->
-        <div class="jb-dark dark">
-            <button jb-button>
+        <div class="nx-dark dark">
+            <button nx-button>
                 raised
             </button>
-            <button class="jb-primary" jb-button>
+            <button class="nx-primary" nx-button>
                 primary
             </button>
-            <button class="jb-warn" jb-button>
+            <button class="nx-warn" nx-button>
                 warn
             </button>
-            <button class="jb-danger" jb-button>
+            <button class="nx-danger" nx-button>
                 danger
             </button>
-            <button jb-button disabled>
+            <button nx-button disabled>
                 disabled
             </button>
         </div>
         <br>
 
         <!-- Flat Button -->
-        <button jb-button="flat">
+        <button nx-button="flat">
             flat
         </button>
-        <button class="jb-primary" jb-button="flat">
+        <button class="nx-primary" nx-button="flat">
             primary
         </button>
-        <button class="jb-warn" jb-button="flat">
+        <button class="nx-warn" nx-button="flat">
             warn
         </button>
-        <button class="jb-danger" jb-button="flat">
+        <button class="nx-danger" nx-button="flat">
             danger
         </button>
-        <button jb-button="flat" disabled>
+        <button nx-button="flat" disabled>
             disabled
         </button>
         <br>
 
         <!-- Flat button dark -->
-        <div class="jb-dark dark">
-            <button jb-button="flat">
+        <div class="nx-dark dark">
+            <button nx-button="flat">
                 flat
             </button>
-            <button class="jb-primary" jb-button="flat">
+            <button class="nx-primary" nx-button="flat">
                 primary
             </button>
-            <button class="jb-warn" jb-button="flat">
+            <button class="nx-warn" nx-button="flat">
                 warn
             </button>
-            <button class="jb-danger" jb-button="flat">
+            <button class="nx-danger" nx-button="flat">
                 danger
             </button>
-            <button jb-button="flat" disabled>
+            <button nx-button="flat" disabled>
                 disabled
             </button>
         </div>
         <br>
 
         <!-- Fab Button -->
-        <button jb-button="fab">
+        <button nx-button="fab">
             fab
         </button>
-        <button class="jb-primary" jb-button="fab">
+        <button class="nx-primary" nx-button="fab">
             primary
         </button>
-        <button class="jb-warn" jb-button="fab">
+        <button class="nx-warn" nx-button="fab">
             warn
         </button>
-        <button class="jb-danger" jb-button="fab">
+        <button class="nx-danger" nx-button="fab">
             danger
         </button>
-        <button jb-button="fab" disabled>
+        <button nx-button="fab" disabled>
             disabled
         </button>
         <br>
 
         <!-- Fab button dark -->
-        <div class="jb-dark dark">
-            <button jb-button="fab">
+        <div class="nx-dark dark">
+            <button nx-button="fab">
                 fab
             </button>
-            <button class="jb-primary" jb-button="fab">
+            <button class="nx-primary" nx-button="fab">
                 primary
             </button>
-            <button class="jb-warn" jb-button="fab">
+            <button class="nx-warn" nx-button="fab">
                 warn
             </button>
-            <button class="jb-danger" jb-button="fab">
+            <button class="nx-danger" nx-button="fab">
                 danger
             </button>
-            <button jb-button="fab" disabled>
+            <button nx-button="fab" disabled>
                 disabled
             </button>
         </div>
         <br>
 
         <!--Dialog-->
-        <button id="btnDialog" jb-button jb-dialog-open="dialog1">
+        <button id="btnDialog" nx-button nx-dialog-open="dialog1">
             Open Dialog scrollable
         </button>
-        <jb-dialog id="dialog1" class="jb-scrollable">
-            <jb-header>Header!</jb-header>
-            <jb-body>
+        <nx-dialog id="dialog1" class="nx-scrollable">
+            <nx-header>Header!</nx-header>
+            <nx-body>
                 Wow you did something and now I'm telling you about it. Truely amazing
                 Wow you did something and now I'm telling you about it. Truely amazing
                 Wow you did something and now I'm telling you about it. Truely amazing
@@ -182,51 +182,51 @@
                 Wow you did something and now I'm telling you about it. Truely amazing
                 Wow you did something and now I'm telling you about it. Truely amazing
                 Wow you did something and now I'm telling you about it. Truely amazing
-            </jb-body>
-            <jb-footer>
-                <button jb-button="flat" jb-dialog-close="dialog1">Cancel</button>
-                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog1">Ok</button>
-            </jb-footer>
-        </jb-dialog>
+            </nx-body>
+            <nx-footer>
+                <button nx-button="flat" nx-dialog-close="dialog1">Cancel</button>
+                <button nx-button="flat" class="nx-primary" nx-dialog-close="dialog1">Ok</button>
+            </nx-footer>
+        </nx-dialog>
 
-        <button id="btnDialog" jb-button jb-dialog-open="dialog2">
+        <button id="btnDialog" nx-button nx-dialog-open="dialog2">
             Open Dialog No Scroll
         </button>
-        <jb-dialog id="dialog2">
-            <jb-header>Header!</jb-header>
-            <jb-body>
+        <nx-dialog id="dialog2">
+            <nx-header>Header!</nx-header>
+            <nx-body>
                 Some content. No need to worry. Just letting you know that the Pack is back baby.
-            </jb-body>
-            <jb-footer>
-                <button jb-button="flat" jb-dialog-close="dialog2">boo</button>
-                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog2">go pack go</button>
-            </jb-footer>
-        </jb-dialog>
+            </nx-body>
+            <nx-footer>
+                <button nx-button="flat" nx-dialog-close="dialog2">boo</button>
+                <button nx-button="flat" class="nx-primary" nx-dialog-close="dialog2">go pack go</button>
+            </nx-footer>
+        </nx-dialog>
 
-        <button id="btnDialog" jb-button jb-dialog-open="dialog3">
+        <button id="btnDialog" nx-button nx-dialog-open="dialog3">
             Open Dialog Action Required
         </button>
-        <jb-dialog id="dialog3" jb-action-required>
-            <jb-header>You must answer!</jb-header>
-            <jb-body>
+        <nx-dialog id="dialog3" nx-action-required>
+            <nx-header>You must answer!</nx-header>
+            <nx-body>
                 Do you like pizza?
-            </jb-body>
-            <jb-footer>
-                <button jb-button="flat" jb-dialog-close="dialog3">No</button>
-                <button jb-button="flat" class="jb-primary" jb-dialog-close="dialog3">Yes</button>
-            </jb-footer>
-        </jb-dialog>
+            </nx-body>
+            <nx-footer>
+                <button nx-button="flat" nx-dialog-close="dialog3">No</button>
+                <button nx-button="flat" class="nx-primary" nx-dialog-close="dialog3">Yes</button>
+            </nx-footer>
+        </nx-dialog>
 
         <div style="width:250px">
-            <jb-progress-bar id="pg1" step label max-value="6" jb-primary></jb-progress-bar>
+            <nx-progress-bar id="pg1" step label max-value="6" nx-primary></nx-progress-bar>
         </div>
         <br />
         <div style="width:250px">
-            <jb-progress-bar id="pg2" label max-value="100" value="66" jb-warn></jb-progress-bar>
+            <nx-progress-bar id="pg2" label max-value="100" value="66" nx-warn></nx-progress-bar>
         </div>
         <br />
         <div style="width:250px">
-            <jb-progress-bar id="pg3" jb-danger></jb-progress-bar>
+            <nx-progress-bar id="pg3" nx-danger></nx-progress-bar>
         </div>
         <script>
             let pg1 = document.querySelector('#pg1');
@@ -234,23 +234,23 @@
             let pg3 = document.querySelector('#pg3');
 
             setInterval(function() {
-                pg1.$jb.setValue(Math.floor(Math.random() * 7));
-                pg2.$jb.value = pg2.$jb.value > 0 ? pg2.$jb.value - 1 : 100;
-                pg3.$jb.value = pg3.$jb.value >= 100 ? 0 : pg3.$jb.value + 5 ;
+                pg1.$nx.setValue(Math.floor(Math.random() * 7));
+                pg2.$nx.value = pg2.$nx.value > 0 ? pg2.$nx.value - 1 : 100;
+                pg3.$nx.value = pg3.$nx.value >= 100 ? 0 : pg3.$nx.value + 5 ;
             }, 1000);
         </script>
         <br/>
         
-        <button jb-button jb-tooltip="Top Default Tooltip" jb-tooltip-top jb-tooltip-default>
+        <button nx-button nx-tooltip="Top Default Tooltip" nx-tooltip-top nx-tooltip-default>
             raised
         </button>
-        <button class="jb-primary" jb-button jb-tooltip="Right Primary Tooltip" jb-tooltip-right jb-tooltip-primary>
+        <button class="nx-primary" nx-button nx-tooltip="Right Primary Tooltip" nx-tooltip-right nx-tooltip-primary>
             primary
         </button>
-        <button class="jb-warn" jb-button jb-tooltip="Bottom Warn Tooltip" jb-tooltip-bottom jb-tooltip-warn>
+        <button class="nx-warn" nx-button nx-tooltip="Bottom Warn Tooltip" nx-tooltip-bottom nx-tooltip-warn>
             warn
         </button>
-        <button class="jb-danger" jb-button jb-tooltip="Left Danger Tooltip" jb-tooltip-left jb-tooltip-danger>
+        <button class="nx-danger" nx-button nx-tooltip="Left Danger Tooltip" nx-tooltip-left nx-tooltip-danger>
             danger
         </button>
     </body>

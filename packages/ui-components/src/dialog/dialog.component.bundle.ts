@@ -1,11 +1,11 @@
-import { JbDialog } from "./dialog";
-import { Component } from "@blynx/component";
+import { Dialog } from "./dialog";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: 'jb-dialog',
+    selector: 'nx-dialog',
     styles: require('./dialog.scss')
 })
-export class JbDialogComponentBundle extends JbDialog { 
+export class DialogComponentBundle extends Dialog { 
     constructor(el: HTMLElement) {
         super(el);
     }

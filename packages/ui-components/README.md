@@ -7,13 +7,13 @@ Fancy blynx web components.
 ### Example
 
 ```html
-<jb-textbox>
+<nx-textbox>
     <label>Email</label>
     <input type="email" required>
-    <jb-helper>Enter your email</jb-helper>
-    <jb-error required>Email is required</jb-error>
-    <jb-error type>Not a valid email!</jb-error>
-</jb-textbox>
+    <nx-helper>Enter your email</nx-helper>
+    <nx-error required>Email is required</nx-error>
+    <nx-error type>Not a valid email!</nx-error>
+</nx-textbox>
 ```
 
 ### Errors

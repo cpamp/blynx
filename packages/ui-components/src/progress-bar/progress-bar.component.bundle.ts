@@ -1,12 +1,12 @@
-import { JbProgressBar } from "./progress-bar";
-import { Component } from "@blynx/component";
+import { ProgressBar } from "./progress-bar";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: 'jb-progress-bar',
+    selector: 'nx-progress-bar',
     styles: require('./progress-bar.scss'),
     template: require('./progress-bar.html')
 })
-export class JbProgressBarComponentBundle extends JbProgressBar {
+export class ProgressBarComponentBundle extends ProgressBar {
     constructor(el: HTMLElement) {
         super(el);
     }

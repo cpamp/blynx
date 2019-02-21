@@ -1,10 +1,10 @@
-import { JbTooltip } from "./tooltip";
-import { Component } from "@blynx/component";
+import { Tooltip } from "./tooltip";
+import { Component } from "@blynx/component/lib/esm2015";
 
 @Component({
-    selector: '[jb-tooltip]'
+    selector: '[nx-tooltip]'
 })
-export class JbTooltipComponent extends JbTooltip {
+export class TooltipComponent extends Tooltip {
     constructor(el: HTMLElement) {
         super(el);
     }

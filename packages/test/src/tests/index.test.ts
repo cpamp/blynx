@@ -1,4 +1,4 @@
-import { TestClass, TestMethod, Assert } from "../barrel";
+import { TestClass, TestMethod, Assert } from "../index";
 
 @TestClass()
 export class Test {

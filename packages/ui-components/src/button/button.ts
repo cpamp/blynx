@@ -1,25 +1,25 @@
-import { JbRipple } from "../ripple/ripple";
+import { Ripple } from "../ripple/ripple";
 
-export class JbButton {
-    constructor(private jbButton: HTMLElement) {
-        this.jbButton.setAttribute('jb-ripple', '');
+export class Button {
+    constructor(private nxButton: HTMLElement) {
+        this.nxButton.setAttribute('nx-ripple', '');
         this.setupButton();
-        new JbRipple(this.jbButton);
+        new Ripple(this.nxButton);
     }
 
     private setupButton() {
-        var hasPointer: boolean = (<any>window).PointerEvents != null;
-        this.jbButton.addEventListener(hasPointer ? 'pointerdown' : 'mousedown', () => {
-            this.jbButton.classList.add('jb-button-active');
+        let hasPointer: boolean = (<any>window).PointerEvents != null;
+        this.nxButton.addEventListener(hasPointer ? 'pointerdown' : 'mousedown', () => {
+            this.nxButton.classList.add('nx-button-active');
         });
         document.addEventListener(hasPointer ? 'pointerup' : 'mouseup', () => {
-            this.jbButton.classList.remove('jb-button-active');
+            this.nxButton.classList.remove('nx-button-active');
         });
-        this.jbButton.addEventListener('focus', () => {
-            this.jbButton.classList.add('jb-button-focus');
+        this.nxButton.addEventListener('focus', () => {
+            this.nxButton.classList.add('nx-button-focus');
         });
-        this.jbButton.addEventListener('blur', () => {
-            this.jbButton.classList.remove('jb-button-focus');
+        this.nxButton.addEventListener('blur', () => {
+            this.nxButton.classList.remove('nx-button-focus');
         });
     }
 }
