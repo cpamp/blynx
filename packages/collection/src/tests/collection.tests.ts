@@ -1,11 +1,18 @@
 import { Collection } from "../Collection";
 import { TestClass, TestMethod, Assert } from "@blynx/test";
 
-
 @TestClass()
 export class CollectionTests {
     testCollection = new Collection<number>(1,2,2,3,4,5,6,6,7,8)
     testEmptyCollection = new Collection<number>();
+
+    //#region Prototypes
+    @TestMethod()
+    testIsCollection(assert: Assert) {
+        assert.areEqual(true, Collection.isCollection(this.testCollection));
+        assert.areEqual(false, Collection.isCollection([]));
+    }
+    //#endregion
 
     //#region distinct
     @TestMethod()
@@ -17,13 +24,10 @@ export class CollectionTests {
 
     @TestMethod()
     testDistinctComparer(assert: Assert) {
-        let distinct = this.testCollection.distinct((a, b) => {
-            return a !== b && (a === 2 || a === 3)
-        });
-        assert.areEqual(2, distinct.length);
-        assert.areEqual(true, distinct.indexOf(2) > -1);
-        assert.areEqual(true, distinct.indexOf(3) > -1);
-        assert.areNotEqual(this.testCollection.length, distinct.length);
+        let collection = new Collection({id: 1}, {id: 2}, {id: 2}, {id: 3}, {id: 3}, {id: 4}, {id: 5});
+        let distinct = collection.distinct((a: any, b: any) => a.id === b.id);
+        assert.areEqual(5, distinct.length);
+        assert.areNotEqual(collection.length, distinct.length);
     }
     //#endregion
 

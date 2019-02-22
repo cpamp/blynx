@@ -5,22 +5,35 @@ import { IIterable, ValueItem } from "./collections/IIterable";
 import { IGroup } from "./IGroup";
 import { InvalidOperationError, errorMessages } from "./errors";
 
+const instanceType = '@blynx/collection';
+const instanceTypeSymbol: any = typeof Symbol === 'function' ? (<any>Symbol)() : '__instancetype__';
+
 export class Collection<T> extends Array<T> implements ICollection<T> {
+    // @ts-ignore Ignore super must be first call...
     constructor(...args: any[]) {
         let $this = super(...args);
-        if (typeof this.__extendNoop__ !== 'function') {
-            for (let key in Collection.prototype) {
-                if (Object.prototype.hasOwnProperty.call(Collection.prototype, key)) {
-                    (<any>$this)[key] = function () { return Collection.prototype[key].apply($this, arguments); };
-                }
+        this.__instanceof__ = true;
+        (<any>this)[instanceTypeSymbol] = instanceType;
+        if (typeof this.__extendnoop__ !== 'function') {
+            if (typeof (<any>Object).setPrototypeOf === 'function') {
+                (<any>Object).setPrototypeOf(this, Collection.prototype);
+            } else {
+                this.__instanceof__ = false;
+                for (let key in Collection.prototype) {
+                    if (Object.prototype.hasOwnProperty.call(Collection.prototype, key)) {
+                        (<any>$this)[key] = function () { return Collection.prototype[key].apply($this, arguments); };
+                    }
+                }   
             }
-            // if (typeof (<any>Object).setPrototypeOf === 'function') {
-            //     (<any>Object).setPrototypeOf(this, Collection.prototype);
-            // }
         }
     }
 
-    private __extendNoop__() {}
+    __extendnoop__() {}
+    __instanceof__: boolean;
+
+    static isCollection(obj: any) {
+        return obj[instanceTypeSymbol] === instanceType;
+    }
 
     //#region IQueryable
     distinct(this: ICollection<T>): ICollection<T>;
