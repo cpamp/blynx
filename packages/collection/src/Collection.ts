@@ -8,14 +8,73 @@ import { InvalidOperationError, errorMessages } from "./errors";
 const instanceType = '@blynx/collection';
 const instanceTypeSymbol: any = typeof Symbol === 'function' ? (<any>Symbol)() : '__instancetype__';
 
+function firstLast<T>(this: ICollection<T>, predicate: any, defaultValue: any, hasPredicateFn: Func<[Function, any], {found: boolean, value: any}>, hasNoPredicateFn: Func<[void], any>) {
+    if (typeof predicate !== 'function' && typeof defaultValue === 'undefined')  defaultValue = predicate;
+    if (this.length === 0 && typeof defaultValue === 'undefined') throw new InvalidOperationError(errorMessages.noItems);
+    if (this.length === 0) return defaultValue;
+    if (typeof predicate === 'function') {
+        let result = hasPredicateFn(predicate, defaultValue);
+        if (typeof defaultValue === 'undefined' && result.found === false) throw new InvalidOperationError(errorMessages.notFound);
+        return result.value;
+    } else {
+        return hasNoPredicateFn();
+    }
+}
+
+function orderByBase<T>(this: ICollection<T>, selector: Func<[T], any>, desc: boolean = false) {
+    var result = this.copy();
+    result.sort((a: any, b: any) => {
+        a = selector(a);
+        b = selector(b);
+        let result = 0;
+        if (a < b) result = -1;
+        if (a > b) result = 1;
+        return result * (desc ? -1 : 1);
+    });
+    return result;
+}
+
+function minMax<T>(this: ICollection<T>, selector: any | undefined, defaultValue: any | undefined, comparer: Func<[number, number], boolean>, starter: number) {
+    let returnValueItem = false;
+    if (typeof selector === 'number') {
+        defaultValue = selector;
+        selector = void 0;
+    }
+    if (typeof selector === 'function') {
+        returnValueItem = true;
+    } else if (typeof selector === 'undefined') {
+        selector = (item: number): number => item;
+    }
+    if (typeof defaultValue === 'undefined' && this.length === 0) throw new InvalidOperationError(errorMessages.noItems);
+
+    let minMax = starter;
+    let maxItem;
+    for (let item of this) {
+        let current = selector(item);
+        if (comparer(current, minMax)) {
+            minMax = current;
+            maxItem = item;
+        }
+    }
+    return returnValueItem ? { value: minMax, item: maxItem } : minMax;
+}
+
 export class Collection<T> extends Array<T> implements ICollection<T> {
     // @ts-ignore Ignore super must be first call...
+    constructor(...args: any[])
+    constructor(options: CollectionOptions, ...args: any[])
     constructor(...args: any[]) {
+        let hasOptions = args.length > 0 && isCollectionOptions(args[0]);
+        let options = hasOptions ? setDefaultOptions(args[0]) : setDefaultOptions({});
+        if (hasOptions) {
+            args.splice(0, 1);
+        }
+
         let $this = super(...args);
         this.__instanceof__ = true;
         (<any>this)[instanceTypeSymbol] = instanceType;
         if (typeof this.__extendnoop__ !== 'function') {
-            if (typeof (<any>Object).setPrototypeOf === 'function') {
+            if (typeof (<any>Object).setPrototypeOf === 'function' && options.allowSetPrototypeOf) {
                 (<any>Object).setPrototypeOf(this, Collection.prototype);
             } else {
                 this.__instanceof__ = false;
@@ -29,10 +88,10 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     __extendnoop__() {}
-    __instanceof__: boolean;
+    readonly __instanceof__: boolean;
 
     static isCollection(obj: any) {
-        return obj[instanceTypeSymbol] === instanceType;
+        return obj instanceof Collection || obj[instanceTypeSymbol] === instanceType;
     }
 
     //#region IQueryable
@@ -55,23 +114,10 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    private firstLast(predicate: any, defaultValue: any, hasPredicateFn: Func<[Function, any], {found: boolean, value: any}>, hasNoPredicateFn: Func<[void], any>) {
-        if (typeof predicate !== 'function' && typeof defaultValue === 'undefined')  defaultValue = predicate;
-        if (this.length === 0 && typeof defaultValue === 'undefined') throw new InvalidOperationError(errorMessages.noItems);
-        if (this.length === 0) return defaultValue;
-        if (typeof predicate === 'function') {
-            let result = hasPredicateFn(predicate, defaultValue);
-            if (typeof defaultValue === 'undefined' && result.found === false) throw new InvalidOperationError(errorMessages.notFound);
-            return result.value;
-        } else {
-            return hasNoPredicateFn();
-        }
-    }
-
     first(this: ICollection<T>, defaultValue?: T | undefined): T;
     first(this: ICollection<T>, predicate: Func<[T], boolean>, defaultValue?: T | undefined): T;
     first(predicate?: any, defaultValue?: any) {
-        return this.firstLast(predicate, defaultValue, (predicate, defaultValue) => {
+        return firstLast.call(this, predicate, defaultValue, (predicate: any, defaultValue: any) => {
             for (let item of this) {
                 if ((<any>predicate)(item)) return {found: true, value: item};
             }
@@ -81,7 +127,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
 
     groupBy<TKey>(this: ICollection<T>, selector: Func<[T], TKey>): ICollection<IGroup<TKey, T>>;
     groupBy<TKey>(this: ICollection<T>, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): ICollection<IGroup<TKey, T>>;
-    groupBy(selector: any, comparer?: any) {
+    groupBy<TKey>(selector: any, comparer?: any): ICollection<IGroup<TKey, T>> {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = new Collection<IGroup<any, T>>();
@@ -121,7 +167,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     last(this: ICollection<T>, defaultValue: T): T;
     last(this: ICollection<T>, predicate: Func<[T], boolean>, defaultValue: T): T;
     last(predicate: any, defaultValue?: any) {
-        return this.firstLast(predicate, defaultValue, (predicate, defaultValue) => {
+        return firstLast.call(this, predicate, defaultValue, (predicate: any, defaultValue: any) => {
             for (let i = this.length - 1; i >= 0; i--) {
                 if ((<any>predicate)(this[i])) return {found: true, value: this[i]};
             }
@@ -129,27 +175,14 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         }, () => this[this.length - 1]);
     }
 
-    private orderByBase(selector: Func<[T], any>, desc: boolean = false) {
-        var result = this.copy();
-        result.sort((a: any, b: any) => {
-            a = selector(a);
-            b = selector(b);
-            let result = 0;
-            if (a < b) result = -1;
-            if (a > b) result = 1;
-            return result * (desc ? -1 : 1);
-        });
-        return result;
-    }
-
     orderBy<TOrderBy>(this: ICollection<T>, selector: Func<[T], TOrderBy>): ICollection<T>;
     orderBy(selector: any) {
-        return this.orderByBase(selector);
+        return orderByBase.call(this, selector);
     }
 
     orderByDesc<TOrderBy>(this: ICollection<T>, selector: Func<[T], TOrderBy>): ICollection<T>;
     orderByDesc(selector: any) {
-        return this.orderByBase(selector)
+        return orderByBase.call(this, selector)
     }
 
     limit(this: ICollection<T>, n: number): ICollection<T>;
@@ -257,41 +290,16 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         this.splice(index, 0, item);
     }
 
-    private minMax(this: ICollection<T>, selector: any | undefined, defaultValue: any | undefined, comparer: Func<[number, number], boolean>, starter: number) {
-        let returnValueItem = false;
-        if (typeof selector === 'number') {
-            defaultValue = selector;
-            selector = void 0;
-        }
-        if (typeof selector === 'function') {
-            returnValueItem = true;
-        } else if (typeof selector === 'undefined') {
-            selector = (item: number): number => item;
-        }
-        if (typeof defaultValue === 'undefined' && this.length === 0) throw new InvalidOperationError(errorMessages.noItems);
-
-        let minMax = starter;
-        let maxItem;
-        for (let item of this) {
-            let current = selector(item);
-            if (comparer(current, minMax)) {
-                minMax = current;
-                maxItem = item;
-            }
-        }
-        return returnValueItem ? { value: minMax, item: maxItem } : minMax;
-    }
-
     max(this: ICollection<number>, defaultValue?: number): number;
     max(this: ICollection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
     max(selector?: any, defaultValue?: any) {
-        return this.minMax(selector, defaultValue, (current, max) => current > max, -Infinity);
+        return minMax.call(this, selector, defaultValue, (current: any, max: any) => current > max, -Infinity);
     }
 
     min(this: ICollection<number>, defaultValue?: number): number;
     min(this: ICollection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
     min(selector?: any, defaultValue?: any) {
-        return this.minMax(selector, defaultValue, (current, min) => current < min, Infinity);
+        return minMax.call(this, selector, defaultValue, (current: any, min: any) => current < min, Infinity);
     }
 
     prepend(this: ICollection<T>, item: T): void {
@@ -334,3 +342,4 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
 }
 
 import { Group } from "./Group";
+import { isCollectionOptions, setDefaultOptions, CollectionOptions } from "./CollectionOptions";

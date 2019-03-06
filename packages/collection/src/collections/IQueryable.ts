@@ -1,7 +1,12 @@
 import { Func } from "../func";
 import { IGroup } from "../IGroup";
 
-export interface IQueryable<T, TSelf extends IQueryable<T, any> = IQueryable<T, any>> extends Array<T> {
+export interface IQueryable<
+T,
+TSelf extends IQueryable<T, any> = IQueryable<T, any>,
+TSelfGroup extends IQueryable<IGroup<any, any>, any, any> = IQueryable<IGroup<any, any>, any, any>,
+TSelfAny extends IQueryable<any, any, any, any> = IQueryable<any, any, any, any>>
+extends Array<T> {
 
     /**
      * Creates a collection of distinct items.
@@ -36,7 +41,7 @@ export interface IQueryable<T, TSelf extends IQueryable<T, any> = IQueryable<T, 
      * @param this The collection to group.
      * @param selector A function to select the key to group by. 
      */
-    groupBy<TKey>(this: TSelf, selector: Func<[T], TKey>): IQueryable<IGroup<TKey, T>>;
+    groupBy<TKey>(this: TSelf, selector: Func<[T], TKey>): TSelfGroup;
 
     /**
      * Creates a collection of grouped items.
@@ -44,7 +49,7 @@ export interface IQueryable<T, TSelf extends IQueryable<T, any> = IQueryable<T, 
      * @param selector A function to select the key to group by.
      * @param comparer A function to compare the equality of keys.
      */
-    groupBy<TKey>(this: TSelf, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): IQueryable<IGroup<TKey, T>>;
+    groupBy<TKey>(this: TSelf, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): TSelfGroup;
 
     /**
      * Creates a collection of joined items.
@@ -108,7 +113,7 @@ export interface IQueryable<T, TSelf extends IQueryable<T, any> = IQueryable<T, 
      * @param this The collection to select from.
      * @param selector A function to select items for the new collection.
      */
-    select<TReturn>(this: TSelf, selector: Func<[T], TReturn>): IQueryable<TReturn>;
+    select<TReturn>(this: TSelf, selector: Func<[T], TReturn>): TSelfAny;
 
     /**
      * Creates a collection consisting of the remainining items.

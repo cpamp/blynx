@@ -4,9 +4,14 @@ import { Collection } from "../Collection";
 @TestClass()
 export class ArrayTests {
     testCollection = new Collection(1, 2, 3, 4, 5);
+    testCollectionNoSetProto = new Collection({allowSetPrototypeOf: false}, 1, 2, 3, 4, 5);
 
     getCollection() {
         return new Collection(...this.testCollection.slice());
+    }
+
+    getCollectionNoSetProto() {
+        return new Collection(...this.testCollectionNoSetProto.slice());
     }
 
     @TestMethod()
@@ -18,7 +23,9 @@ export class ArrayTests {
     @TestMethod()
     testInstanceof(assert: Assert) {
         let collection = this.getCollection();
+        let collection2 = this.getCollectionNoSetProto();
         assert.areEqual(collection.__instanceof__, collection instanceof Collection);
+        assert.areEqual(collection2.__instanceof__, collection2 instanceof Collection);
         assert.areEqual(true, collection instanceof Array);
     }
 

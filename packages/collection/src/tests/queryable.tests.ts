@@ -1,8 +1,9 @@
 import { Collection } from "../Collection";
 import { TestClass, TestMethod, Assert } from "@blynx/test";
+import { IGroup } from "../IGroup";
 
 @TestClass()
-export class CollectionTests {
+export class QueryableTests {
     testCollection = new Collection<number>(1,2,2,3,4,5,6,6,7,8)
     testEmptyCollection = new Collection<number>();
 
@@ -33,17 +34,17 @@ export class CollectionTests {
 
     //#region first
     @TestMethod()
-    public First(assert: Assert) {
+    First(assert: Assert) {
         assert.areEqual(1, this.testCollection.first());
     }
 
     @TestMethod()
-    public FirstDefault(assert: Assert) {
+    FirstDefault(assert: Assert) {
         assert.areEqual(10, this.testEmptyCollection.first(10));
     }
 
     @TestMethod()
-    public FirstDefaultThrows(assert: Assert) {
+    FirstDefaultThrows(assert: Assert) {
         try {
             this.testEmptyCollection.first();
             assert.fail();
@@ -53,22 +54,22 @@ export class CollectionTests {
     }
 
     @TestMethod()
-    public FirstPredicate(assert: Assert) {
+    FirstPredicate(assert: Assert) {
         assert.areEqual(5, this.testCollection.first(num => num === 5));
     }
 
     @TestMethod()
-    public FirstPredicateDefaultEmpty(assert: Assert) {
+    FirstPredicateDefaultEmpty(assert: Assert) {
         assert.areEqual(5, this.testEmptyCollection.first(num => num === 1, 5));
     }
 
     @TestMethod()
-    public FirstPredicateDefaultNotFound(assert: Assert) {
+    FirstPredicateDefaultNotFound(assert: Assert) {
         assert.areEqual(5, this.testCollection.first(num => num === 1000, 5));
     }
 
     @TestMethod()
-    public FirstPredicateEmptyThrows(assert: Assert) {
+    FirstPredicateEmptyThrows(assert: Assert) {
         try {
             this.testEmptyCollection.first(num => num === 1);
             assert.fail();
@@ -78,7 +79,7 @@ export class CollectionTests {
     }
 
     @TestMethod()
-    public FirstPredicateNotFoundThrows(assert: Assert) {
+    FirstPredicateNotFoundThrows(assert: Assert) {
         try {
             this.testCollection.first(num => num === 5000);
             assert.fail()
@@ -87,4 +88,48 @@ export class CollectionTests {
         }
     }
     //#endregion
+
+    //#region gruopBy
+    get groupByCollection() {
+        return new Collection(
+            {key: 5, value: 10},
+            {key: 6, value: 10},
+            {key: 45, value: 10},
+            {key: 5, value: 10},
+            {key: 45, value: 20}
+        );
+    }
+
+    @TestMethod()
+    GroupByOne(assert: Assert) {
+        let collection = this.groupByCollection;
+        let result = collection.groupBy((item: any) => {
+            return item.key;
+        });
+        assert.areEqual(3, result.length);
+        let key5Group: IGroup<any, any> | null = null;
+        for (let item of result) {
+            if (item.key === 5) {
+                key5Group = item;
+                break;
+            }
+        }
+        assert.isNotNull(key5Group);
+        if (key5Group !== null) assert.areEqual(2, key5Group.length);
+    }
+
+    @TestMethod()
+    GroupByTwoComparer(assert: Assert) {
+        let collection = this.groupByCollection;
+        let result: Collection<IGroup<any, any>> = collection.groupBy((item: any) => {
+            return item;
+        }, (key1, key2) => {
+            return key1.key === key2.key && key1.value === key2.value;
+        });
+        assert.areEqual(3, result.length);
+        assert.areEqual(2, result[0].length);
+        assert.areEqual(10, result[0][0].value);
+    }
+    //#endregion
+
 }
