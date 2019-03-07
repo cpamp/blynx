@@ -93,7 +93,7 @@ export class QueryableTests {
     get groupByCollection() {
         return new Collection(
             {key: 5, value: 10},
-            {key: 6, value: 10},
+            {key: 6, value: 50},
             {key: 45, value: 10},
             {key: 5, value: 10},
             {key: 45, value: 20}
@@ -126,9 +126,36 @@ export class QueryableTests {
         }, (key1, key2) => {
             return key1.key === key2.key && key1.value === key2.value;
         });
-        assert.areEqual(3, result.length);
+        assert.areEqual(4, result.length);
         assert.areEqual(2, result[0].length);
         assert.areEqual(10, result[0][0].value);
+    }
+    //#endregion
+
+    //#region innerJoin
+    get innerJoinFood() {
+        return new Collection(
+            {id: 1, name: 'Apple', foodType: 1},
+            {id: 2, name: 'Broccoli', foodType: 2},
+            {id: 3, name: 'Potato', foodType: 2},
+            {id: 4, name: 'Chicken', foodType: 3},
+            {id: 5, name: 'Orange', foodType: 1}
+        )
+    }
+    get innerJoinFoodTypes() {
+        return new Collection(
+            {id: 1, name: 'Fruit'},
+            {id: 2, name: 'Vegetable'},
+            {id: 3, name: 'Meat'}
+        )
+    }
+
+    @TestMethod()
+    InnerJoinTest(assert: Assert) {
+        let food = this.innerJoinFood,
+            foodTypes = this.innerJoinFoodTypes;
+
+        let result = food.innerJoin()
     }
     //#endregion
 

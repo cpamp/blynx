@@ -62,7 +62,7 @@ function minMax<T>(this: ICollection<T>, selector: any | undefined, defaultValue
 export class Collection<T> extends Array<T> implements ICollection<T> {
     // @ts-ignore Ignore super must be first call...
     constructor(...args: any[])
-    constructor(options: CollectionOptions, ...args: any[])
+    constructor(options: ICollectionOptions, ...args: any[])
     constructor(...args: any[]) {
         let hasOptions = args.length > 0 && isCollectionOptions(args[0]);
         let options = hasOptions ? setDefaultOptions(args[0]) : setDefaultOptions({});
@@ -71,13 +71,14 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         }
 
         let $this = super(...args);
-        this.__instanceof__ = true;
+        this.options = options;
+        this.instanceof = true;
         (<any>this)[instanceTypeSymbol] = instanceType;
-        if (typeof this.__extendnoop__ !== 'function') {
+        if (typeof this.inheritancenoop !== 'function') {
             if (typeof (<any>Object).setPrototypeOf === 'function' && options.allowSetPrototypeOf) {
                 (<any>Object).setPrototypeOf(this, Collection.prototype);
             } else {
-                this.__instanceof__ = false;
+                this.instanceof = false;
                 for (let key in Collection.prototype) {
                     if (Object.prototype.hasOwnProperty.call(Collection.prototype, key)) {
                         (<any>$this)[key] = function () { return Collection.prototype[key].apply($this, arguments); };
@@ -87,8 +88,9 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         }
     }
 
-    __extendnoop__() {}
-    readonly __instanceof__: boolean;
+    inheritancenoop() {}
+    readonly instanceof: boolean;
+    readonly options: ICollectionOptions;
 
     static isCollection(obj: any) {
         return obj instanceof Collection || obj[instanceTypeSymbol] === instanceType;
@@ -100,7 +102,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     distinct(comparer?: any) {
         if (typeof comparer === 'undefined') comparer = (a: T, b: T) => a === b;
 
-        let result = new Collection<T>();
+        let result = new Collection<T>(this.options);
         for (let item of this) {
             let found = false;
             for (let rItem of result) {
@@ -130,19 +132,20 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     groupBy<TKey>(selector: any, comparer?: any): ICollection<IGroup<TKey, T>> {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
-        let result = new Collection<IGroup<any, T>>();
+        let result = new Collection<IGroup<any, T>>(this.options);
         for (let item of this) {
-            if (result.length === 0) {
-                let group = new Group<any, T>(selector(item));
+            let found = false;
+            for (let rItem of result) {
+                if (comparer(selector(item), rItem.key)) {
+                    rItem.push(item);
+                    found = true;
+                    break;
+                }
+            }
+            if (found === false) {
+                let group = new Group<any, T>(selector(item), this.options);
                 group.push(item);
                 result.push(group);
-            } else {
-                for (let rItem of result) {
-                    if (comparer(selector(item), rItem.key)) {
-                        rItem.push(item);
-                        break;
-                    }
-                }
             }
         }
         return result;
@@ -153,7 +156,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     innerJoin(inner: any, outerKeySelector: any, innerKeySelector: any, resultSelector: any, comparer?: any) {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
-        let result = new Collection();
+        let result = new Collection(this.options);
         for (let outerItem of this) {
             for (let innerItem of inner) {
                 if (comparer(outerKeySelector(outerItem), innerKeySelector(innerItem))) {
@@ -194,7 +197,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     select<TReturn>(this: ICollection<T>, selector: Func<[T], TReturn>): ICollection<TReturn> {
-        let result = new Collection<TReturn>();
+        let result = new Collection<TReturn>(this.options);
         for (let item of this) {
             result.push(selector(item));
         }
@@ -202,7 +205,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     skip(this: ICollection<T>, n: number): ICollection<T> {
-        let result = new Collection<T>();
+        let result = new Collection<T>(this.options);
         if (n > this.length + 1) return result;
         result.splice(0, n);
         return result;
@@ -219,7 +222,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     where(this: ICollection<T>, predicate: Func<[T], boolean>): ICollection<T> {
-        let result = new Collection<T>();
+        let result = new Collection<T>(this.options);
         for (let item of this) {
             if (predicate(item)) result.push(item);
         }
@@ -261,7 +264,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     copy(this: ICollection<T>): ICollection<T> {
-        return new Collection(...this.slice());
+        return new Collection(this.options, ...this.slice());
     }
 
     count(this: ICollection<T>): number;
@@ -314,7 +317,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
             predicate = (item: T) => item === toDelete;
         }
 
-        let result: Collection<T> = new Collection();
+        let result: Collection<T> = new Collection(this.options);
         for (let i = 0; i < this.length; i++) {
             if (predicate(this[i])) {
                 result.push(this.splice(i--, 1)[0]);
@@ -342,4 +345,5 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
 }
 
 import { Group } from "./Group";
-import { isCollectionOptions, setDefaultOptions, CollectionOptions } from "./CollectionOptions";
+import { isCollectionOptions, setDefaultOptions, ICollectionOptions } from "./ICollectionOptions";
+

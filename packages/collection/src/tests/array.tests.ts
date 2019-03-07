@@ -24,8 +24,8 @@ export class ArrayTests {
     testInstanceof(assert: Assert) {
         let collection = this.getCollection();
         let collection2 = this.getCollectionNoSetProto();
-        assert.areEqual(collection.__instanceof__, collection instanceof Collection);
-        assert.areEqual(collection2.__instanceof__, collection2 instanceof Collection);
+        assert.areEqual(collection.instanceof, collection instanceof Collection);
+        assert.areEqual(collection2.instanceof, collection2 instanceof Collection);
         assert.areEqual(true, collection instanceof Array);
     }
 
