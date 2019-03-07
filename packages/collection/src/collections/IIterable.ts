@@ -1,7 +1,7 @@
 import { Func } from "../func";
 
 export type ValueItem<TValue, TItem> = {value: TValue, item: TItem}
-export interface IIterable<T, TSelf extends IIterable<T, any> = IIterable<T, any>> extends Array<T> {
+export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>> extends Array<T> {
 
     /**
      * Determines if all items of a collection satisfy a condition.

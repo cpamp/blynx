@@ -1,11 +1,10 @@
 import { IQueryable } from "./collections/IQueryable";
 import { IIterable } from "./collections/IIterable";
-import { IGroup } from "./IGroup";
 import { ICollectionOptions } from "./ICollectionOptions";
 
 export interface ICollection<T> extends
-IQueryable<T, ICollection<T>, ICollection<IGroup<any, T>>, ICollection<any>>,
-IIterable<T, ICollection<T>>
+IQueryable<T, any>,
+IIterable<T, any>
 {
     /**
      * A function that does nothing, used to test for inheritance.
