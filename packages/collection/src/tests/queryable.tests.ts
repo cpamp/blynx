@@ -9,7 +9,7 @@ export class QueryableTests {
 
     //#region Prototypes
     @TestMethod()
-    testIsCollection(assert: Assert) {
+    'Collection.isCollection()'(assert: Assert) {
         assert.areEqual(true, Collection.isCollection(this.testCollection));
         assert.areEqual(false, Collection.isCollection([]));
     }
@@ -17,14 +17,14 @@ export class QueryableTests {
 
     //#region distinct
     @TestMethod()
-    testDistinct(assert: Assert) {
+    'distinct()'(assert: Assert) {
         let distinct = this.testCollection.distinct();
         assert.areEqual(8, distinct.length);
         assert.areNotEqual(this.testCollection.length, distinct.length);
     }
 
     @TestMethod()
-    testDistinctComparer(assert: Assert) {
+    'distinct() with comparer'(assert: Assert) {
         let collection = new Collection({id: 1}, {id: 2}, {id: 2}, {id: 3}, {id: 3}, {id: 4}, {id: 5});
         let distinct = collection.distinct((a: any, b: any) => a.id === b.id);
         assert.areEqual(5, distinct.length);
@@ -34,17 +34,23 @@ export class QueryableTests {
 
     //#region first
     @TestMethod()
-    First(assert: Assert) {
+    'first()'(assert: Assert) {
         assert.areEqual(1, this.testCollection.first());
     }
 
     @TestMethod()
-    FirstDefault(assert: Assert) {
+    'first() with default'(assert: Assert) {
+        let result = this.testCollection.first(1000);
+        assert.areEqual(1, result);
+    }
+
+    @TestMethod()
+    'first() with default on empty collection'(assert: Assert) {
         assert.areEqual(10, this.testEmptyCollection.first(10));
     }
 
     @TestMethod()
-    FirstDefaultThrows(assert: Assert) {
+    'first() on empty collection that throws'(assert: Assert) {
         try {
             this.testEmptyCollection.first();
             assert.fail();
@@ -54,22 +60,22 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    FirstPredicate(assert: Assert) {
+    'first() with predicate'(assert: Assert) {
         assert.areEqual(5, this.testCollection.first(num => num === 5));
     }
 
     @TestMethod()
-    FirstPredicateDefaultEmpty(assert: Assert) {
+    'first() with predicate and default on empty collection'(assert: Assert) {
         assert.areEqual(5, this.testEmptyCollection.first(num => num === 1, 5));
     }
 
     @TestMethod()
-    FirstPredicateDefaultNotFound(assert: Assert) {
+    'first() with predicate and default'(assert: Assert) {
         assert.areEqual(5, this.testCollection.first(num => num === 1000, 5));
     }
 
     @TestMethod()
-    FirstPredicateEmptyThrows(assert: Assert) {
+    'first() with predicate on empty collection that throws'(assert: Assert) {
         try {
             this.testEmptyCollection.first(num => num === 1);
             assert.fail();
@@ -79,7 +85,7 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    FirstPredicateNotFoundThrows(assert: Assert) {
+    'first() with predicate that throws'(assert: Assert) {
         try {
             this.testCollection.first(num => num === 5000);
             assert.fail()
@@ -101,7 +107,7 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    GroupByOne(assert: Assert) {
+    'groupBy() with one key'(assert: Assert) {
         let collection = this.groupByCollection;
         let result = collection.groupBy((item: any) => {
             return item.key;
@@ -119,7 +125,7 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    GroupByTwoComparer(assert: Assert) {
+    'groupBy() with two properties and comparer'(assert: Assert) {
         let collection = this.groupByCollection;
         let result: Collection<IGroup<any, any>> = collection.groupBy((item: any) => {
             return item;
@@ -135,11 +141,11 @@ export class QueryableTests {
     //#region innerJoin
     get innerJoinFood() {
         return new Collection(
-            {id: 1, name: 'Apple', foodType: 1},
-            {id: 2, name: 'Broccoli', foodType: 2},
-            {id: 3, name: 'Potato', foodType: 2},
-            {id: 4, name: 'Chicken', foodType: 3},
-            {id: 5, name: 'Orange', foodType: 1}
+            {id: 1, name: 'Apple', foodTypeId: 1},
+            {id: 2, name: 'Broccoli', foodTypeId: 2},
+            {id: 3, name: 'Potato', foodTypeId: 2},
+            {id: 4, name: 'Chicken', foodTypeId: 3},
+            {id: 5, name: 'Orange', foodTypeId: 1}
         )
     }
     get innerJoinFoodTypes() {
@@ -151,12 +157,99 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    InnerJoinTest(assert: Assert) {
+    'innerJoin()'(assert: Assert) {
         let food = this.innerJoinFood,
             foodTypes = this.innerJoinFoodTypes;
 
-        let result = food.innerJoin()
+        let result = food.innerJoin(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
+            food.foodType = foodType;
+            return food;
+        });
+        assert.areEqual(food.length, result.length);
+        for (let food of result) {
+            assert.areEqual(food.foodTypeId, food.foodType.id);
+        }
+    }
+
+    @TestMethod()
+    'innerJoin() with comparer'(assert: Assert) {
+        let food = this.innerJoinFood,
+            foodTypes = this.innerJoinFoodTypes;
+
+        let result = food.innerJoin(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
+            food.foodType = foodType;
+            return food;
+        }, (id: any, id2: any) => id !== id2);
+        assert.areEqual(10, result.length);
+        for (let food of result) {
+            assert.areNotEqual(food.foodTypeId, food.foodType.id);
+        }
     }
     //#endregion
 
+    //#region last
+    @TestMethod()
+    'last()'(assert: Assert) {
+        let result = this.testCollection.last();
+        assert.areEqual(8, result);
+    }
+
+    @TestMethod()
+    'last() with default'(assert: Assert) {
+        let result = this.testCollection.last(5);
+        assert.areEqual(8, result);
+    }
+
+    @TestMethod()
+    'last() with default on empty collection'(assert: Assert) {
+        let result = this.testEmptyCollection.last(100);
+        assert.areEqual(100, result);
+    }
+
+    @TestMethod()
+    'last() on empty collection that throws'(assert: Assert) {
+        try {
+            this.testEmptyCollection.last();
+            assert.fail();
+        } catch (err) {
+            assert.isNotNull(err);
+        }
+    }
+
+    @TestMethod()
+    'last() with predicate'(assert: Assert) {
+        let result = this.testCollection.last((item: number) => item % 5 === 0);
+        assert.areEqual(5, result);
+    }
+
+    @TestMethod()
+    'last() with predicate and default on empty collection'(assert: Assert) {
+        assert.areEqual(5, this.testEmptyCollection.first(num => num === 1, 5));
+    }
+
+    @TestMethod()
+    'last() with predicate and default'(assert: Assert) {
+        assert.areEqual(5, this.testCollection.first(num => num === 1000, 5));
+    }
+
+    @TestMethod()
+    'last() with predicate on empty collection that throws'(assert: Assert) {
+        try {
+            this.testEmptyCollection.first(num => num === 1);
+            assert.fail();
+        } catch (err) {
+            assert.isNotNull(err);
+        }
+    }
+
+    @TestMethod()
+    'last() with predicate that throws'(assert: Assert) {
+        try {
+            this.testCollection.first(num => num === 5000);
+            assert.fail()
+        } catch (err) {
+            assert.isNotNull(err);
+        }
+    }
+    //#endregion
 }

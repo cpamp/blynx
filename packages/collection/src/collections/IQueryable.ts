@@ -72,7 +72,7 @@ extends Array<T> {
      * @param this The collection to get the last item of.
      * @param defaultValue The default value to return if the collection is empty. Throws if not provided and empty.
      */
-    last(this: TSelf, defaultValue: T): T;
+    last(this: TSelf, defaultValue?: T): T;
 
     /**
      * Provides the last item of the collection that satisfies the predicate.
