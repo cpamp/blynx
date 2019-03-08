@@ -1,13 +1,13 @@
 export interface ICollectionOptions {
-    allowSetPrototypeOf: boolean;
+    allowSetPrototypeOf?: boolean;
 }
 
-export function setDefaultOptions(options: any): ICollectionOptions {
-    options.allowSetPrototypeOf = options.allowSetPrototypeOf || false;
+export function setDefaultOptions(options: ICollectionOptions): ICollectionOptions {
+    options.allowSetPrototypeOf = options.allowSetPrototypeOf || true;
 
     return options;
 }
 
 export function isCollectionOptions(options: ICollectionOptions) {
-    return options.allowSetPrototypeOf !== undefined;
+    return options.allowSetPrototypeOf !== void 0;
 }

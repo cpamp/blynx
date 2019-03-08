@@ -37,6 +37,12 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
     average(this: TSelf, selector: Func<[T], number>): number;
 
     /**
+     * Shallow clones a collection and preserves empty indices.
+     * @param this The collection being cloned.
+     */
+    clone(this: TSelf): TSelf;
+
+    /**
      * Determines if an item exists in a collection.
      * @param this The collection being searched.
      * @param item An item to search the collection for.
@@ -44,7 +50,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
     contains(this: TSelf, item: T): boolean;
 
     /**
-     * Shallow copies a collection.
+     * Shallow copies a collection and does not preserve empty indices.
      * @param this The collection being copied.
      */
     copy(this: TSelf): TSelf;

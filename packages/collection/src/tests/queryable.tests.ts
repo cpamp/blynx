@@ -7,14 +7,6 @@ export class QueryableTests {
     testCollection = new Collection<number>(1,2,2,3,4,5,6,6,7,8)
     testEmptyCollection = new Collection<number>();
 
-    //#region Prototypes
-    @TestMethod()
-    'Collection.isCollection()'(assert: Assert) {
-        assert.areEqual(true, Collection.isCollection(this.testCollection));
-        assert.areEqual(false, Collection.isCollection([]));
-    }
-    //#endregion
-
     //#region distinct
     @TestMethod()
     'distinct()'(assert: Assert) {
@@ -252,4 +244,185 @@ export class QueryableTests {
         }
     }
     //#endregion
+
+    //#region orderBy & orderByDesc
+    get orderByCollection() {
+        return new Collection(
+            { val: 1 },
+            { val: 1000 },
+            { val: 4 },
+            { val: 5 },
+            { val: 200 }
+        )
+    }
+
+    @TestMethod()
+    'orderBy()'(assert: Assert) {
+        let result = this.orderByCollection.orderBy((item: any) => item.val);
+        let last = -Infinity;
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last <= item.val);
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+
+    @TestMethod()
+    'orderByDesc()'(assert: Assert) {
+        let result = this.orderByCollection.orderByDesc((item: any) => item.val);
+        let last = Infinity;
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last >= item.val);
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+
+    get orderByStringCollection() {
+        return new Collection(
+            { val: 'Zb' },
+            { val: 'za' },
+            { val: 'aa' },
+            { val: 'a' },
+            { val: 'aB' },
+            { val: 'AB' },
+            { val: 'Ab' }
+        )
+    }
+
+    @TestMethod()
+    'orderBy() with strings'(assert: Assert) {
+        let result = this.orderByStringCollection.orderBy((item: any) => item.val);
+        let last = '';
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last <= item.val)
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+
+    @TestMethod()
+    'orderByDesc() with strings'(assert: Assert) {
+        let result = this.orderByStringCollection.orderByDesc((item: any) => item.val);
+        let last = 'zzz';
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last >= item.val)
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+
+
+    @TestMethod()
+    'orderBy() with strings lowercase'(assert: Assert) {
+        let result = this.orderByStringCollection.orderBy((item: any) => item.val.toLowerCase());
+        let last = '';
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last.toLowerCase() <= item.val.toLowerCase())
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+
+    @TestMethod()
+    'orderByDesc() with strings lowercase'(assert: Assert) {
+        let result = this.orderByStringCollection.orderByDesc((item: any) => item.val.toLowerCase());
+        let last = 'ZZZ';
+        for (let item of result as Collection<any>) {
+            assert.areEqual(true, last.toLowerCase() >= item.val.toLowerCase())
+            last = item.val;
+        }
+        assert.areEqual(true, result.length > 0);
+    }
+    //#endregion
+
+    //#region limit
+    @TestMethod()
+    'limit() by zero'(assert: Assert) {
+        let result = this.testCollection.limit(0);
+        assert.areEqual(0, result.length);
+    }
+
+    @TestMethod()
+    'limit() by 1'(assert: Assert) {
+        let result = this.testCollection.limit(1);
+        assert.areEqual(1, result.length);
+    }
+
+    @TestMethod()
+    'limit() by n > length'(assert: Assert) {
+        let result = this.testCollection.limit(1000);
+        assert.areEqual(this.testCollection.length, result.length);
+    }
+
+    @TestMethod()
+    'limit() by n == length'(assert: Assert) {
+        let result = this.testCollection.limit(this.testCollection.length);
+        assert.areEqual(this.testCollection.length, result.length);
+    }
+    //#endregion
+
+    //#region select
+    @TestMethod()
+    'select()'(assert: Assert) {
+        let result = this.testCollection.select(item => item * 10);
+        for (let item of result) {
+            assert.areEqual(true, item >= 10);
+        }
+        assert.areEqual(true, result.length === this.testCollection.length);
+        assert.areEqual(true, result.length > 0);
+    }
+    //#endregion
+
+    //#region skip
+    @TestMethod()
+    'skip()'(assert: Assert) {
+        let result = this.testCollection.skip(4);
+        assert.areEqual(this.testCollection.length - 4, result.length);
+    }
+
+    @TestMethod()
+    'skip() negative'(assert: Assert) {
+        let result = this.testCollection.skip(-1)
+        assert.areEqual(this.testCollection.length, result.length);
+    }
+
+    @TestMethod()
+    'skip() n > length'(assert: Assert) {
+        let result = this.testCollection.skip(1000);
+        assert.areEqual(0, result.length);
+    }
+
+    @TestMethod()
+    'skip() n == length'(assert: Assert) {
+        let result = this.testCollection.skip(this.testCollection.length);
+        assert.areEqual(0, result.length);
+    }
+    //#endregion
+
+    //#region union
+    get unionCollection() {
+        return new Collection<number>(
+            1, 2, 3, 4, 5, 9
+        )
+    }
+
+    @TestMethod()
+    'union()'(assert: Assert) {
+        let result = this.testCollection.union(this.unionCollection);
+        assert.areEqual(9, result.length);
+    }
+    //#endregion
+
+    //#region where
+    @TestMethod()
+    'where()'(assert: Assert) {
+        let result = this.testCollection.where(x => x % 2 === 0);
+        for (let item of result) {
+            assert.areEqual(0, item % 2);
+        }
+        assert.areNotEqual(this.testCollection.length, result.length);
+    }
+    //#endregion
+
 }

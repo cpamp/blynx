@@ -8,8 +8,8 @@ import { InvalidOperationError, errorMessages } from "./errors";
 const instanceType = '@blynx/collection';
 const instanceTypeSymbol: any = typeof Symbol === 'function' ? (<any>Symbol)() : '__instancetype__';
 
-function firstLast<T>(this: ICollection<T>, predicate: any, defaultValue: any, hasPredicateFn: Func<[Function, any], {found: boolean, value: any}>, hasNoPredicateFn: Func<[void], any>) {
-    if (typeof predicate !== 'function' && typeof defaultValue === 'undefined')  defaultValue = predicate;
+function firstLast<T>(this: Collection<T>, predicate: any, defaultValue: any, hasPredicateFn: Func<[Function, any], { found: boolean, value: any }>, hasNoPredicateFn: Func<[void], any>) {
+    if (typeof predicate !== 'function' && typeof defaultValue === 'undefined') defaultValue = predicate;
     if (this.length === 0 && typeof defaultValue === 'undefined') throw new InvalidOperationError(errorMessages.noItems);
     if (this.length === 0) return defaultValue;
     if (typeof predicate === 'function') {
@@ -21,7 +21,7 @@ function firstLast<T>(this: ICollection<T>, predicate: any, defaultValue: any, h
     }
 }
 
-function orderByBase<T>(this: ICollection<T>, selector: Func<[T], any>, desc: boolean = false) {
+function orderByBase<T>(this: Collection<T>, selector: Func<[T], any>, desc: boolean = false) {
     var result = this.copy();
     result.sort((a: any, b: any) => {
         a = selector(a);
@@ -34,7 +34,7 @@ function orderByBase<T>(this: ICollection<T>, selector: Func<[T], any>, desc: bo
     return result;
 }
 
-function minMax<T>(this: ICollection<T>, selector: any | undefined, defaultValue: any | undefined, comparer: Func<[number, number], boolean>, starter: number) {
+function minMax<T>(this: Collection<T>, selector: any | undefined, defaultValue: any | undefined, comparer: Func<[number, number], boolean>, starter: number) {
     let returnValueItem = false;
     if (typeof selector === 'number') {
         defaultValue = selector;
@@ -71,25 +71,47 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         }
 
         let $this = super(...args);
-        this.options = options;
-        this.instanceof = true;
-        (<any>this)[instanceTypeSymbol] = instanceType;
+        Object.defineProperty(this, 'options', {
+            value: options,
+            writable: false,
+            enumerable: false,
+            configurable: false
+        });
+        Object.defineProperty(this, 'instanceof', {
+            value: true,
+            writable: false,
+            enumerable: false,
+            configurable: false
+        })
+        Object.defineProperty(this, instanceTypeSymbol, {
+            value: instanceType,
+            writable: false,
+            enumerable: false,
+            configurable: false
+        });
         if (typeof this.inheritancenoop !== 'function') {
             if (typeof (<any>Object).setPrototypeOf === 'function' && options.allowSetPrototypeOf) {
                 (<any>Object).setPrototypeOf(this, Collection.prototype);
             } else {
                 this.instanceof = false;
                 for (let key in Collection.prototype) {
-                    if (Object.prototype.hasOwnProperty.call(Collection.prototype, key)) {
-                        (<any>$this)[key] = function () { return Collection.prototype[key].apply($this, arguments); };
+                    if (this.hasOwnProperty(key)) {
+                        Object.defineProperty($this, key, {
+                            value: function () { return Collection.prototype[key].apply($this, arguments); },
+                            writable: false,
+                            enumerable: false,
+                            configurable: false
+                        });
                     }
-                }   
+                }
             }
         }
     }
 
-    inheritancenoop() {}
+    inheritancenoop() { }
+    //@ts-ignore This property is defined in the constructor via Object.defineProperty
     readonly instanceof: boolean;
+    //@ts-ignore This property is defined in the constructor via Object.defineProperty
     readonly options: ICollectionOptions;
 
     static isCollection(obj: any) {
@@ -97,9 +119,9 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     //#region IQueryable
-    distinct(this: ICollection<T>): ICollection<T>;
-    distinct(this: ICollection<T>, comparer: Func<[T, T], boolean>): ICollection<T>;
-    distinct(this: ICollection<T>, comparer?: any) {
+    distinct(this: Collection<T>): Collection<T>;
+    distinct(this: Collection<T>, comparer: Func<[T, T], boolean>): Collection<T>;
+    distinct(this: Collection<T>, comparer?: any) {
         if (typeof comparer === 'undefined') comparer = (a: T, b: T) => a === b;
 
         let result = new Collection<T>(this.options);
@@ -116,20 +138,20 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    first(this: ICollection<T>, defaultValue?: T | undefined): T;
-    first(this: ICollection<T>, predicate: Func<[T], boolean>, defaultValue?: T | undefined): T;
-    first(this: ICollection<T>, predicate?: any, defaultValue?: any) {
+    first(this: Collection<T>, defaultValue?: T | undefined): T;
+    first(this: Collection<T>, predicate: Func<[T], boolean>, defaultValue?: T | undefined): T;
+    first(this: Collection<T>, predicate?: any, defaultValue?: any) {
         return firstLast.call(this, predicate, defaultValue, (predicate: any, defaultValue: any) => {
             for (let item of this) {
-                if ((<any>predicate)(item)) return {found: true, value: item};
+                if ((<any>predicate)(item)) return { found: true, value: item };
             }
-            return {found: false, value: defaultValue};
+            return { found: false, value: defaultValue };
         }, () => this[0]);
     }
 
-    groupBy<TKey>(this: ICollection<T>, selector: Func<[T], TKey>): ICollection<IGroup<TKey, T>>;
-    groupBy<TKey>(this: ICollection<T>, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): ICollection<IGroup<TKey, T>>;
-    groupBy<TKey>(this: ICollection<T>, selector: any, comparer?: any): ICollection<IGroup<TKey, T>> {
+    groupBy<TKey>(this: Collection<T>, selector: Func<[T], TKey>): Collection<IGroup<TKey, T>>;
+    groupBy<TKey>(this: Collection<T>, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): Collection<IGroup<TKey, T>>;
+    groupBy<TKey>(this: Collection<T>, selector: any, comparer?: any): Collection<IGroup<TKey, T>> {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = new Collection<IGroup<any, T>>(this.options);
@@ -151,9 +173,9 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    innerJoin<TInner, TKey, TResult>(this: ICollection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
-    innerJoin<TInner, TKey, TResult>(this: ICollection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
-    innerJoin(this: ICollection<T>, inner: any, outerKeySelector: any, innerKeySelector: any, resultSelector: any, comparer?: any) {
+    innerJoin<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
+    innerJoin<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
+    innerJoin(this: Collection<T>, inner: any, outerKeySelector: any, innerKeySelector: any, resultSelector: any, comparer?: any) {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = new Collection(this.options);
@@ -167,36 +189,37 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    last(this: ICollection<T>, defaultValue?: T): T;
-    last(this: ICollection<T>, predicate: Func<[T], boolean>, defaultValue?: T): T;
-    last(this: ICollection<T>, predicate: any, defaultValue?: any) {
+    last(this: Collection<T>, defaultValue?: T): T;
+    last(this: Collection<T>, predicate: Func<[T], boolean>, defaultValue?: T): T;
+    last(this: Collection<T>, predicate: any, defaultValue?: any) {
         return firstLast.call(this, predicate, defaultValue, (predicate: any, defaultValue: any) => {
             for (let i = this.length - 1; i >= 0; i--) {
-                if ((<any>predicate)(this[i])) return {found: true, value: this[i]};
+                if ((<any>predicate)(this[i])) return { found: true, value: this[i] };
             }
-            return {found: false, value: defaultValue};
+            return { found: false, value: defaultValue };
         }, () => this[this.length - 1]);
     }
 
-    orderBy<TOrderBy>(this: ICollection<T>, selector: Func<[T], TOrderBy>): ICollection<T>;
-    orderBy(this: ICollection<T>, selector: any) {
+    orderBy<TOrderBy>(this: Collection<T>, selector: Func<[T], TOrderBy>): Collection<T>;
+    orderBy(this: Collection<T>, selector: any) {
         return orderByBase.call(this, selector);
     }
 
-    orderByDesc<TOrderBy>(this: ICollection<T>, selector: Func<[T], TOrderBy>): ICollection<T>;
-    orderByDesc(this: ICollection<T>, selector: any) {
-        return orderByBase.call(this, selector)
+    orderByDesc<TOrderBy>(this: Collection<T>, selector: Func<[T], TOrderBy>): Collection<T>;
+    orderByDesc(this: Collection<T>, selector: any) {
+        return orderByBase.call(this, selector, true)
     }
 
-    limit(this: ICollection<T>, n: number): ICollection<T>;
-    limit(this: ICollection<T>, n: number) {
+    limit(this: Collection<T>, n: number): Collection<T>;
+    limit(this: Collection<T>, n: number) {
+        if (n <= 0) return new Collection<T>(this.options);
         let result = this.copy();
-        if (n > this.length + 1) return result;
-        result.splice(n - 1);
+        if (n >= this.length) return result;
+        result.splice(n);
         return result;
     }
 
-    select<TReturn>(this: ICollection<T>, selector: Func<[T], TReturn>): ICollection<TReturn> {
+    select<TReturn>(this: Collection<T>, selector: Func<[T], TReturn>): Collection<TReturn> {
         let result = new Collection<TReturn>(this.options);
         for (let item of this) {
             result.push(selector(item));
@@ -204,24 +227,26 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    skip(this: ICollection<T>, n: number): ICollection<T> {
-        let result = new Collection<T>(this.options);
-        if (n > this.length + 1) return result;
+    skip(this: Collection<T>, n: number): Collection<T> {
+        if (n >= this.length) return new Collection<T>(this.options);
+        let result = this.copy();
         result.splice(0, n);
         return result;
     }
 
-    union(this: ICollection<T>, collection: IQueryable<T>): ICollection<T>;
-    union(this: ICollection<T>, collection: IQueryable<T>, comparer: Func<[T, T], boolean>): ICollection<T>;
-    union(this: ICollection<T>, collection: any, comparer?: any) {
+    union(this: Collection<T>, collection: IQueryable<T>): Collection<T>;
+    union(this: Collection<T>, collection: IQueryable<T>, comparer: Func<[T, T], boolean>): Collection<T>;
+    union(this: Collection<T>, collection: any, comparer?: any) {
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = this.copy();
-        result.concat(collection);
+        for (let item of collection) {
+            result.push(item);
+        }
         return result.distinct(comparer);
     }
 
-    where(this: ICollection<T>, predicate: Func<[T], boolean>): ICollection<T> {
+    where(this: Collection<T>, predicate: Func<[T], boolean>): Collection<T> {
         let result = new Collection<T>(this.options);
         for (let item of this) {
             if (predicate(item)) result.push(item);
@@ -231,16 +256,16 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     //#endregion
 
     //#region IIterable
-    all(this: ICollection<T>, predicate: Func<[T], boolean>): boolean {
+    all(this: Collection<T>, predicate: Func<[T], boolean>): boolean {
         for (let item of this) {
             if (predicate(item) === false) return false;
         }
         return true;
     }
 
-    any(this: ICollection<T>): boolean;
-    any(this: ICollection<T>, predicate: Func<[T], boolean>): boolean;
-    any(this: ICollection<T>, predicate?: any) {
+    any(this: Collection<T>): boolean;
+    any(this: Collection<T>, predicate: Func<[T], boolean>): boolean;
+    any(this: Collection<T>, predicate?: any) {
         if (typeof predicate == 'undefined') return this.length > 0;
         for (let item of this) {
             if (predicate(item) === true) return true;
@@ -248,9 +273,9 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return false;
     }
 
-    average(this: ICollection<number>): number;
-    average(this: ICollection<T>, selector: Func<[T], number>): number;
-    average(this: ICollection<any>, selector?: any) {
+    average(this: Collection<number>): number;
+    average(this: Collection<T>, selector: Func<[T], number>): number;
+    average(this: Collection<any>, selector?: any) {
         if (typeof selector === 'undefined') selector = (item: number) => item;
         let total = 0;
         for (let item of this) {
@@ -259,17 +284,27 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return total / this.length;
     }
 
-    contains(this: ICollection<T>, item: T) {
+    clone(this: Collection<T>): Collection<T> {
+        let result = new Collection<T>(this.options, this.length);
+        for (let key in this) {
+            if (this.hasOwnProperty(key)) {
+                result[key] = this[key];
+            }
+        }
+        return result;
+    }
+
+    contains(this: Collection<T>, item: T) {
         return this.indexOf(item) > -1;
     }
 
-    copy(this: ICollection<T>): ICollection<T> {
-        return new Collection(this.options, ...this.slice());
+    copy(this: Collection<T>): Collection<T> {
+        return new Collection<T>(this.options, ...this.slice());
     }
 
-    count(this: ICollection<T>): number;
-    count(this: ICollection<T>, predicate: Func<[T], boolean>): number;
-    count(this: ICollection<T>, predicate?: any) {
+    count(this: Collection<T>): number;
+    count(this: Collection<T>, predicate: Func<[T], boolean>): number;
+    count(this: Collection<T>, predicate?: any) {
         if (typeof predicate === 'undefined') return this.length;
         let result = 0;
         for (let item of this) {
@@ -278,9 +313,9 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    equals(this: ICollection<T>, collection: IIterable<T>): boolean;
-    equals(this: ICollection<T>, collection: IIterable<T>, comparer: Func<[T, T], boolean>): boolean;
-    equals(this: ICollection<T>, collection: any, comparer?: any) {
+    equals(this: Collection<T>, collection: IIterable<T>): boolean;
+    equals(this: Collection<T>, collection: IIterable<T>, comparer: Func<[T, T], boolean>): boolean;
+    equals(this: Collection<T>, collection: any, comparer?: any) {
         if (this.length !== collection.length) return false;
         if (typeof comparer === 'undefined') comparer = (a: T, b: T) => a === b;
         for (let i = 0; i < this.length; i++) {
@@ -289,29 +324,29 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return true;
     }
 
-    insert(this: ICollection<T>, index: number, item: T): void {
+    insert(this: Collection<T>, index: number, item: T): void {
         this.splice(index, 0, item);
     }
 
-    max(this: ICollection<number>, defaultValue?: number): number;
-    max(this: ICollection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
-    max(this: ICollection<any>, selector?: any, defaultValue?: any) {
+    max(this: Collection<number>, defaultValue?: number): number;
+    max(this: Collection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
+    max(this: Collection<any>, selector?: any, defaultValue?: any) {
         return minMax.call(this, selector, defaultValue, (current: any, max: any) => current > max, -Infinity);
     }
 
-    min(this: ICollection<number>, defaultValue?: number): number;
-    min(this: ICollection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
-    min(this: ICollection<any>, selector?: any, defaultValue?: any) {
+    min(this: Collection<number>, defaultValue?: number): number;
+    min(this: Collection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
+    min(this: Collection<any>, selector?: any, defaultValue?: any) {
         return minMax.call(this, selector, defaultValue, (current: any, min: any) => current < min, Infinity);
     }
 
-    prepend(this: ICollection<T>, item: T): void {
+    prepend(this: Collection<T>, item: T): void {
         this.unshift(item);
     }
 
-    remove(this: ICollection<T>, item: T): ICollection<T>;
-    remove(this: ICollection<T>, predicate: Func<[T], boolean>): ICollection<T>;
-    remove(this: ICollection<T>, predicate: any) {
+    remove(this: Collection<T>, item: T): Collection<T>;
+    remove(this: Collection<T>, predicate: Func<[T], boolean>): Collection<T>;
+    remove(this: Collection<T>, predicate: any) {
         if (typeof predicate !== 'function') {
             let toDelete: T = predicate;
             predicate = (item: T) => item === toDelete;
@@ -326,12 +361,12 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    removeAt(this: ICollection<T>, index: number): T {
+    removeAt(this: Collection<T>, index: number): T {
         return this.splice(index, 1)[0];
     }
 
-    sum(this: ICollection<number>): number;
-    sum(this: ICollection<T>, selector: Func<[T], number>): number;
+    sum(this: Collection<number>): number;
+    sum(this: Collection<T>, selector: Func<[T], number>): number;
     sum(selector?: any) {
         if (typeof selector === 'undefined') selector = (item: T) => item;
         let result = 0;
@@ -341,7 +376,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
     //#endregion
-    
+
 }
 
 import { Group } from "./Group";
