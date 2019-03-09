@@ -60,9 +60,11 @@ function minMax<T>(this: Collection<T>, selector: any | undefined, defaultValue:
 }
 
 export class Collection<T> extends Array<T> implements ICollection<T> {
-    // @ts-ignore Ignore super must be first call...
-    constructor(...args: any[])
-    constructor(options: ICollectionOptions, ...args: any[])
+    constructor(length: number)
+    constructor(options: ICollectionOptions)
+    constructor(options: ICollectionOptions, ...args: T[])
+    constructor(options: ICollectionOptions, length: number)
+    constructor(...args: T[])
     constructor(...args: any[]) {
         let hasOptions = args.length > 0 && isCollectionOptions(args[0]);
         let options = hasOptions ? setDefaultOptions(args[0]) : setDefaultOptions({});
