@@ -3,7 +3,7 @@ export interface ICollectionOptions {
 }
 
 export function setDefaultOptions(options: ICollectionOptions): ICollectionOptions {
-    options.allowSetPrototypeOf = options.allowSetPrototypeOf || true;
+    if (options.allowSetPrototypeOf === void 0) options.allowSetPrototypeOf = true;
 
     return options;
 }

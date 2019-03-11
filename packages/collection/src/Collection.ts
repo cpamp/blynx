@@ -46,6 +46,7 @@ function minMax<T>(this: Collection<T>, selector: any | undefined, defaultValue:
         selector = (item: number): number => item;
     }
     if (typeof defaultValue === 'undefined' && this.length === 0) throw new InvalidOperationError(errorMessages.noItems);
+    if (this.length === 0) return defaultValue;
 
     let minMax = starter;
     let maxItem;
@@ -84,7 +85,7 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
             writable: false,
             enumerable: false,
             configurable: false
-        })
+        });
         Object.defineProperty(this, instanceTypeSymbol, {
             value: instanceType,
             writable: false,
@@ -301,7 +302,17 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     copy(this: Collection<T>): Collection<T> {
-        return new Collection<T>(this.options, ...this.slice());
+        let result = new Collection<T>(this.options);
+        if (typeof this.forEach === 'function') {
+            this.forEach(item => result.push(item));
+        } else {
+            for (let i = 0; i < this.length; i++) {
+                if (i in this) {
+                    result.push(this[i]);
+                }
+            }
+        }
+        return result;
     }
 
     count(this: Collection<T>): number;
@@ -331,13 +342,13 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
     }
 
     max(this: Collection<number>, defaultValue?: number): number;
-    max(this: Collection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
+    max(this: Collection<T>, selector: Func<[T], number>, defaultValue?: ValueItem<number, T>): ValueItem<number, T>;
     max(this: Collection<any>, selector?: any, defaultValue?: any) {
         return minMax.call(this, selector, defaultValue, (current: any, max: any) => current > max, -Infinity);
     }
 
     min(this: Collection<number>, defaultValue?: number): number;
-    min(this: Collection<T>, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
+    min(this: Collection<T>, selector: Func<[T], number>, defaultValue?: ValueItem<number, T>): ValueItem<number, T>;
     min(this: Collection<any>, selector?: any, defaultValue?: any) {
         return minMax.call(this, selector, defaultValue, (current: any, min: any) => current < min, Infinity);
     }

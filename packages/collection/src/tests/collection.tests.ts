@@ -1,5 +1,6 @@
 import { TestClass, TestMethod, Assert } from "@blynx/test";
 import { Collection } from "../Collection";
+import { ICollectionOptions } from "src/ICollectionOptions";
 
 @TestClass()
 export class CollectionTests {
@@ -10,4 +11,44 @@ export class CollectionTests {
         assert.areEqual(true, Collection.isCollection(this.testCollection));
         assert.areEqual(false, Collection.isCollection([]));
     }
+
+    @TestMethod()
+    'collection options defaults'(assert: Assert) {
+        let collection = new Collection();
+        assert.areEqual(true, collection.options.allowSetPrototypeOf);
+    }
+
+    //#region constructors
+    @TestMethod()
+    'constructor(length)'(assert: Assert) {
+        let collection = new Collection(1000);
+        assert.areEqual(1000, collection.length);
+    }
+
+    @TestMethod()
+    'constructor(options)'(assert: Assert) {
+        let collection = new Collection({allowSetPrototypeOf: false} as ICollectionOptions);
+        assert.areEqual(false, collection.options.allowSetPrototypeOf);
+    }
+
+    @TestMethod()
+    'constructor(options, args)'(assert: Assert) {
+        let collection = new Collection({allowSetPrototypeOf: false} as ICollectionOptions, 1, 2, 3);
+        assert.areEqual(false, collection.options.allowSetPrototypeOf);
+        assert.areEqual(3, collection.length);
+    }
+
+    @TestMethod()
+    'constructor(options, length)'(assert: Assert) {
+        let collection = new Collection({allowSetPrototypeOf: false} as ICollectionOptions, 1000);
+        assert.areEqual(false, collection.options.allowSetPrototypeOf);
+        assert.areEqual(1000, collection.length);
+    }
+
+    @TestMethod()
+    'constructor(args)'(assert: Assert) {
+        let collection = new Collection(1, 2, 3, 4, 5);
+        assert.areEqual(5, collection.length);
+    }
+    //#endregion
 }

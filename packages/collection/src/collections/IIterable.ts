@@ -104,7 +104,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param selector A function that selects the number to compare.
      * @param defaultValue The default value if the collection is empty. Throws InvalidOperationError if not provided and empty.
      */
-    max(this: TSelf, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>
+    max(this: TSelf, selector: Func<[T], number>, defaultValue?: ValueItem<number, T>): ValueItem<number, T>
 
     /**
      * Determines the minimum value of a collection of numbers.
@@ -119,7 +119,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param selector A function that selects the number to compare.
      * @param defaultValue The default value if the collection is empty. Throws if not provided and empty.
      */
-    min(this: TSelf, selector: Func<[T], number>, defaultValue?: number): ValueItem<number, T>;
+    min(this: TSelf, selector: Func<[T], number>, defaultValue?: ValueItem<number, T>): ValueItem<number, T>;
 
     /**
      * Adds an item to the beginning of a collection.
