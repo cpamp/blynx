@@ -1,8 +1,6 @@
-import { Func } from "../func";
+import { Func } from "../../func";
 
-export interface IQueryable<T, TSelf extends IQueryable<any> = IQueryable<any, any>>
-extends Array<T> {
-
+export interface IQueryableSpec<T, TSelf extends IQueryableSpec<any> = IQueryableSpec<any, any>> {
     /**
      * Creates a collection of distinct items.
      * @param this The collection to get distinct items from.
@@ -47,6 +45,13 @@ extends Array<T> {
     groupBy<TKey>(this: TSelf, selector: Func<[T], TKey>, comparer: Func<[TKey, TKey], boolean>): TSelf;
 
     /**
+     * Creates a new string by concatenating all of the items in an array.
+     * @param this The collection of strings to join
+     * @param separator A string to separate each item in the array.
+     */
+    join(this: TSelf, separator?: string | undefined): string;
+
+    /**
      * Creates a collection of joined items.
      * @param this The collection to join.
      * @param inner A collection to join.
@@ -54,7 +59,7 @@ extends Array<T> {
      * @param innerKeySelector A function to select the key for the inner collection.
      * @param resultSelector A function to select the result of the joined items.
      */
-    innerJoin<TInner, TKey, TResult>(this: TSelf, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
+    join<TInner, TKey, TResult>(this: TSelf, inner: IQueryableSpec<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
 
     /**
      * Creates a collection of joined items.
@@ -65,7 +70,7 @@ extends Array<T> {
      * @param resultSelector A function to select the result of the joined items.
      * @param comparer A function that compares the keys for equality.
      */
-    innerJoin<TInner, TKey, TResult>(this: TSelf, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
+    join<TInner, TKey, TResult>(this: TSelf, inner: IQueryableSpec<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
 
     /**
      * Provides the last item of the collection.
@@ -122,7 +127,7 @@ extends Array<T> {
      * @param this The collection to be unioned.
      * @param collection A collection to be unioned.
      */
-    union(this: TSelf, collection: IQueryable<T>): TSelf;
+    union(this: TSelf, collection: IQueryableSpec<T>): TSelf;
 
     /**
      * Created a unioned collection.
@@ -130,7 +135,7 @@ extends Array<T> {
      * @param collection A collection to be unioned.
      * @param comparer A function used to test equality of items.
      */
-    union(this: TSelf, collection: IQueryable<T>, comparer: Func<[T, T], boolean>): TSelf;
+    union(this: TSelf, collection: IQueryableSpec<T>, comparer: Func<[T, T], boolean>): TSelf;
 
     /**
      * Creates a collection consisting of items that satisfy the predicate.

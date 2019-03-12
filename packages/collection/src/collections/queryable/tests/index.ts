@@ -1,6 +1,6 @@
-import { Collection } from "../Collection";
 import { TestClass, TestMethod, Assert } from "@blynx/test";
-import { IGroup } from "../IGroup";
+import { Collection } from "../../collection";
+import { IGroup } from "../../group";
 
 @TestClass()
 export class QueryableTests {
@@ -130,8 +130,8 @@ export class QueryableTests {
     }
     //#endregion
 
-    //#region innerJoin
-    get innerJoinFood() {
+    //#region join
+    get joinFood() {
         return new Collection(
             {id: 1, name: 'Apple', foodTypeId: 1},
             {id: 2, name: 'Broccoli', foodTypeId: 2},
@@ -140,7 +140,7 @@ export class QueryableTests {
             {id: 5, name: 'Orange', foodTypeId: 1}
         )
     }
-    get innerJoinFoodTypes() {
+    get joinFoodTypes() {
         return new Collection(
             {id: 1, name: 'Fruit'},
             {id: 2, name: 'Vegetable'},
@@ -149,11 +149,11 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    'innerJoin()'(assert: Assert) {
-        let food = this.innerJoinFood,
-            foodTypes = this.innerJoinFoodTypes;
+    'join()'(assert: Assert) {
+        let food = this.joinFood,
+            foodTypes = this.joinFoodTypes;
 
-        let result = food.innerJoin(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
+        let result = food.join(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
             food.foodType = foodType;
             return food;
         });
@@ -164,11 +164,11 @@ export class QueryableTests {
     }
 
     @TestMethod()
-    'innerJoin() with comparer'(assert: Assert) {
-        let food = this.innerJoinFood,
-            foodTypes = this.innerJoinFoodTypes;
+    'join() with comparer'(assert: Assert) {
+        let food = this.joinFood,
+            foodTypes = this.joinFoodTypes;
 
-        let result = food.innerJoin(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
+        let result = food.join(foodTypes, (food: any) => food.foodTypeId, (foodType: any) => foodType.id, (food: any, foodType: any) => {
             food.foodType = foodType;
             return food;
         }, (id: any, id2: any) => id !== id2);
@@ -176,6 +176,18 @@ export class QueryableTests {
         for (let food of result) {
             assert.areNotEqual(food.foodTypeId, food.foodType.id);
         }
+    }
+
+    @TestMethod()
+    'join() no args'(assert: Assert) {
+        let result = new Collection().join();
+        assert.areEqual('', result);
+    }
+
+    @TestMethod()
+    'join() strings'(assert: Assert) {
+        let result = new Collection('a', 'b', 'c').join(', ');
+        assert.areEqual('a, b, c', result);
     }
     //#endregion
 

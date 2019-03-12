@@ -1,4 +1,4 @@
 import './array.tests';
-import './collection.tests';
-import './queryable.tests';
-import './iterable.tests';
+import '../collections/collection/tests';
+import '../collections/iterable/tests';
+import '../collections/queryable/tests';

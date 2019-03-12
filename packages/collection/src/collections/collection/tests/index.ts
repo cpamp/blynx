@@ -1,6 +1,6 @@
 import { TestClass, TestMethod, Assert } from "@blynx/test";
-import { Collection } from "../Collection";
-import { ICollectionOptions } from "src/ICollectionOptions";
+import { Collection } from "../";
+import { ICollectionOptions } from "../collectionOptions";
 
 @TestClass()
 export class CollectionTests {

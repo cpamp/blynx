@@ -1,5 +1,5 @@
 import { TestClass, TestMethod, Assert } from "@blynx/test";
-import { Collection } from "../Collection";
+import { Collection } from "../../collection";
 
 
 @TestClass()

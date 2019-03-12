@@ -1,21 +1,14 @@
-import { IQueryable } from "./collections/IQueryable";
-import { IIterable } from "./collections/IIterable";
-import { ICollectionOptions } from "./ICollectionOptions";
+import { ICollectionOptions } from "./collectionOptions";
 
-export interface ICollection<T> extends
-IQueryable<T, any>,
-IIterable<T, any>
-{
+export interface ICollectionSpec {
     /**
      * A function that does nothing, used to test for inheritance.
      */
     inheritancenoop(): void;
-
     /**
      * Whether or not `this instanceof Collection === true`
      */
     readonly instanceof: boolean;
-
     /**
      * The options for the collection.
      */

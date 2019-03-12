@@ -1,7 +1,7 @@
-import { Func } from "../func";
+import { Func } from "../../func";
+import { ValueItem } from "../../ValueItem";
 
-export type ValueItem<TValue, TItem> = {value: TValue, item: TItem}
-export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>> extends Array<T> {
+export interface IIterableSpec<T, TSelf extends IIterableSpec<any> = IIterableSpec<any, any>> {
 
     /**
      * Determines if all items of a collection satisfy a condition.
@@ -27,7 +27,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * Determines the average of a collection of numbers.
      * @param this The collection of numbers being averaged.
      */
-    average(this: IIterable<number>): number;
+    average(this: IterableSpec<number>): number;
 
     /**
      * Determines the average of a collection of items.
@@ -73,7 +73,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param this The collection being tested for equality.
      * @param collection The collection to test against for equality.
      */
-    equals(this: TSelf, collection: IIterable<T>): boolean;
+    equals(this: TSelf, collection: IterableSpec<T>): boolean;
 
     /**
      * Determines if two collections are identical.
@@ -81,7 +81,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param collection The collection to test against for equality.
      * @param comparer A function that will test items for equality.
      */
-    equals(this: TSelf, collection: IIterable<T>, comparer: Func<[T, T], boolean>): boolean;
+    equals(this: TSelf, collection: IterableSpec<T>, comparer: Func<[T, T], boolean>): boolean;
 
     /**
      * Inserts an item into the collection.
@@ -96,7 +96,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param this The collection of numbers.
      * @param defaultValue The default value if the collection is empty. Throws InvalidOperationError if not provided and empty.
      */
-    max(this: IIterable<number>, defaultValue?: number): number;
+    max(this: IterableSpec<number>, defaultValue?: number): number;
 
     /**
      * Determines the item and value with the maximum result from the selector.
@@ -111,7 +111,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param this The collection of numbers.
      * @param defaultValue The default value if the collection is empty. Throws if not provided and empty.
      */
-    min(this: IIterable<number>, defaultValue?: number): number;
+    min(this: IterableSpec<number>, defaultValue?: number): number;
 
     /**
      * Determines the item and value with the minimum result from the selector.
@@ -153,7 +153,7 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * Determines the sum of the numbers in the collection.
      * @param this The collection of numbers.
      */
-    sum(this: IIterable<number>): number;
+    sum(this: IterableSpec<number>): number;
 
     /**
      * Determines the sum of the selectors.
@@ -161,5 +161,4 @@ export interface IIterable<T, TSelf extends IIterable<any> = IIterable<any, any>
      * @param selector A function used to select the number used in the sum.
      */
     sum(this: TSelf, selector: Func<[T], number>): number;
-
 }

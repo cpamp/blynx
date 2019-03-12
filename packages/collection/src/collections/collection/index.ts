@@ -1,9 +1,11 @@
-import { ICollection } from "./ICollection";
-import { IQueryable } from "./collections/IQueryable";
-import { Func } from "./func";
-import { IIterable, ValueItem } from "./collections/IIterable";
-import { IGroup } from "./IGroup";
-import { InvalidOperationError, errorMessages } from "./errors";
+import { Func } from "../../func";
+import { InvalidOperationError, errorMessages } from "../../errors";
+import { IGroup } from "../group";
+import { IQueryable } from "../queryable";
+import { ValueItem } from "../../ValueItem";
+import { IIterable } from "../iterable";
+import { ICollectionSpec } from "./spec";
+import { isCollectionOptions, setDefaultOptions } from "./collectionOptions";
 
 const instanceType = '@blynx/collection';
 const instanceTypeSymbol: any = typeof Symbol === 'function' ? (<any>Symbol)() : '__instancetype__';
@@ -60,7 +62,11 @@ function minMax<T>(this: Collection<T>, selector: any | undefined, defaultValue:
     return returnValueItem ? { value: minMax, item: maxItem } : minMax;
 }
 
-export class Collection<T> extends Array<T> implements ICollection<T> {
+export interface ICollectionOptions {
+    allowSetPrototypeOf?: boolean;
+}
+
+export class Collection<T> extends Array<T> implements ICollectionSpec, IIterable<T>, IQueryable<T> {
     constructor(length: number)
     constructor(options: ICollectionOptions)
     constructor(options: ICollectionOptions, ...args: T[])
@@ -176,9 +182,11 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
         return result;
     }
 
-    innerJoin<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
-    innerJoin<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
-    innerJoin(this: Collection<T>, inner: any, outerKeySelector: any, innerKeySelector: any, resultSelector: any, comparer?: any) {
+    join(this: Collection<T>, separator?: string | undefined): string;
+    join<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>): TResult;
+    join<TInner, TKey, TResult>(this: Collection<T>, inner: IQueryable<TInner>, outerKeySelector: Func<[T], TKey>, innerKeySelector: Func<[TInner], TKey>, resultSelector: Func<[T, TInner], TResult>, comparer: Func<[TKey, TKey], boolean>): TResult;
+    join(this: Collection<T>, inner?: any, outerKeySelector?: any, innerKeySelector?: any, resultSelector?: any, comparer?: any) {
+        if (arguments.length <= 1) return super.join(inner);
         if (typeof comparer === 'undefined') comparer = (a: any, b: any) => a === b;
 
         let result = new Collection(this.options);
@@ -392,6 +400,4 @@ export class Collection<T> extends Array<T> implements ICollection<T> {
 
 }
 
-import { Group } from "./Group";
-import { isCollectionOptions, setDefaultOptions, ICollectionOptions } from "./ICollectionOptions";
-
+import { Group } from "../group";

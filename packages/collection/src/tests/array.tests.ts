@@ -1,5 +1,5 @@
 import { TestMethod, TestClass, Assert } from "@blynx/test";
-import { Collection } from "../Collection";
+import { Collection } from "../collections/collection";
 
 @TestClass()
 export class ArrayTests {
