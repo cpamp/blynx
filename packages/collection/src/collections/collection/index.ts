@@ -4,7 +4,6 @@ import { IGroup } from "../group";
 import { IQueryable } from "../queryable";
 import { ValueItem } from "../../ValueItem";
 import { IIterable } from "../iterable";
-import { ICollectionSpec } from "./spec";
 import { isCollectionOptions, setDefaultOptions } from "./collectionOptions";
 
 const instanceType = '@blynx/collection';
@@ -66,7 +65,22 @@ export interface ICollectionOptions {
     allowSetPrototypeOf?: boolean;
 }
 
-export class Collection<T> extends Array<T> implements ICollectionSpec, IIterable<T>, IQueryable<T> {
+export interface ICollection {
+    /**
+     * A function that does nothing, used to test for inheritance.
+     */
+    inheritancenoop(): void;
+    /**
+     * Whether or not `this instanceof Collection === true`
+     */
+    readonly instanceof: boolean;
+    /**
+     * The options for the collection.
+     */
+    readonly options: ICollectionOptions;
+}
+
+export class Collection<T> extends Array<T> implements ICollection, IIterable<T>, IQueryable<T> {
     constructor(length: number)
     constructor(options: ICollectionOptions)
     constructor(options: ICollectionOptions, ...args: T[])
