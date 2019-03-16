@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "declaration": true,                   /* Generates corresponding '.d.ts' file. */
+        "strict": true,                        /* Enable all strict type-checking options. */
+        "noImplicitAny": true,                 /* Raise error on expressions and declarations with an implied 'any' type. */
+        "strictNullChecks": true,              /* Enable strict null checks. */
+        "noImplicitThis": true,                /* Raise error on 'this' expressions with an implied 'any' type. */
+        "alwaysStrict": false,                 /* Parse in strict mode and emit "use strict" for each source file. */
+        "noImplicitUseStrict": true,
+        "noUnusedLocals": true,                /* Report errors on unused locals. */
+        "noUnusedParameters": true,            /* Report errors on unused parameters. */
+        "noImplicitReturns": true,             /* Report error when not all code paths in function return a value. */
+        "baseUrl": "./",
+        "experimentalDecorators": true,        /* Enables experimental support for ES7 decorators. */
+        "emitDecoratorMetadata": true,         /* Enables experimental support for emitting type metadata for decorators. */
+        "moduleResolution": "node"
+    },
+    "exclude": ["./lib"]
+}

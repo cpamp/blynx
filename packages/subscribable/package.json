@@ -1,7 +1,7 @@
 {
-  "name": "@blynx/collection",
+  "name": "@blynx/subscription",
   "version": "0.0.1",
-  "description": "Javascript collections",
+  "description": "Javascript subscription",
   "main": "./lib/main/index.js",
   "types": "./lib/main/index.d.ts",
   "es2015": "./lib/es2015/index.js",
@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/collection/#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/#readme",
   "devDependencies": {
     "@blynx/test": "0.0.4",
     "@types/node": "^7.10.3"
