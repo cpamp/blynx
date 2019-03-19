@@ -1,7 +1,7 @@
 {
-  "name": "@blynx/subscribable",
+  "name": "@blynx/promise",
   "version": "0.0.1",
-  "description": "Javascript subscription",
+  "description": "Javascript promise",
   "main": "./lib/main/index.js",
   "types": "./lib/main/index.d.ts",
   "es2015": "./lib/es2015/index.js",

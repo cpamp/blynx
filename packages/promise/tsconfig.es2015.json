@@ -1,0 +1,9 @@
+{
+    "extends": "./tsconfig.base.json",
+    "compilerOptions": {
+        "target": "es2015",
+        "module": "commonjs",
+        "outDir": "./lib/es2015",
+        "lib": ["dom","es6","dom.iterable", "scripthost"]
+    }
+}
