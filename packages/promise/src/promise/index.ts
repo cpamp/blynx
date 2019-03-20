@@ -1,6 +1,5 @@
 import { IPromise } from "./spec";
 import { PromiseState } from "../promiseState";
-import { warn, WARN_MULTIPLE_RESOLVE } from "../warn";
 
 interface Handler<T> {
     onFulfilled: <TResult>(value: T) => TResult | PromiseLike<TResult>;
@@ -32,76 +31,69 @@ export class Promise<T> implements IPromise<T> {
 
     private __handlers: Handler<T>[] = [];
 
-    constructor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
+    constructor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
         this.__resolveExecutor(executor);
     }
 
-    private __resolveExecutor(executor: (resolve: (value: T) => void, reject: (reason: any) => void) => void) {
+    private __resolveExecutor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
         let done = false;
         try {
             executor(value => {
-                if (done) return warn(WARN_MULTIPLE_RESOLVE);
+                if (done) return;
                 done = true;
-                this.__resolve(value);
+                setTimeout(() => this.__resolve(value), 0);
             }, reason => {
                 if (done) return;
                 done = true;
-                this.__reject(reason);
+                setTimeout(() => this.__reject(reason), 0);
             })
         } catch (err) {
             if (done) return;
             done = true;
-            this.__reject(err);
+            setTimeout(() => this.__reject(err), 0);
         }
     }
 
     private __resolve<TResult = T>(value: TResult | PromiseLike<TResult>) {
-        try {
-            let then = getThen(value);
-            if (then) {
-                this.__resolveExecutor(then.bind(value));
-                return;
-            }
-            this.__complete(PromiseState.fulfilled, value as any);
-        } catch (err) {
-            this.__reject(err);
-        }
+        this.__complete(PromiseState.fulfilled, value as any)
     }
 
     private __reject(reason: any) {
-        try {
-            let then = getThen(reason);
-            if (then) {
-                this.__resolveExecutor(then.bind(reason));
-                return;
-            }
-            this.__complete(PromiseState.rejected, reason as any);
-        } catch (err) {
-            this.__reject(err);
-        }
+        this.__complete(PromiseState.rejected, reason as any);
     }
 
     private __complete(state: PromiseState, value: T) {
-        this.__state = state
-        this.__value = value;
-        for (let handler of this.__handlers) {
-            this.__handle(handler);
+        try {
+            if (this === (value as any)) throw new TypeError('Promise and value refer to the same object')
+            
+            let then: Function | null;
+            if (state === PromiseState.fulfilled && (then = getThen(value))) {
+                this.__resolveExecutor(then.bind(value));
+            } else {
+                this.__state = state
+                this.__value = value;
+                for (let handler of this.__handlers) {
+                    this.__handle(handler);
+                }
+                //@ts-ignore - Ignore that handlers cannot be undefined
+                this.__handlers = void 0;
+            }
+        } catch (err) {
+            this.__reject(err);
         }
-        //@ts-ignore - Ignore that handlers cannot be undefined
-        this.__handlers = void 0;
     }
 
     private __handle(handler: Handler<T>) {
         if (this.state === PromiseState.pending) {
             this.__handlers.push(handler);
-        } else if (this.state === PromiseState.fulfilled && typeof handler.onFulfilled === 'function') {
+        } else if (this.state === PromiseState.fulfilled) {
             handler.onFulfilled(this.value)
-        } else if (this.state === PromiseState.rejected && typeof handler.onRejected === 'function') {
+        } else if (this.state === PromiseState.rejected) {
             handler.onRejected(this.value)
         }
     }
 
-    private __chain(onFulfilled: ((value: T) => void) | null | undefined, onRejected: ((reason: any) => void) | null | undefined): void {
+    private __chain(onFulfilled: (value: T) => void, onRejected: (reason: any) => void): void {
         setTimeout(() => {
             this.__handle({
                 onFulfilled: onFulfilled,
@@ -125,7 +117,7 @@ export class Promise<T> implements IPromise<T> {
             }, reason => {
                 if (typeof onRejected === 'function') {
                     try {
-                        return reject(onRejected(reason));
+                        return resolve(onRejected(reason) as any);
                     } catch (err) {
                         return reject(err);
                     }
@@ -151,5 +143,23 @@ export class Promise<T> implements IPromise<T> {
 
     toString() {
         return "[object Promise]"
+    }
+
+    static resolve<T>(value?: T) {
+        return new Promise<T | undefined>(resolve => resolve(value));
+    }
+
+    static reject<T>(reason?: T) {
+        return new Promise<T | undefined>((_resolve, reject) => reject(reason));
+    }
+
+    static deferred<T = any>() {
+        let resolve: (value?: T) => void = () => {};
+        let reject: (reject?: any) => void = () => {};
+        let promise = new Promise<T>((_resolve, _reject) => {
+            resolve = _resolve;
+            reject = _reject;
+        })
+        return { promise, resolve, reject }
     }
 }
