@@ -1,5 +1,6 @@
 import { IPromise } from "./spec";
 import { PromiseState } from "../promiseState";
+import { schedule } from "../schedule";
 
 interface Handler<T, TResult> {
     resolve: (value?: T) => void;
@@ -39,30 +40,18 @@ export class Promise<T> implements IPromise<T> {
             executor(value => {
                 if (done) return;
                 done = true;
-                setTimeout(() => this.__complete(PromiseState.fulfilled, value as any), 0);
+                schedule(() => this.__complete(PromiseState.fulfilled, value as any));
             }, reason => {
                 if (done) return;
                 done = true;
-                setTimeout(() => this.__complete(PromiseState.rejected, reason as any), 0);
+                schedule(() => this.__complete(PromiseState.rejected, reason as any));
             })
         } catch (err) {
             if (done) return;
             done = true;
-            setTimeout(() => this.__complete(PromiseState.rejected, err as any), 0);
+            schedule(() => this.__complete(PromiseState.rejected, err as any));
         }
     }
-
-    // private __resolveExecutor(value?: T) {
-    //     if (this.__done) return;
-    //     this.__done = true;
-    //     setTimeout(() => this.__complete(PromiseState.fulfilled, value as any), 0);
-    // }
-
-    // private __rejectExecutor(reason?: any) {
-    //     if (this.__done) return;
-    //     this.__done = true;
-    //     setTimeout(() => this.__complete(PromiseState.rejected, reason as any), 0);
-    // }
 
     private __complete(state: PromiseState, value: T) {
         try {
@@ -121,9 +110,9 @@ export class Promise<T> implements IPromise<T> {
 
     then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
         return new Promise<TResult1 | TResult2>((resolve, reject) => {
-            return setTimeout(() => {
+            return schedule(() => {
                 this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<T, TResult1 | TResult2>)
-            }, 0)
+            })
         })
     }
 
