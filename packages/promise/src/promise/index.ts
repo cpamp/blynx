@@ -1,10 +1,12 @@
 import { IPromise } from "./spec";
 import { PromiseState } from "../promiseState";
 
-interface Handler<T> {
-    onFulfilled: <TResult>(value: T) => TResult | PromiseLike<TResult>;
-    onRejected: <TResult>(value: T) => TResult | PromiseLike<TResult>;
-    onFinally: () => Promise<T> | PromiseLike<T>;
+interface Handler<T, TResult> {
+    resolve: (value?: T) => void;
+    reject: (reason?: any) => void
+    onFulfilled?: ((value: T) => TResult | PromiseLike<TResult>) | null | undefined;
+    onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined;
+    onFinally?: () => Promise<T> | PromiseLike<T>;
 }
 
 function getThen(value: any): Function | null {
@@ -20,47 +22,47 @@ function getThen(value: any): Function | null {
 
 export class Promise<T> implements IPromise<T> {
     private __value: T | any;
-    get value() {
-        return this.__value;
-    }
 
     private __state: PromiseState = PromiseState.pending;
-    get state() {
-        return this.__state;
-    }
 
-    private __handlers: Handler<T>[] = [];
+    //private __done: boolean = false;
+
+    private __handlers: Handler<T, any>[] = [];
 
     constructor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
-        this.__resolveExecutor(executor);
+        this.__executor(executor);
     }
 
-    private __resolveExecutor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
-        let done = false;
+    private __executor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
+        var done = false;
         try {
             executor(value => {
                 if (done) return;
                 done = true;
-                setTimeout(() => this.__resolve(value), 0);
+                setTimeout(() => this.__complete(PromiseState.fulfilled, value as any), 0);
             }, reason => {
                 if (done) return;
                 done = true;
-                setTimeout(() => this.__reject(reason), 0);
+                setTimeout(() => this.__complete(PromiseState.rejected, reason as any), 0);
             })
         } catch (err) {
             if (done) return;
             done = true;
-            setTimeout(() => this.__reject(err), 0);
+            setTimeout(() => this.__complete(PromiseState.rejected, err as any), 0);
         }
     }
 
-    private __resolve<TResult = T>(value: TResult | PromiseLike<TResult>) {
-        this.__complete(PromiseState.fulfilled, value as any)
-    }
+    // private __resolveExecutor(value?: T) {
+    //     if (this.__done) return;
+    //     this.__done = true;
+    //     setTimeout(() => this.__complete(PromiseState.fulfilled, value as any), 0);
+    // }
 
-    private __reject(reason: any) {
-        this.__complete(PromiseState.rejected, reason as any);
-    }
+    // private __rejectExecutor(reason?: any) {
+    //     if (this.__done) return;
+    //     this.__done = true;
+    //     setTimeout(() => this.__complete(PromiseState.rejected, reason as any), 0);
+    // }
 
     private __complete(state: PromiseState, value: T) {
         try {
@@ -68,7 +70,7 @@ export class Promise<T> implements IPromise<T> {
             
             let then: Function | null;
             if (state === PromiseState.fulfilled && (then = getThen(value))) {
-                this.__resolveExecutor(then.bind(value));
+                this.__executor(then.bind(value));
             } else {
                 this.__state = state
                 this.__value = value;
@@ -79,52 +81,49 @@ export class Promise<T> implements IPromise<T> {
                 this.__handlers = void 0;
             }
         } catch (err) {
-            this.__reject(err);
+            this.__complete(PromiseState.rejected, err as any);
         }
     }
 
-    private __handle(handler: Handler<T>) {
-        if (this.state === PromiseState.pending) {
+    private __handle<TResult>(handler: Handler<T, TResult>) {
+        if (this.__state === PromiseState.pending) {
             this.__handlers.push(handler);
-        } else if (this.state === PromiseState.fulfilled) {
-            handler.onFulfilled(this.value)
-        } else if (this.state === PromiseState.rejected) {
-            handler.onRejected(this.value)
+        } else if (this.__state === PromiseState.fulfilled) {
+            this.__fulfill(handler, this.__value)
+        } else if (this.__state === PromiseState.rejected) {
+            this.__reject(handler, this.__value)
         }
     }
 
-    private __chain(onFulfilled: (value: T) => void, onRejected: (reason: any) => void): void {
-        setTimeout(() => {
-            this.__handle({
-                onFulfilled: onFulfilled,
-                onRejected: onRejected
-            } as Handler<T>)
-        }, 0)
+    private __fulfill<TResult>(handler: Handler<T, TResult>, value: T): void {
+        if (typeof handler.onFulfilled === 'function') {
+            try {
+                return handler.resolve(handler.onFulfilled.call(void 0, value) as any);
+            } catch (err) {
+                return handler.reject(err);
+            }
+        } else {
+            return handler.resolve(value as any);
+        }
+    }
+
+    private __reject<TResult>(handler: Handler<T, TResult>, reason: T): void {
+        if (typeof handler.onRejected === 'function') {
+            try {
+                return handler.resolve(handler.onRejected.call(void 0, reason) as any);
+            } catch (err) {
+                return handler.reject(err);
+            }
+        } else {
+            return handler.reject(reason);
+        }
     }
 
     then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
         return new Promise<TResult1 | TResult2>((resolve, reject) => {
-            return this.__chain(value => {
-                if (typeof onFulfilled === 'function') {
-                    try {
-                        return resolve(onFulfilled(value) as any);
-                    } catch (err) {
-                        return reject(err);
-                    }
-                } else {
-                    return resolve(value as any);
-                }
-            }, reason => {
-                if (typeof onRejected === 'function') {
-                    try {
-                        return resolve(onRejected(reason) as any);
-                    } catch (err) {
-                        return reject(err);
-                    }
-                } else {
-                    return reject(reason);
-                }
-            })
+            return setTimeout(() => {
+                this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<T, TResult1 | TResult2>)
+            }, 0)
         })
     }
 
