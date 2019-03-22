@@ -2,12 +2,12 @@ import { IPromise } from "./spec";
 import { PromiseState } from "../promiseState";
 import { schedule } from "../schedule";
 
-interface Handler<TValue, TReason, TResult> {
-    resolve: (value?: TValue) => void;
+interface Handler<T, TResult> {
+    resolve: (value?: T) => void;
     reject: (reason?: any) => void
-    onFulfilled?: ((value: TValue) => TResult | PromiseLike<TResult>) | null | undefined;
-    onRejected?: ((reason: TReason) => TResult | PromiseLike<TResult>) | null | undefined;
-    onFinally?: () => Promise<TValue> | PromiseLike<TValue>;
+    onFulfilled?: ((value: T) => TResult | PromiseLike<TResult>) | null | undefined;
+    onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined;
+    onFinally?: () => Promise<T> | PromiseLike<T>;
 }
 
 function getThen(value: any): Function | null {
@@ -21,12 +21,12 @@ function getThen(value: any): Function | null {
     return null;
 }
 
-export class Promise<TValue, TReason = any> implements IPromise<TValue> {
+export class Promise<T> implements IPromise<T> {
     //#region private properties
     /**
      * The value the promise resolved/rejected to.
      */
-    private __value?: TValue;
+    private __value?: T;
     /**
      * The state of the promise.
      */
@@ -34,10 +34,10 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
     /**
      * Any handlers that have not been called yet.
      */
-    private __handlers: Handler<TValue, TReason, any>[] = [];
+    private __handlers: Handler<T, any>[] = [];
     //#endregion
 
-    constructor(executor: (resolve: (value?: TValue) => void, reject: (reason?: any) => void) => void) {
+    constructor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
         this.__executor(executor);
     }
 
@@ -46,7 +46,7 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
      * Executes an executor and provides the resolve and reject functions.
      * @param executor Executor to execute
      */
-    private __executor(executor: (resolve: (value?: TValue) => void, reject: (reason?: any) => void) => void) {
+    private __executor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
         var done = false;
         try {
             executor(value => {
@@ -70,7 +70,7 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
      * @param state State to set the promise to.
      * @param value Value to set the promise to.
      */
-    private __complete(state: PromiseState, value: TValue) {
+    private __complete(state: PromiseState, value: T) {
         try {
             if (this === (value as any)) throw new TypeError('Promise and value refer to the same object')
             
@@ -95,7 +95,7 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
      * Handles a callback handler.
      * @param handler Handler to handle or stash for later evalution.
      */
-    private __handle<TResult>(handler: Handler<TValue, TReason, TResult>) {
+    private __handle<TResult>(handler: Handler<T, TResult>) {
         if (this.__state === PromiseState.pending) {
             this.__handlers.push(handler);
         } else {
@@ -115,19 +115,19 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
     //#endregion
 
     //#region public api
-    then<TResult1, TResult2>(onFulfilled?: ((value: TValue) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: TReason) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2, TResult2> {
-        return new Promise<TResult1 | TResult2, TResult2>((resolve, reject) => {
+    then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
+        return new Promise<TResult1 | TResult2>((resolve, reject) => {
             return schedule(() => {
-                this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<TValue, TReason, TResult1 | TResult2>)
+                this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<T, TResult1 | TResult2>)
             })
         })
     }
 
-    catch<TResult = TReason>(onRejected?: ((reason: TReason) => TResult | PromiseLike<TResult>) | null | undefined): Promise<TValue | TResult, TResult> {
-        return this.then<TValue, TResult>(null, onRejected);
+    catch<TResult = never>(onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined): Promise<T | TResult> {
+        return this.then<T, TResult>(null, onRejected);
     }
 
-    finally(callback: () => void): Promise<TValue> {
+    finally(callback: () => void): Promise<T> {
         let onAny = (value: any) => {
             callback.call(void 0)
             return value;
@@ -135,13 +135,13 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
         return this.then(onAny, onAny);
     }
 
-    map<TItem = any, TResult1 = TItem, TResult2 = TReason>(this: Promise<Array<TItem>>, onFulfilled?: ((value: TItem) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1[] | TResult2[]> {
+    map<TItem, TResult1 = T, TResult2 = never>(this: Promise<Array<TItem>>, onFulfilled?: ((value: TItem) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1[] | TResult2[]> {
         return this.then(values => {
-            let promises: Promise<any>[] = [];
+            let promises: Promise<TResult1 | TResult2>[] = [];
             for (let val of values) {
                 promises.push(Promise.resolve(val).then(onFulfilled, onRejected));
             }
-            return Promise.all(promises);
+            return Promise.all(promises) as Promise<TResult1[] | TResult2[]>;
         })
     }
     //#endregion
@@ -169,7 +169,7 @@ export class Promise<TValue, TReason = any> implements IPromise<TValue> {
      * @param reason Reason to reject the promise with.
      */
     static reject<T>(reason?: T) {
-        return new Promise<any, T>((_resolve, reject) => reject(reason));
+        return new Promise<any>((_resolve, reject) => reject(reason));
     }
 
     /**

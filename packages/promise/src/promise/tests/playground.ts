@@ -25,7 +25,7 @@ Promise.resolve(1).then(() => {
 Promise.resolve(1).then(() => {
     return {a: '', b: ''}
 }).then(val => {
-    
+    console.log(val);
 })
 
 let mapper = Promise.resolve([1,2,3,4,5])
