@@ -23,8 +23,17 @@ function getThen(value: any): Function | null {
 
 export class Promise<T> implements IPromise<T> {
     //#region private properties
+    /**
+     * The value the promise resolved/rejected to.
+     */
     private __value: T | any;
+    /**
+     * The state of the promise.
+     */
     private __state: PromiseState = PromiseState.pending;
+    /**
+     * Any handlers that have not been called yet.
+     */
     private __handlers: Handler<T, any>[] = [];
     //#endregion
 
@@ -106,11 +115,6 @@ export class Promise<T> implements IPromise<T> {
     //#endregion
 
     //#region public api
-    /**
-     * Attaches callbacks for when the promise is fulfilled/rejected.
-     * @param onFulfilled Callback to call when the promise is fulfilled.
-     * @param onRejected Callback to call when the promise is rejected.
-     */
     then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
         return new Promise<TResult1 | TResult2>((resolve, reject) => {
             return schedule(() => {
@@ -119,18 +123,10 @@ export class Promise<T> implements IPromise<T> {
         })
     }
 
-    /**
-     * Attaches callback for when the promise is rejected.
-     * @param onRejected Callback to call when the promise is rejected
-     */
     catch<TResult = never>(onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined): Promise<T | TResult> {
         return this.then(null, onRejected);
     }
 
-    /**
-     * Always call a callback
-     * @param callback Callback to always call.
-     */
     finally(callback: () => void): Promise<T> {
         let onAny = (value: T) => {
             callback.call(void 0)
