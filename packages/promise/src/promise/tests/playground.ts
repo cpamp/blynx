@@ -35,3 +35,9 @@ mapper.map(val => {
 }).then(val => console.log(val));
 
 mapper.map(val => val / 0).catch(err => console.log(err));
+
+Promise.resolve().timeout(2000).then(() => console.log('Timed out'));
+
+Promise.any(Promise.resolve(10).timeout(500), Promise.resolve(1000).timeout(1000)).then(val => console.log('any 10: ', val));
+
+Promise.any(Promise.resolve(0).timeout(1000), Promise.reject(50).timeout(50)).catch(reason => console.log('any 50: ', reason))

@@ -27,14 +27,34 @@ export class Promise<T> implements IPromise<T> {
      * The value the promise resolved/rejected to.
      */
     private __value?: T;
+
     /**
      * The state of the promise.
      */
     private __state: PromiseState = PromiseState.pending;
+
     /**
      * Any handlers that have not been called yet.
      */
     private __handlers: Handler<T, any>[] = [];
+    //#endregion
+
+    //#region readonly properties
+    /**
+     * The parent of the current promise.
+     */
+    private __parent: Promise<any> | undefined;
+    get parent() {
+        return this.__parent;
+    }
+
+    /**
+     * The children of the current promise.
+     */
+    private __children: Promise<any>[] = []
+    get children() {
+        return this.__children;
+    }
     //#endregion
 
     constructor(executor: (resolve: (value?: T) => void, reject: (reason?: any) => void) => void) {
@@ -80,7 +100,7 @@ export class Promise<T> implements IPromise<T> {
             } else {
                 this.__state = state
                 this.__value = value;
-                for (let handler of this.__handlers) {
+                for (let handler of this.__handlers as Handler<T, any>[]) {
                     this.__handle(handler);
                 }
                 //@ts-ignore - Ignore that handlers cannot be undefined
@@ -96,6 +116,8 @@ export class Promise<T> implements IPromise<T> {
      * @param handler Handler to handle or stash for later evalution.
      */
     private __handle<TResult>(handler: Handler<T, TResult>) {
+        if (this.__state === PromiseState.cancelled) return;
+
         if (this.__state === PromiseState.pending) {
             this.__handlers.push(handler);
         } else {
@@ -116,11 +138,14 @@ export class Promise<T> implements IPromise<T> {
 
     //#region public api
     then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
-        return new Promise<TResult1 | TResult2>((resolve, reject) => {
+        let result = new Promise<TResult1 | TResult2>((resolve, reject) => {
             return schedule(() => {
                 this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<T, TResult1 | TResult2>)
             })
         })
+        result.__parent = this;
+        this.__children.push(result);
+        return result;
     }
 
     catch<TResult = never>(onRejected?: ((reason: any) => TResult | PromiseLike<TResult>) | null | undefined): Promise<T | TResult> {
@@ -143,6 +168,26 @@ export class Promise<T> implements IPromise<T> {
             }
             return Promise.all(promises) as Promise<TResult1[] | TResult2[]>;
         })
+    }
+
+    timeout(ms: number): Promise<T> {
+        return this.then(value => {
+            return new Promise<T>((resolve) => {
+                setTimeout(() => resolve(value), ms);
+            })
+        })
+    }
+
+    cancel(propagate: boolean = true, skipParent: boolean = false) {
+        this.__state = PromiseState.cancelled;
+        if (propagate) {
+            if (this.__parent && skipParent === true) {
+                this.__parent.cancel(propagate)
+            }
+            for (let child of this.__children) {
+                child.cancel(propagate, true)
+            }
+        }
     }
     //#endregion
 
@@ -197,7 +242,7 @@ export class Promise<T> implements IPromise<T> {
         }
         let valArr: any[] = [];
         let chain = Promise.resolve([] as Array<any>)
-        for (let promise of promises) {
+        for (let promise of (promises as Promise<any>[])) {
             chain = chain.then(() => {
                 return promise.then((val: any) => {
                     valArr.push(val);
@@ -206,6 +251,31 @@ export class Promise<T> implements IPromise<T> {
             })
         }
         return chain.then(() => valArr);
+    }
+
+    /**
+     * Wait for any promise to resolve or reject.
+     * @param promises Promises to wait for.
+     */
+    static any(...promises: Promise<any>[]): Promise<any>;
+    static any(promises: Promise<any>[]): Promise<any>;
+    static any(...promises: any[]): Promise<any> {
+        return new Promise<any>((resolve, reject) => {
+            let completed = false;
+            for (let promise of (promises as Promise<any>[])) {
+                promise.then(value => {
+                    if (!completed) {
+                        completed = true;
+                        resolve(value);
+                    }
+                }, reason => {
+                    if (!completed) {
+                        completed = true;
+                        reject(reason);
+                    }
+                })
+            }
+        })
     }
     //#endregion
 }
