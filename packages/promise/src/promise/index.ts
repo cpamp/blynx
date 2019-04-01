@@ -234,23 +234,30 @@ export class Promise<T> implements IPromise<T> {
      * Wait for all promises to resolve, finally resolves to an array of all resolved values.
      * @param promises Promises to wait for.
      */
-    static all(...promises: Promise<any>[]): Promise<any[]>
-    static all(promises: Promise<any>[]): Promise<any[]>
+    static all(...promises: Array<Promise<any> | any>): Promise<any[]>
+    static all(promises: Array<Promise<any> | any>): Promise<any[]>
     static all(...promises: any[]): Promise<any[]> {
         if (promises.length === 1 && Array.isArray(promises[0])) {
             promises = promises[0];
         }
-        let valArr: any[] = [];
-        let chain = Promise.resolve([] as Array<any>)
-        for (let promise of (promises as Promise<any>[])) {
+
+        let result: any[] = [];
+        let chain: Promise<void> = Promise.resolve()
+        for (let promise of (promises as Array<Promise<any> | any>)) {
+            let nextPromise: Promise<any>;
+            if (getThen(promise) !== null) {
+                nextPromise = promise;
+            } else {
+                nextPromise = Promise.resolve(promise)
+            }
+
             chain = chain.then(() => {
-                return promise.then((val: any) => {
-                    valArr.push(val);
-                    return val;
+                return nextPromise.then((val: any) => {
+                    result.push(val);
                 })
             })
         }
-        return chain.then(() => valArr);
+        return chain.then(() => result);
     }
 
     /**

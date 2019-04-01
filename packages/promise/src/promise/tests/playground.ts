@@ -41,3 +41,7 @@ Promise.resolve().timeout(2000).then(() => console.log('Timed out'));
 Promise.any(Promise.resolve(10).timeout(500), Promise.resolve(1000).timeout(1000)).then(val => console.log('any 10: ', val));
 
 Promise.any(Promise.resolve(0).timeout(1000), Promise.reject(50).timeout(50)).catch(reason => console.log('any 50: ', reason))
+
+Promise.all([Promise.resolve(5).timeout(500), Promise.resolve(0), Infinity]).then(results => console.log(results))
+
+Promise.all(Promise.resolve(5).timeout(500), Promise.resolve(0), Infinity, Promise.resolve(10).timeout(1000)).then(results => console.log(results));
