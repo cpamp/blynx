@@ -1,0 +1,41 @@
+{
+  "name": "@blynx/flags",
+  "version": "0.0.1",
+  "description": "Javascript flags",
+  "main": "./lib/main/index.js",
+  "types": "./lib/main/index.d.ts",
+  "es2015": "./lib/es2015/index.js",
+  "esm2015": "./lib/esm2015/index.js",
+  "scripts": {
+    "prepare": "tsc && tsc -p tsconfig.es2015.json && tsc -p tsconfig.esm2015.json",
+    "test:main": "node lib/main/tests/index.test.js",
+    "test:es2015": "node lib/es2015/tests/index.test.js",
+    "test": "npm run test:main && npm run test:es2015"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cpamp/blynx.git"
+  },
+  "keywords": [
+    "deprecated",
+    "warning",
+    "log",
+    "loggin",
+    "class",
+    "method",
+    "decorator",
+    "@DeprecatedClass",
+    "@DeprecatedMethod"
+  ],
+  "author": "Clint Pamperin",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cpamp/blynx/issues"
+  },
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/flags/#readme",
+  "devDependencies": {
+    "@blynx/test": "0.0.4",
+    "@types/node": "^7.10.3"
+  },
+  "dependencies": {}
+}

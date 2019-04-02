@@ -1,0 +1,3 @@
+# flags
+
+Flags for Javascript.
