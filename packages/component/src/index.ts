@@ -8,5 +8,5 @@ if (document.readyState == 'loading') {
         ComponentRegistry.init();
     });
 } else {
-    setTimeout(function() { ComponentRegistry.init(); }, 1);
+    setTimeout(function() { ComponentRegistry.init(); }, 0);
 }

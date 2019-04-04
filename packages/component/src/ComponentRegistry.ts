@@ -1,3 +1,5 @@
+import { dispatch, Events } from "./events";
+
 const Symbol = require('es6-symbol');
 
 export const StyleSymbol = Symbol('styles');
@@ -38,12 +40,14 @@ export class ComponentRegistry {
     }
 
     public static init() {
+        dispatch(Events.init)
         for (let i = 0; i < this.components.length; i++) {
             let component = this.components[i];
             this.initStyles(component);
         }
         this.componentInit();
         this.observe();
+        dispatch(Events.ready)
     }
 
     public static componentInit() {
