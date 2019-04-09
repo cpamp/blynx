@@ -1,7 +1,5 @@
-import { Controller } from "./controller";
+import { Controller } from "./controller/controller";
 import { HttpMethod } from "./httpMethod";
-import { Route } from "./route";
-let uuid = require("uuid/v4");
 var Symbol = require('es6-symbol');
 
 /**
@@ -9,12 +7,13 @@ var Symbol = require('es6-symbol');
  */
 export type NewableType<T> = {new(...args: any[]): T}
 
+let keyCount: number = 0;
+const SYMBOL_ID = Symbol('Id');
+
 export class Router {
     private static _instance: Router;
 
-    private controllers: {[key: string]: Controller} = {};
-
-    private readonly SYMBOL_ID = Symbol('Id');
+    private controllers: {[key: number]: Controller} = {};
 
     private constructor() { }
 
@@ -35,15 +34,20 @@ export class Router {
     }
 
     private getKey() {
-        let key = uuid();
-        while (this.controllers[key] != null) {
-            key = uuid();
-        }
-        return key;
+        return ++keyCount;
+    }
+
+    private getControllerKey(targetPrototype: any): number {
+        return targetPrototype[SYMBOL_ID] = (targetPrototype[SYMBOL_ID] || this.getKey());
+    }
+
+    private getController(prototype: any) {
+        let key = this.getControllerKey(prototype)
+        return this.controllers[key] || (this.controllers[key] = new Controller())
     }
 
     public registerController<T extends Function>(instanceType: NewableType<T>, basePath?: string) {
-        let key = instanceType.prototype[this.SYMBOL_ID] || this.getKey();
+        let key = this.getControllerKey(instanceType.prototype)
         if (this.controllers[key] != null) {
             let controller = this.controllers[key];
             controller.BasePath = basePath;
@@ -51,10 +55,11 @@ export class Router {
         }
     }
 
-    public registerRoute(targetPrototype: any, httpMethod: HttpMethod, path: string, actionKey: string) {
-        let key = targetPrototype[this.SYMBOL_ID] || this.getKey();
-        targetPrototype[this.SYMBOL_ID] = key;
-        if (this.controllers[key] == null) this.controllers[key] = new Controller();
-        this.controllers[key].addRoute(new Route(httpMethod, path, actionKey));
+    public registerRoute(targetPrototype: any, path: string, actionKey: string, method: HttpMethod) {
+        this.getController(targetPrototype).registerRoute(path, actionKey, method);
+    }
+
+    public registerRouteMethod(targetPrototype: any, action: string, method: HttpMethod) {
+        this.getController(targetPrototype).registerRouteMethod(action, method)
     }
 }

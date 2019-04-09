@@ -1,12 +1,13 @@
-import { HttpMethod } from "./httpMethod";
+import { HttpMethod } from "../httpMethod";
 
 export class Route {
-    constructor(method: HttpMethod, path: string, action: string) {
+    constructor(path: string, action: string, method: HttpMethod) {
         this.Method = method;
         this.Path = path;
         this.Action = action;
     }
 
+    Key?: number;
     Method: HttpMethod;
     Path: string;
     Action: string;

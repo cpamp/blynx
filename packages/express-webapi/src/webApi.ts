@@ -1,7 +1,7 @@
 import {Express} from "express";
 import { Router } from "./router";
-import { Route } from "./route";
-import { Controller } from "./controller";
+import { Route } from "./route/route";
+import { Controller } from "./controller/controller";
 import { HttpMethod } from "./httpMethod";
 
 
@@ -16,8 +16,10 @@ export abstract class WebApi {
     }
 
     private static bindController(app: Express, controller: Controller) {
-        for (let route of controller.Routes) {
-            this.bindRoute(app, route, controller);
+        for (let key in controller.Routes) {
+            if (controller.Routes.hasOwnProperty(key)) {
+                this.bindRoute(app, controller.Routes[key], controller);
+            }
         }
     }
 
