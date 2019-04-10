@@ -1,6 +1,6 @@
 import { IPromise } from "./spec";
 import { PromiseState } from "../promiseState";
-import { schedule } from "../schedule";
+import { defer } from "../defer";
 
 interface Handler<T, TResult> {
     resolve: (value?: T) => void;
@@ -72,16 +72,16 @@ export class Promise<T> implements IPromise<T> {
             executor(value => {
                 if (done) return;
                 done = true;
-                schedule(() => this.__complete(PromiseState.fulfilled, value as any));
+                defer(() => this.__complete(PromiseState.fulfilled, value as any));
             }, reason => {
                 if (done) return;
                 done = true;
-                schedule(() => this.__complete(PromiseState.rejected, reason as any));
+                defer(() => this.__complete(PromiseState.rejected, reason as any));
             })
         } catch (err) {
             if (done) return;
             done = true;
-            schedule(() => this.__complete(PromiseState.rejected, err as any));
+            defer(() => this.__complete(PromiseState.rejected, err as any));
         }
     }
 
@@ -139,7 +139,7 @@ export class Promise<T> implements IPromise<T> {
     //#region public api
     then<TResult1 = T, TResult2 = never>(onFulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | null | undefined, onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined): Promise<TResult1 | TResult2> {
         let result = new Promise<TResult1 | TResult2>((resolve, reject) => {
-            return schedule(() => {
+            return defer(() => {
                 this.__handle({ resolve, reject, onFulfilled, onRejected } as Handler<T, TResult1 | TResult2>)
             })
         })
