@@ -1,7 +1,7 @@
 {
-  "name": "@blynx/subscribable",
+  "name": "@blynx/colors",
   "version": "0.0.1",
-  "description": "Javascript subscription",
+  "description": "Console colors",
   "main": "./lib/main/index.js",
   "types": "./lib/main/index.d.ts",
   "es2015": "./lib/es2015/index.js",
@@ -16,26 +16,15 @@
     "type": "git",
     "url": "git+https://github.com/cpamp/blynx.git"
   },
-  "keywords": [
-    "deprecated",
-    "warning",
-    "log",
-    "loggin",
-    "class",
-    "method",
-    "decorator",
-    "@DeprecatedClass",
-    "@DeprecatedMethod"
-  ],
+  "keywords": [],
   "author": "Clint Pamperin",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/subscribable#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/colors#readme",
   "devDependencies": {
-    "@blynx/test": "0.0.4",
-    "@types/node": "^7.10.5"
   },
-  "dependencies": {}
+  "dependencies": {
+  }
 }

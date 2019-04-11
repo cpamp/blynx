@@ -32,7 +32,7 @@
   "bugs": {
     "url": "https://github.com/cpamp/blynx/issues"
   },
-  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/#readme",
+  "homepage": "https://github.com/cpamp/blynx/tree/master/packages/promise#readme",
   "devDependencies": {
     "@blynx/test": "0.0.4",
     "@types/node": "^7.10.3",
