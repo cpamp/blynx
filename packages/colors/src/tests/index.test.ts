@@ -95,3 +95,5 @@ for (let i = 0; i < 256; i++) {
     bgColors.push(bgColor(i, colorFn(`     ${i}`.slice(-5))))
     print(bgColors)
 }
+
+console.log('\n\n')
